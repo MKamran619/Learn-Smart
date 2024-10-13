@@ -1,1 +1,24 @@
-<p>alphabets works!</p>
+<app-header></app-header>
+<div class="justfy-content-center">
+  <div>
+    <div class="title-card-container justfy-content-left">
+      <div style="width: 35%">
+        <div
+          class="title-card-icon justfy-content-left"
+          (click)="onChangePreviewMode(this.mode)"
+        >
+          <svg
+            [cIcon]="icons.cilArrowLeft"
+            width="25"
+            title="Shield Icon"
+          ></svg>
+        </div>
+      </div>
+      <h4>Alphabets</h4>
+    </div>
+    <div class="justfy-content-center">
+      <div class="small-card-container active"></div>
+      <div class="small-card-container"></div>
+    </div>
+  </div>
+</div>
