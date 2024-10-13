@@ -4,7 +4,15 @@
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 .logo {
+  margin-top: 10px;
   margin-left: 20px;
+  border-radius: 5px;
+  // border: 1px solid #fff;
+}
+.logo img {
+  width: 130px;
+  height: 50px;
+  border-radius: 5px;
 }
 
 .header-tab a {
