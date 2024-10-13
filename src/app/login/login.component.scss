@@ -1,8 +1,13 @@
 .Login-Title {
   height: 40%;
 }
+.Login-Title img {
+  width: 150px;
+  height: 150px;
+  border-radius: 20px;
+}
 .card-container {
-  background-color: #bff6c3; // #347928; //e9efec;
+  background-color: var(--primary-color); // #347928; //e9efec;
   width: 500px;
   color: #16423c;
 }
@@ -14,12 +19,15 @@
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .Login-Title {
     height: 30%;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
   .card-container {
     // #347928; //e9efec;
     width: 400px;
-    height: 450;
+    height: 580px;
     color: #16423c;
+    margin-bottom: 30px;
   }
   .Login-from {
     width: 80%;
@@ -29,13 +37,14 @@
 /** <--- style for Mobile  ----> **/
 @media screen and (max-width: 767px) {
   .Login-Title {
-    height: 25%;
+    height: 30%;
+    margin-bottom: 30px;
   }
   .card-container {
-    padding-top: 70px; // #347928; //e9efec;
+    padding-top: 30px; // #347928; //e9efec;
     width: 300px;
     height: 500px;
-    color: #16423c;
+    color: var(--text-color);
   }
   .Login-from {
     width: 90%;

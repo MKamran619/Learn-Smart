@@ -38,12 +38,22 @@ $frontend-theme: mat.define-theme(
 * {
   margin: 0;
 }
+
+:root {
+  --primary-color: #bff6c3;
+  --secondary-color: #54c392;
+  --warning-color: #d61355;
+  --text-color: #16423c;
+  --common-color: #fff;
+  --title-background: #edffec;
+}
 .w-100 {
   width: 100%;
 }
 .w-50 {
   width: 50%;
 }
+
 .card-container {
   height: 500px;
   width: 380px;
@@ -56,8 +66,9 @@ $frontend-theme: mat.define-theme(
   height: 70px;
   width: 600px;
   padding: 10px;
+  cursor: pointer;
   margin-bottom: 20px;
-  background-color: #bff6c3;
+  background-color: var(--primary-color);
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -70,6 +81,11 @@ $frontend-theme: mat.define-theme(
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.justfy-content-left {
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }
 
 html,

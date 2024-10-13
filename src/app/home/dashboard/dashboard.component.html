@@ -3,7 +3,9 @@
   <div>
     <div class="dashboard-title justfy-content-center">
       <!-- <h3>PERUZAR READING PRORGRAM</h3> -->
-      <h3>Peruzar Reading Program</h3>
+      <div class="title-card-container justfy-content-center">
+        <h3>Peruzar Reading Program</h3>
+      </div>
     </div>
     <div class="justfy-content-center">
       <div class="dashboard-content justfy-content-center" style="height: 70%">
@@ -28,42 +30,74 @@
 </div>
 <div class="pre-test" *ngIf="isPreTestPreview">
   <div>
-    <div class="justfy-content-center" style="height: 100px">
-      <h4>Pre Test</h4>
+    <div class="justfy-content-center" style="height: 150px">
+      <div class="title-card-container justfy-content-left">
+        <div style="width: 35%">
+          <div
+            class="pre-test-icon justfy-content-left"
+            (click)="onChangePreviewMode('dashboard')"
+          >
+            <svg
+              [cIcon]="icons.cilArrowLeft"
+              width="25"
+              title="Shield Icon"
+            ></svg>
+          </div>
+        </div>
+        <h2>Pre Test</h2>
+      </div>
     </div>
     <div class="justfy-content-center">
       <div class="justfy-content-center">
         <div class="pre-test-content justfy-content-center">
           <div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('pre-test', 'alphabets')"
+              >
                 <h3>Alphabets</h3>
               </div>
             </div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('pre-test', 'sentence-filter')"
+              >
                 <h3>Sentence Filter</h3>
               </div>
             </div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('pre-test', 'word-list')"
+              >
                 <h3>Word List</h3>
               </div>
             </div>
           </div>
           <div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('pre-test', 'oral-reading-passages')"
+              >
                 <h3>Oral Reading Passages</h3>
               </div>
             </div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('pre-test', 'interest-inventory')"
+              >
                 <h3>Interest Inventory</h3>
               </div>
             </div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('pre-test', 'multiple-intelligence-test')"
+              >
                 <h3>Multiple Intelligence Test</h3>
               </div>
             </div>
@@ -75,30 +109,57 @@
 </div>
 <div class="pre-test" *ngIf="isPostTestPreview">
   <div>
-    <div class="justfy-content-center" style="height: 100px">
-      <h4>Post Test</h4>
+    <div class="justfy-content-center" style="height: 150px">
+      <div class="title-card-container justfy-content-left">
+        <div style="width: 35%">
+          <div
+            class="pre-test-icon justfy-content-left"
+            (click)="onChangePreviewMode('dashboard')"
+          >
+            <svg
+              [cIcon]="icons.cilArrowLeft"
+              width="25"
+              title="Shield Icon"
+            ></svg>
+          </div>
+        </div>
+
+        <h2>Post Test</h2>
+      </div>
     </div>
     <div class="justfy-content-center">
       <div class="justfy-content-center">
         <div class="pre-test-content justfy-content-center">
           <div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('post-test', 'alphabets')"
+              >
                 <h3>Alphabets</h3>
               </div>
             </div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('post-test', 'sentence-filter')"
+              >
                 <h3>Sentence Filter</h3>
               </div>
             </div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('post-test', 'word-list')"
+              >
                 <h3>Word List</h3>
               </div>
             </div>
             <div>
-              <div class="label-card-container justfy-content-center">
+              <div
+                class="label-card-container justfy-content-center"
+                (click)="onNavigate('post-test', 'oral-reading-passages')"
+              >
                 <h3>Oral Reading Passages</h3>
               </div>
             </div>

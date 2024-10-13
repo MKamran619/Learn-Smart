@@ -1,43 +1,54 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ButtonDirective } from '@coreui/angular';
+import { IconDirective } from '@coreui/icons-angular';
+import { cilArrowLeft } from '@coreui/icons';
 
 import { HeaderComponent } from '../header/header.component';
 import { SharedService } from '../../services/sharedServices/shared.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, ButtonDirective],
+  imports: [HeaderComponent, CommonModule, ButtonDirective, IconDirective],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+  icons = { cilArrowLeft };
   isDashboardPreview = true;
   isPreTestPreview = false;
   isPostTestPreview = false;
 
-  constructor(public sharedService: SharedService) {}
+  constructor(
+    public sharedService: SharedService,
+    public router: Router,
+    public activatedRoute: ActivatedRoute
+  ) {}
   ngOnInit(): void {
     this.setActiveLink();
+    this.activatedRoute.params.subscribe((params) => {
+      const mode = params['mode'];
+      this.isDashboardPreview = mode !== 'pre-test' && mode !== 'post-test';
+      this.isPreTestPreview = mode === 'pre-test';
+      this.isPostTestPreview = mode === 'post-test';
+    });
   }
 
   setActiveLink() {
     this.sharedService.activeLink = 'home';
   }
   onChangePreviewMode(mode: string) {
-    if (mode == 'dashboard') {
-      this.isDashboardPreview = true;
-      this.isPreTestPreview = false;
-      this.isPostTestPreview = false;
-    } else if (mode == 'preTest') {
-      this.isDashboardPreview = false;
-      this.isPreTestPreview = true;
-      this.isPostTestPreview = false;
-    } else if (mode == 'postTest') {
-      this.isDashboardPreview = false;
-      this.isPreTestPreview = false;
-      this.isPostTestPreview = true;
-    }
+    const routes: any = {
+      dashboard: ['dashboard'],
+      preTest: ['dashboard/pre-test'],
+      postTest: ['dashboard/post-test'],
+    };
+
+    this.router.navigate(routes[mode]);
+  }
+  onNavigate(mode: string, type: string) {
+    this.router.navigate([`dashboard/${mode}/${type}`]);
   }
 }
