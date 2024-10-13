@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { cilList, cilShieldAlt, cilMenu } from '@coreui/icons';
+import { cilMenu } from '@coreui/icons';
 import { IconDirective } from '@coreui/icons-angular';
 import { SharedService } from '../../services/sharedServices/shared.service';
 
@@ -12,7 +12,7 @@ import { SharedService } from '../../services/sharedServices/shared.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  icons = { cilList, cilMenu, cilShieldAlt };
+  icons = { cilMenu };
   isShowMenu = false;
 
   constructor(public sharedService: SharedService) {}
