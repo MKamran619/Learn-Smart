@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { cilList, cilShieldAlt, cilMenu } from '@coreui/icons';
 import { IconDirective } from '@coreui/icons-angular';
+import { SharedService } from '../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-header',
@@ -10,9 +11,15 @@ import { IconDirective } from '@coreui/icons-angular';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   icons = { cilList, cilMenu, cilShieldAlt };
   isShowMenu = false;
+
+  constructor(public sharedService: SharedService) {}
+
+  ngOnInit(): void {
+    console.log('data = ', this.sharedService.activeLink);
+  }
 
   onToggleMenu() {
     console.log('asnif');
