@@ -1,1 +1,29 @@
-<div class="card-container"></div>
+<div class="justfy-content-center">
+  <div>
+    <div class="card-container">
+      <div>
+        <div style="display: flex; margin-left: 120px">
+          <div>
+            <div class="justfy-content-center">
+              <svg
+                [cIcon]="icons.cilVolumeHigh"
+                width="25"
+                title="Shield Icon"
+              ></svg>
+            </div>
+            sound
+          </div>
+        </div>
+        <div class="justfy-content-center">
+          <h1>{{ letter }}</h1>
+        </div>
+      </div>
+    </div>
+    <div
+      class="justfy-content-center"
+      style="margin-top: 20px; cursor: pointer"
+    >
+      <svg [cIcon]="icons.cilMic" width="50" title="Shield Icon"></svg>
+    </div>
+  </div>
+</div>

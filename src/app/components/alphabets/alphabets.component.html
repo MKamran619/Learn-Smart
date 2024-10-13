@@ -1,35 +1,52 @@
 <app-header></app-header>
 <div class="justfy-content-center">
   <div>
-    <div class="title-card-container justfy-content-left">
-      <div style="width: 35%">
+    <div>
+      <div class="title-card-container justfy-content-left">
+        <div style="width: 35%">
+          <div
+            class="title-card-icon justfy-content-left"
+            (click)="onChangePreviewMode(this.mode)"
+          >
+            <svg
+              [cIcon]="icons.cilArrowLeft"
+              width="50"
+              title="Shield Icon"
+            ></svg>
+          </div>
+        </div>
+        <h4>Alphabets</h4>
+      </div>
+      <div class="justfy-content-center">
         <div
-          class="title-card-icon justfy-content-left"
-          (click)="onChangePreviewMode(this.mode)"
+          class="small-card-container justfy-content-center"
+          [class]="btnCapitalActive ? 'active' : ''"
+          (click)="onClickCapitalLetter()"
         >
-          <svg
-            [cIcon]="icons.cilArrowLeft"
-            width="25"
-            title="Shield Icon"
-          ></svg>
+          <h6>Capital Letter</h6>
+        </div>
+        <div
+          class="small-card-container justfy-content-center"
+          [class]="btnCapitalActive ? '' : 'active'"
+          (click)="onClickCommonLetter()"
+        >
+          <h6>Common Letter</h6>
         </div>
       </div>
-      <h4>Alphabets</h4>
     </div>
     <div class="justfy-content-center">
-      <div
-        class="small-card-container justfy-content-center"
-        [class]="btnCapitalActive ? 'active' : ''"
-        (click)="btnCapitalActive = true"
-      >
-        <h6>Capital Letter</h6>
-      </div>
-      <div
-        class="small-card-container justfy-content-center"
-        [class]="btnCapitalActive ? '' : 'active'"
-        (click)="btnCapitalActive = false"
-      >
-        <h6>Common Letter</h6>
+      <div>
+        <div class="justfy-content-center">
+          <div>
+            <h6>{{ selectedLetter }}</h6>
+            <div class="justfy-content-center">
+              <h6>1/{{ letters.length }}</h6>
+            </div>
+          </div>
+        </div>
+        <div>
+          <app-card-container [letter]="letters[0]"></app-card-container>
+        </div>
       </div>
     </div>
   </div>
