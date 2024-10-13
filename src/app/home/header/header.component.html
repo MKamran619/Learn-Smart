@@ -1,0 +1,43 @@
+<div class="header-container">
+  <div class="header-desktop justfy-content-space-Btw w-100">
+    <div class="logo"><h1>logo</h1></div>
+    <div class="header-tab justfy-content-center w-50">
+      <div>
+        <a href="/dashboard" class="active">Home</a>
+      </div>
+      <div>
+        <a href="/about">About</a>
+      </div>
+      <div>
+        <a href="/contact">Contact</a>
+      </div>
+      <div>
+        <a href="/login">log Out</a>
+      </div>
+    </div>
+  </div>
+  <div class="header-tab-mobile justfy-content-space-Btw">
+    <div class="menu" (click)="onToggleMenu()">
+      <svg [cIcon]="icons.cilMenu" width="25" title="Shield Icon"></svg>
+    </div>
+    <div>
+      <h3>Logo</h3>
+    </div>
+  </div>
+</div>
+<div *ngIf="isShowMenu">
+  <div class="mobile-tab">
+    <div>
+      <a href="/dashboard" class="active">Home</a>
+    </div>
+    <div>
+      <a href="/about">About</a>
+    </div>
+    <div>
+      <a href="/contact">Contact</a>
+    </div>
+    <div>
+      <a href="/login">log Out</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="justfy-content-center">
+  <div class="card-container m-3">
+    <!-- <mat-icon>mic</mat-icon> -->
+    <div class="Login-Title justfy-content-center">
+      <h1>Log In</h1>
+    </div>
+    <div class="signin-form justfy-content-center">
+      <form cForm class="Login-from">
+        <div class="mb-3">
+          <label cLabel for="inputEmail-1">Email address</label>
+          <input
+            cFormControl
+            id="inputEmail-1"
+            type="email"
+            placeholder="Email address"
+          />
+          <!-- <div cFormText>We'll never share your email with anyone else</div> -->
+        </div>
+        <div class="mb-3">
+          <label cLabel for="inputPassword-1">Password</label>
+          <input
+            cFormControl
+            id="inputPassword-1"
+            type="password"
+            placeholder="Password"
+          />
+        </div>
+        <c-form-check class="mb-3">
+          <input cFormCheckInput id="checkMeOut-1" type="checkbox" />
+          <label cFormCheckLabel for="checkMeOut-1">Remember Me</label>
+        </c-form-check>
+        <div class="mb-1">
+          <!-- <input
+            cButton
+            color="success"
+            type="submit"
+            text="Log In"
+            style="width: 100%"
+          /> -->
+          <button
+            cButton
+            color="success"
+            type="submit"
+            style="width: 100%"
+            (click)="onSubmit()"
+          >
+            Log In
+          </button>
+        </div>
+        <div class="mb-3">
+          <label cFormCheckLabel for="checkMeOut-1">Forgot password?</label>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
