@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="dashboard">
+<div class="dashboard" *ngIf="isDashboardPreview">
   <div>
     <div class="dashboard-title justfy-content-center">
       <!-- <h3>PERUZAR READING PRORGRAM</h3> -->
@@ -11,16 +11,115 @@
           <img src="/images/pic14.jfif" />
         </div>
         <div>
-          <div>
+          <div (click)="onChangePreviewMode('preTest')">
             <div class="label-card-container justfy-content-center">
               <h1>Pre-Test</h1>
             </div>
           </div>
-          <div>
+          <div (click)="onChangePreviewMode('postTest')">
             <div class="label-card-container justfy-content-center">
               <h1>Post-Test</h1>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pre-test" *ngIf="isPreTestPreview">
+  <div>
+    <div class="justfy-content-center" style="height: 100px">
+      <h4>Pre Test</h4>
+    </div>
+    <div class="justfy-content-center">
+      <div class="justfy-content-center">
+        <div class="pre-test-content justfy-content-center">
+          <div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Alphabets</h3>
+              </div>
+            </div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Sentence Filter</h3>
+              </div>
+            </div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Word List</h3>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Oral Reading Passages</h3>
+              </div>
+            </div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Interest Inventory</h3>
+              </div>
+            </div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Multiple Intelligence Test</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pre-test" *ngIf="isPostTestPreview">
+  <div>
+    <div class="justfy-content-center" style="height: 100px">
+      <h4>Post Test</h4>
+    </div>
+    <div class="justfy-content-center">
+      <div class="justfy-content-center">
+        <div class="pre-test-content justfy-content-center">
+          <div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Alphabets</h3>
+              </div>
+            </div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Sentence Filter</h3>
+              </div>
+            </div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Word List</h3>
+              </div>
+            </div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Oral Reading Passages</h3>
+              </div>
+            </div>
+          </div>
+          <!-- <div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Oral Reading Passages</h3>
+              </div>
+            </div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Interest Inventory</h3>
+              </div>
+            </div>
+            <div>
+              <div class="label-card-container justfy-content-center">
+                <h3>Multiple Intelligence Test</h3>
+              </div>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>

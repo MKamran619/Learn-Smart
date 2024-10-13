@@ -13,6 +13,10 @@ import { SharedService } from '../../services/sharedServices/shared.service';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+  isDashboardPreview = true;
+  isPreTestPreview = false;
+  isPostTestPreview = false;
+
   constructor(public sharedService: SharedService) {}
   ngOnInit(): void {
     this.setActiveLink();
@@ -20,5 +24,20 @@ export class DashboardComponent implements OnInit {
 
   setActiveLink() {
     this.sharedService.activeLink = 'home';
+  }
+  onChangePreviewMode(mode: string) {
+    if (mode == 'dashboard') {
+      this.isDashboardPreview = true;
+      this.isPreTestPreview = false;
+      this.isPostTestPreview = false;
+    } else if (mode == 'preTest') {
+      this.isDashboardPreview = false;
+      this.isPreTestPreview = true;
+      this.isPostTestPreview = false;
+    } else if (mode == 'postTest') {
+      this.isDashboardPreview = false;
+      this.isPreTestPreview = false;
+      this.isPostTestPreview = true;
+    }
   }
 }
