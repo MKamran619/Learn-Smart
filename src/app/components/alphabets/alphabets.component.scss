@@ -3,7 +3,6 @@
   height: 45px;
 }
 .small-card-container {
-  // margin: 10px 0;
   height: 40px;
   width: 200px;
   cursor: pointer;
@@ -15,4 +14,24 @@
 .active {
   color: var(--common-color);
   background-color: var(--secondary-color);
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .title-card-container {
+    margin: 30px;
+    width: 400px;
+  }
+  .small-card-container {
+    margin-bottom: 30px;
+  }
+}
+
+/** <--- style for Mobile  ----> **/
+@media screen and (max-width: 767px) {
+  .title-card-container {
+    // margin-left: 20px;
+    width: 300px;
+  }
+  .small-card-container {
+    width: 140px;
+  }
 }

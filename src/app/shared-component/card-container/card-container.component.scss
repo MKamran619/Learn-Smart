@@ -8,3 +8,18 @@ h1 {
   font-size: 70px;
   font-weight: bolder;
 }
+/** <--- style for Tablet ----> **/
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .card-container {
+    height: 200px;
+    width: 200px;
+
+    margin: 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/** <--- style for Mobile  ----> **/
+@media screen and (max-width: 767px) {
+}
