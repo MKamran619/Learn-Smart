@@ -17,8 +17,20 @@
       <h4>Alphabets</h4>
     </div>
     <div class="justfy-content-center">
-      <div class="small-card-container active"></div>
-      <div class="small-card-container"></div>
+      <div
+        class="small-card-container justfy-content-center"
+        [class]="btnCapitalActive ? 'active' : ''"
+        (click)="btnCapitalActive = true"
+      >
+        <h6>Capital Letter</h6>
+      </div>
+      <div
+        class="small-card-container justfy-content-center"
+        [class]="btnCapitalActive ? '' : 'active'"
+        (click)="btnCapitalActive = false"
+      >
+        <h6>Common Letter</h6>
+      </div>
     </div>
   </div>
 </div>

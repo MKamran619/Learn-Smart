@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AlphabetsComponent implements OnInit {
   icons = { cilArrowLeft };
   mode = '';
+  btnCapitalActive = true;
   constructor(private router: Router, private activeRouter: ActivatedRoute) {}
 
   ngOnInit(): void {
