@@ -88,6 +88,11 @@ $frontend-theme: mat.define-theme(
   align-items: center;
   justify-content: left;
 }
+.justfy-content-right {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
 
 html,
 body {

@@ -1,0 +1,89 @@
+<div class="justfy-content-center">
+  <div class="card-container m-3">
+    <!-- <mat-icon>mic</mat-icon> -->
+    <div class="Login-Title justfy-content-center">
+      <img src="/images/logo/logo.jpg" />
+      <!-- <h1>Log In</h1> -->
+    </div>
+    <div class="signin-form justfy-content-center">
+      <form cForm class="Login-from">
+        <div class="mb-3">
+          <label cLabel for="inputEmail-1">Username</label>
+          <input
+            cFormControl
+            id="inputEmail-1"
+            type="email"
+            placeholder="Username"
+          />
+          <!-- <div cFormText>We'll never share your email with anyone else</div> -->
+        </div>
+        <div class="mb-3">
+          <label cLabel for="inputEmail-2">Email</label>
+          <input
+            cFormControl
+            id="inputEmail-2"
+            type="email"
+            placeholder="Email"
+          />
+          <!-- <div cFormText>We'll never share your email with anyone else</div> -->
+        </div>
+        <div class="mb-3">
+          <label cLabel for="inputEmail-3">Name</label>
+          <input
+            cFormControl
+            id="inputEmail-3"
+            type="email"
+            placeholder="Name"
+          />
+          <!-- <div cFormText>We'll never share your email with anyone else</div> -->
+        </div>
+        <div class="mb-3">
+          <label cLabel for="inputPassword-1">Password</label>
+          <input
+            cFormControl
+            id="inputPassword-1"
+            type="password"
+            placeholder="Password"
+          />
+        </div>
+        <div class="mb-3">
+          <label cLabel for="inputPassword-1">Re-enter password</label>
+          <input
+            cFormControl
+            id="inputPassword-1"
+            type="password"
+            placeholder="Password"
+          />
+        </div>
+
+        <div class="mb-1 mt-4">
+          <!-- <input
+            cButton
+            color="success"
+            type="submit"
+            text="Log In"
+            style="width: 100%"
+          /> -->
+          <button
+            cButton
+            color="success"
+            type="submit"
+            style="width: 100%"
+            (click)="onSubmit()"
+          >
+            Sign Up
+          </button>
+        </div>
+        <!-- //Don’t have an account? Signup! -->
+        <div class="mb-3 justfy-content-right">
+          <label
+            class="sign-up"
+            (click)="onClickLogin()"
+            title="Already have an account? login!"
+            >login!</label
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

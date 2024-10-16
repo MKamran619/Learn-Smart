@@ -5,17 +5,19 @@ import { FormModule } from '@coreui/angular';
 import { ButtonDirective } from '@coreui/angular';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-signup',
   standalone: true,
   imports: [AlertModule, ButtonDirective, FormModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './signup.component.html',
+  styleUrl: './signup.component.scss',
 })
-export class LoginComponent {
+export class SignupComponent {
   constructor(private router: Router) {}
 
   onSubmit() {
-    console.log('i am in');
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['welcome']);
+  }
+  onClickLogin() {
+    this.router.navigate(['login']);
   }
 }

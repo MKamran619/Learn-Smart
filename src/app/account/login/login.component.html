@@ -8,12 +8,12 @@
     <div class="signin-form justfy-content-center">
       <form cForm class="Login-from">
         <div class="mb-3">
-          <label cLabel for="inputEmail-1">Email address</label>
+          <label cLabel for="inputEmail-1">Username/Email</label>
           <input
             cFormControl
             id="inputEmail-1"
             type="email"
-            placeholder="Email address"
+            placeholder="Username/Email"
           />
           <!-- <div cFormText>We'll never share your email with anyone else</div> -->
         </div>
@@ -26,11 +26,14 @@
             placeholder="Password"
           />
         </div>
-        <c-form-check class="mb-3">
-          <input cFormCheckInput id="checkMeOut-1" type="checkbox" />
-          <label cFormCheckLabel for="checkMeOut-1">Remember Me</label>
-        </c-form-check>
-        <div class="mb-1">
+        <div class="remember-me mb-3">
+          <c-form-check>
+            <input cFormCheckInput id="checkMeOut-1" type="checkbox" />
+            <label cFormCheckLabel for="checkMeOut-1">Remember Me</label>
+          </c-form-check>
+        </div>
+
+        <div class="mb-1 mt-4">
           <!-- <input
             cButton
             color="success"
@@ -48,8 +51,15 @@
             Log In
           </button>
         </div>
-        <div class="mb-3">
-          <label cFormCheckLabel for="checkMeOut-1">Forgot password?</label>
+        <!-- //Don’t have an account? Signup! -->
+        <div class="mb-3 justfy-content-space-Btw">
+          <label class="forgot-password">Forgot password?</label>
+          <label
+            class="sign-up"
+            (click)="onClickSignup()"
+            title="Dont have an account? Signup!"
+            >Signup!</label
+          >
         </div>
       </form>
     </div>

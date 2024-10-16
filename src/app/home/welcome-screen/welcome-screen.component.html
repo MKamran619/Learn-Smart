@@ -1,0 +1,80 @@
+<div class="welcome-container justfy-content-center">
+  <div
+    class="label-card-container justfy-content-center"
+    (click)="onMoveNext()"
+    *ngIf="showStart"
+  >
+    Get Started
+  </div>
+  <div class="title-card-container justfy-content-center" *ngIf="showScreenOne">
+    <h1>Hi! I’m Alex</h1>
+  </div>
+  <div class="justfy-content-center" *ngIf="showScreenTwo">
+    <div>
+      <div class="title-card-container justfy-content-center">
+        <h1>What’s your name?</h1>
+      </div>
+      <div class="title-card-container justfy-content-center">
+        <label class="name-label" cLabel for="inputEmail-1"> I’m </label>
+        <input
+          class="name-input"
+          cFormControl
+          [(ngModel)]="userName"
+          id="inputEmail-1"
+          type="text"
+          autocomplete="off"
+          placeholder="type your name"
+          (ngModelChange)="onMoveToScreenThree($event)"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="screen-three justfy-content-center" *ngIf="showScreenThree">
+    <div>
+      <div class="title-card-container justfy-content-center">
+        <h5>
+          Hi {{ userName }}! I am from Jamaica/ Barbados. Where are you from?
+        </h5>
+      </div>
+      <div class="title-card-container justfy-content-center">
+        <label class="place-label" cLabel for="inputEmail-3"> I’m from </label>
+        <input
+          class="place-input"
+          cFormControl
+          [(ngModel)]="placeName"
+          id="inputEmail-3"
+          type="text"
+          autocomplete="off"
+          placeholder="type your city"
+          (ngModelChange)="onMoveToScreenFour($event)"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="card-container justfy-content-center" *ngIf="showScreenfour">
+    <h6 class="assessment-heading">
+      {{ userName }} you will be doing a Reading Assessment. That includes
+      identifying letter names and sounds, identifying sight words, reading one
+      or more stories and then answering some questions. This is not a pass or
+      fail kind of test so relax and do your best. Thank you
+    </h6>
+  </div>
+  <div class="justfy-content-center" *ngIf="showScreenfive">
+    <div>
+      <div class="title-card-container justfy-content-center">
+        <h3>The test will begin in 1 minute</h3>
+      </div>
+      <div class="justfy-content-center">
+        <h1
+          style="
+            color: var(--warning-color);
+            font-size: 100px;
+            font-weight: bolder;
+          "
+        >
+          {{ timer >= 10 ? timer : "0" + timer }}
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>

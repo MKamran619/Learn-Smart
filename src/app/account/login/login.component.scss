@@ -5,14 +5,25 @@
   width: 150px;
   height: 150px;
   border-radius: 20px;
+  margin-bottom: 20px;
 }
 .card-container {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  height: auto;
   background-color: var(--primary-color); // #347928; //e9efec;
   width: 500px;
   color: #16423c;
 }
 .Login-from {
   width: 70%;
+}
+
+.remember-me:hover,
+.sign-up:hover,
+.forgot-password:hover {
+  color: blue;
+  cursor: pointer !important;
 }
 
 /** <--- style for Tablet  ----> **/
