@@ -70,7 +70,7 @@ export class WelcomeScreenComponent implements OnInit {
       this.showScreenfour = false;
       this.showScreenfive = true;
       this.onCountDown(this.timer);
-    }, 7000);
+    }, 15000);
   }
   onCountDown(s: number) {
     if (s > 0) {
