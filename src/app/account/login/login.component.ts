@@ -4,7 +4,7 @@ import { AlertModule } from '@coreui/angular';
 import { FormModule } from '@coreui/angular';
 import { ButtonDirective } from '@coreui/angular';
 import { finalize } from 'rxjs';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
           console.log('asdad');
         })
       )
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         console.log('res ', res);
       });
   }
