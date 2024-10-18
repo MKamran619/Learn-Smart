@@ -11,10 +11,9 @@ import { ButtonDirective } from '@coreui/angular';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './home/dashboard/dashboard.component';
-import { CardContainerComponent } from './shared-component/card-container/card-container.component';
 
 @NgModule({
-  declarations: [CardContainerComponent],
+  declarations: [],
   imports: [
     AppComponent,
     CommonModule,

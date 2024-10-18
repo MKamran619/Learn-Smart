@@ -1,0 +1,61 @@
+<div style="margin-top: 30px; margin-bottom: 30px">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8 demo-table"
+  >
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="letter">
+      <th mat-header-cell *matHeaderCellDef>Letter</th>
+      <td mat-cell *matCellDef="let element">{{ element.letter }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="letterSubstituted">
+      <th mat-header-cell *matHeaderCellDef>Letter Substituted</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.letterSubstituted }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="accuracy">
+      <th mat-header-cell *matHeaderCellDef>Accuracy</th>
+      <td mat-cell *matCellDef="let element">{{ element.accuracy + " %" }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="noResponse">
+      <th mat-header-cell *matHeaderCellDef>No Response</th>
+      <td mat-cell *matCellDef="let element">{{ element.noResponse }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <ng-container matColumnDef="empty1">
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="score">
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <ng-container matColumnDef="summary">
+      <td mat-footer-cell *matFooterCellDef>
+        Total Score = {{ totalScore }} / {{ this.dataSource.length }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="empty2">
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <ng-container matColumnDef="empty3">
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <tr
+      mat-footer-row
+      *matFooterRowDef="['empty1', 'score', 'summary', 'empty2', 'empty3']"
+    ></tr>
+  </table>
+</div>

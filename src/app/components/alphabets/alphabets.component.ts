@@ -1,24 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HeaderComponent } from '../../home/header/header.component';
 import { IconDirective } from '@coreui/icons-angular';
 import { cilArrowLeft } from '@coreui/icons';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardContainerComponent } from '../../shared-component/card-container/card-container.component';
+import { CardContainerComponent } from './card-container/card-container.component';
+import { SpeechDetectService } from '../../services/speechDetect/speech-detect.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ResultTableComponent } from './result-table/result-table.component';
 
 @Component({
   selector: 'app-alphabets',
   standalone: true,
-  imports: [HeaderComponent, CardContainerComponent, IconDirective],
+  imports: [
+    HeaderComponent,
+    CardContainerComponent,
+    IconDirective,
+    FormsModule,
+    CommonModule,
+    ResultTableComponent,
+  ],
   templateUrl: './alphabets.component.html',
   styleUrl: './alphabets.component.scss',
 })
 export class AlphabetsComponent implements OnInit {
+  @ViewChild(CardContainerComponent) childComponent!: CardContainerComponent;
+
   icons = { cilArrowLeft };
   mode = '';
   btnCapitalActive = true;
-  selectedLetter = 'Capital Letter';
+  selectedTab = 'Capital Letter';
   letters: string[] = [];
-  constructor(private router: Router, private activeRouter: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activeRouter: ActivatedRoute,
+    public accuracyService: SpeechDetectService
+  ) {}
 
   ngOnInit(): void {
     this.activeRouter.params.subscribe((params) => {
@@ -30,15 +47,21 @@ export class AlphabetsComponent implements OnInit {
   }
 
   onClickCapitalLetter() {
+    this.accuracyService.resultList = [];
+    this.accuracyService.accuracyScore = 0;
+    this.accuracyService.transcription = '';
     this.btnCapitalActive = true;
-    this.selectedLetter = 'Capital Letter';
+    this.selectedTab = 'Capital Letter';
     this.letters = Array.from({ length: 26 }, (_, i) =>
       String.fromCharCode(65 + i)
     );
   }
   onClickCommonLetter() {
+    this.accuracyService.resultList = [];
+    this.accuracyService.accuracyScore = 0;
+    this.accuracyService.transcription = '';
     this.btnCapitalActive = false;
-    this.selectedLetter = 'Common Letter';
+    this.selectedTab = 'Common Letter';
     this.letters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
   }
   onChangePreviewMode(mode: string) {

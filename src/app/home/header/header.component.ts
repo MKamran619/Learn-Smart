@@ -17,12 +17,9 @@ export class HeaderComponent implements OnInit {
 
   constructor(public sharedService: SharedService) {}
 
-  ngOnInit(): void {
-    console.log('data = ', this.sharedService.activeLink);
-  }
+  ngOnInit(): void {}
 
   onToggleMenu() {
-    console.log('asnif');
     this.isShowMenu = !this.isShowMenu;
   }
 }
