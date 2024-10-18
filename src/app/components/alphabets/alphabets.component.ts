@@ -65,6 +65,10 @@ export class AlphabetsComponent implements OnInit {
     this.letters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
   }
   onChangePreviewMode(mode: string) {
-    this.router.navigate([`dashboard/${mode}`]);
+    if (this.accuracyService.onShowResult) {
+      this.accuracyService.onShowResult = false;
+    } else {
+      this.router.navigate([`dashboard/${mode}`]);
+    }
   }
 }
