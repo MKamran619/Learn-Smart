@@ -10,6 +10,7 @@
             <div>
               <div class="justfy-content-center">
                 <svg
+                  class="volume-icon"
                   [cIcon]="icons.cilVolumeHigh"
                   width="25"
                   title="Shield Icon"
@@ -24,10 +25,16 @@
         </div>
       </div>
       <div
-        class="justfy-content-center"
+        class="mic-icon justfy-content-center"
         style="margin-top: 20px; cursor: pointer"
       >
-        <svg [cIcon]="icons.cilMic" width="50" title="Shield Icon"></svg>
+        <!-- <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          fontIcon="mic"
+          class="animate-icon"
+        ></mat-icon> -->
+        <svg [cIcon]="icons.cilMic" title="Shield Icon"></svg>
       </div>
     </div>
   </div>

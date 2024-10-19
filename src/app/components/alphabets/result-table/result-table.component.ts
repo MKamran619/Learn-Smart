@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-result-table',
   standalone: true,
-  imports: [MatTableModule],
+  imports: [CommonModule, MatTableModule],
   templateUrl: './result-table.component.html',
   styleUrl: './result-table.component.scss',
 })
@@ -18,7 +19,7 @@ export class ResultTableComponent implements OnInit {
     'noResponse',
   ];
   totalScore = 0;
-  dataSource: any[] = [];
+  dataSource: any[] = [{ letter: 'A' }, { letter: 'B' }];
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
     this.dataSource = this.accuracyService.resultList;
@@ -26,10 +27,6 @@ export class ResultTableComponent implements OnInit {
       (row: any) => row.accuracy >= 100
     );
 
-    // Sum up the scores of the filtered rows (assuming you have a 'score' field)
     this.totalScore = filteredRows.length;
-
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
   }
 }

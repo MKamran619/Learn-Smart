@@ -8,11 +8,13 @@ import {
 import { cilMic, cilVolumeHigh } from '@coreui/icons';
 import { IconDirective, IconModule } from '@coreui/icons-angular';
 import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
+import { MatIcon } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-card-container',
   standalone: true,
-  imports: [IconDirective, IconModule],
+  imports: [CommonModule, IconDirective, IconModule, MatIcon],
   templateUrl: './card-container.component.html',
   styleUrl: './card-container.component.scss',
 })
@@ -35,6 +37,7 @@ export class CardContainerComponent
     // this.startRandomSelection();
   }
   startRandomSelection() {
+    this.accuracyService.resultList = [];
     this.accuracyService.transcription = '';
     this.accuracyService.accuracyScore = 0;
     this.totalLength = this.charOrWordList.length;
@@ -48,7 +51,7 @@ export class CardContainerComponent
     this.intervalId = setInterval(() => {
       if (this.letter) {
         const result = {
-          letter: 'Letter ' + this.letter,
+          letter: this.letter,
           noResponse: this.accuracyService.transcription ? '' : 'noResponse',
           letterSubstituted: this.accuracyService.transcription,
           accuracy: this.accuracyService.accuracyScore.toFixed(0),
@@ -104,7 +107,7 @@ export class CardContainerComponent
 
       // Remove the selected item from the array to prevent repetition
       itemsCopy.splice(randomIndex, 1);
-    }, 5000); // Change every 5 seconds
+    }, 3500); // Change every 5 seconds
   }
   clearInterval() {
     // Clear the interval if it exists
