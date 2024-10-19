@@ -5,7 +5,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { cilMic, cilVolumeHigh } from '@coreui/icons';
+import {
+  cilMic,
+  cilVolumeHigh,
+  cilVolumeLow,
+  cilVolumeOff,
+} from '@coreui/icons';
 import { IconDirective, IconModule } from '@coreui/icons-angular';
 import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
 import { MatIcon } from '@angular/material/icon';
@@ -23,15 +28,31 @@ export class CardContainerComponent
 {
   @Input() charOrWordList: string[] = [];
   letter = '';
-  icons = { cilMic, cilVolumeHigh };
+  icons = { cilMic, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
   private intervalId: any;
   totalLength = 0;
   startFrom = 0;
+  showVolumIcon = true;
+
+  showCircle = false;
+  showQuaterCircle = true;
 
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
     console.log('Component initialized');
     this.startRandomSelection();
+  }
+  showQuaterCircleAnimation() {
+    this.showQuaterCircle = true;
+    setTimeout(() => {
+      this.showQuaterCircle = false;
+    }, 1500);
+  }
+  showCircleAnimation() {
+    this.showCircle = false;
+    setTimeout(() => {
+      this.showCircle = true;
+    }, 50);
   }
   ngAfterViewInit(): void {
     // this.startRandomSelection();
@@ -49,6 +70,9 @@ export class CardContainerComponent
     let currentIndex = 0;
 
     this.intervalId = setInterval(() => {
+      this.showCircleAnimation();
+      this.showQuaterCircleAnimation();
+
       if (this.letter) {
         const result = {
           letter: this.letter,
@@ -69,8 +93,9 @@ export class CardContainerComponent
       this.startFrom = this.startFrom + 1;
       this.letter = itemsCopy[currentIndex];
       this.accuracyService.referenceText = `letter ${this.letter}`;
+      if (this.showVolumIcon)
+        this.accuracyService.speakText(this.accuracyService.referenceText);
 
-      this.accuracyService.speakText(this.accuracyService.referenceText);
       this.accuracyService.startSpeechRecognition();
 
       currentIndex++;
@@ -84,31 +109,6 @@ export class CardContainerComponent
     }
   }
 
-  startRandomSelection12() {
-    this.totalLength = this.charOrWordList.length;
-
-    const itemsCopy = [...this.charOrWordList];
-
-    this.intervalId = setInterval(() => {
-      if (itemsCopy.length === 0) {
-        // All items have been used, stop the selection process
-        this.clearInterval();
-        console.log('All items have been selected. Stopping random selection.');
-        return; // Exit the function
-      }
-      this.startFrom = this.startFrom + 1;
-      // Randomly select an index from the remaining items
-      const randomIndex = Math.floor(Math.random() * itemsCopy.length);
-      this.letter = itemsCopy[randomIndex]; // Assign the random item
-      this.accuracyService.referenceText = `letter ${this.letter}`; // Update reference text
-
-      // Speak the reference text
-      this.accuracyService.speakText(this.accuracyService.referenceText);
-
-      // Remove the selected item from the array to prevent repetition
-      itemsCopy.splice(randomIndex, 1);
-    }, 3500); // Change every 5 seconds
-  }
   clearInterval() {
     // Clear the interval if it exists
     if (this.intervalId) {

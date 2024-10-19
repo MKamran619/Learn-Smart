@@ -9,12 +9,51 @@
           <div style="display: flex; margin-left: 120px">
             <div>
               <div class="justfy-content-center">
-                <svg
-                  class="volume-icon"
-                  [cIcon]="icons.cilVolumeHigh"
-                  width="25"
-                  title="Shield Icon"
-                ></svg>
+                <div
+                  (click)="showVolumIcon = !showVolumIcon"
+                  style="cursor: pointer"
+                >
+                  <div class="quater-circle-container">
+                    <div *ngIf="showVolumIcon">
+                      <div
+                        class="quater-circle-large"
+                        [ngClass]="
+                          showQuaterCircle
+                            ? 'quater-circle'
+                            : 'hide-quater-circle'
+                        "
+                      ></div>
+                      <div
+                        class="quater-circle-medium"
+                        [ngClass]="
+                          showQuaterCircle
+                            ? 'quater-circle'
+                            : 'hide-quater-circle'
+                        "
+                      ></div>
+                      <div
+                        class="quater-circle-small"
+                        [ngClass]="
+                          showQuaterCircle
+                            ? 'quater-circle'
+                            : 'hide-quater-circle'
+                        "
+                      ></div>
+                      <svg
+                        [cIcon]="icons.cilVolumeLow"
+                        width="25"
+                        title="Shield Icon"
+                      ></svg>
+                    </div>
+                  </div>
+                  <div *ngIf="!showVolumIcon">
+                    <svg
+                      [cIcon]="icons.cilVolumeOff"
+                      width="25"
+                      title="Shield Icon"
+                    ></svg>
+                  </div>
+                </div>
               </div>
               sound
             </div>
@@ -29,8 +68,8 @@
         style="margin-top: 20px; cursor: pointer"
       >
         <div class="circle-container">
-          <div class="circle medium"></div>
-          <div class="circle small"></div>
+          <div class="medium" [ngClass]="showCircle ? 'circle' : ''"></div>
+          <div class="small" [ngClass]="showCircle ? 'circle' : ''"></div>
           <svg
             [cIcon]="icons.cilMic"
             class="mic-icon"

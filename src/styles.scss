@@ -169,6 +169,71 @@ body {
   animation-delay: 3s; /* Start after medium */
 }
 
+//Quater Circle Container
+
+.quater-circle-container {
+  position: relative; /* Positioning context for absolute positioning */
+  width: 100%; /* Full width to allow centering */
+  height: 100%; /* Full height to allow centering */
+}
+
+.hide-quater-circle {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 2px solid transparent;
+  // border-top-color: #4a90e2;
+  border-right-color: var(--text-color);
+  border-radius: 50%;
+  opacity: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.quater-circle {
+  cursor: pointer;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 2px solid transparent;
+  // border-top-color: #4a90e2;
+  border-right-color: var(--text-color);
+  border-radius: 50%;
+  opacity: 0;
+  animation: appear 4s linear infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.quater-circle-small {
+  width: 15px;
+  height: 15px;
+  animation-delay: 0s; /* Start immediately */
+}
+
+.quater-circle-medium {
+  width: 30px;
+  height: 25px;
+  animation-delay: 1s; /* Start after small */
+}
+.quater-circle-large {
+  width: 50px;
+  height: 50px;
+  animation-delay: 1s; /* Start after small */
+}
+
+@keyframes appear {
+  0%,
+  100% {
+    opacity: 0; /* Start and end hidden */
+  }
+  50% {
+    opacity: 1; /* Fully visible halfway */
+  }
+}
+
 @keyframes appear {
   0%,
   100% {
