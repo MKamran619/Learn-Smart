@@ -28,13 +28,15 @@
         class="mic-icon justfy-content-center"
         style="margin-top: 20px; cursor: pointer"
       >
-        <!-- <mat-icon
-          aria-hidden="false"
-          aria-label="Example home icon"
-          fontIcon="mic"
-          class="animate-icon"
-        ></mat-icon> -->
-        <svg [cIcon]="icons.cilMic" title="Shield Icon"></svg>
+        <div class="circle-container">
+          <div class="circle medium"></div>
+          <div class="circle small"></div>
+          <svg
+            [cIcon]="icons.cilMic"
+            class="mic-icon"
+            title="Microphone Icon"
+          ></svg>
+        </div>
       </div>
     </div>
   </div>

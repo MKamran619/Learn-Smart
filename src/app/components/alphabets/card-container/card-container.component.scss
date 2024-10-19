@@ -24,6 +24,9 @@ h1 {
   display: inline-block;
   animation: rotate 2s infinite linear; /* Adjust speed and type of animation */
 }
+.circle-container {
+  margin-top: 350px !important;
+}
 
 @keyframes rotate {
   0% {

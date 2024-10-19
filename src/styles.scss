@@ -123,3 +123,84 @@ body {
   color: var(--common-color);
   border-radius: 10px;
 }
+
+// Circle container
+
+.circle-container {
+  position: relative; /* Positioning context for absolute positioning */
+  width: 100%; /* Full width to allow centering */
+  height: 100%; /* Full height to allow centering */
+}
+
+.circle {
+  // margin-top: 190px;
+  position: absolute; /* Enable absolute positioning */
+  border-radius: 50%; /* Make the circles round */
+  border: 4px solid var(--primary-color); /* Border color */
+  opacity: 0; /* Start invisible */
+  animation: appear 4s linear infinite; /* Base animation */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset to center the circle */
+}
+
+// .big {
+//   width: 200px;
+//   height: 200px;
+//   animation-delay: 0s; /* Start immediately */
+// }
+
+// .large {
+//   width: 150px;
+//   height: 150px;
+//   animation-delay: 1s; /* Start after big */
+// }
+
+.medium {
+  width: 100px;
+  height: 100px;
+  animation-delay: 2s; /* Start after large */
+}
+
+.small {
+  margin-top: 0;
+  width: 50px;
+  height: 50px;
+  animation-delay: 3s; /* Start after medium */
+}
+
+@keyframes appear {
+  0%,
+  100% {
+    opacity: 0; /* Start and end hidden */
+  }
+  50% {
+    opacity: 1; /* Fully visible halfway */
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translate(-50%, -50%) scale(1); /* Start size */
+    opacity: 1; /* Fully visible */
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2); /* Scale up */
+    opacity: 1; /* Fully visible */
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1); /* Return to original size */
+    opacity: 0; /* Fade out */
+  }
+}
+
+.mic-icon {
+  position: absolute; /* Position the icon absolutely */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset to center the icon */
+  opacity: 1; /* Keep the icon fully visible */
+  width: 30px; /* Adjust width */
+  height: auto; /* Maintain aspect ratio */
+  // fill: #4a90e2; /* Set icon color */
+}
