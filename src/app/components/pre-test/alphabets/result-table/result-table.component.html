@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of dataSource">
-          <th>{{ item.letter }}</th>
+          <th style="text-align: center">{{ item.letter }}</th>
           <div *ngIf="item.userSpoke">
             <td>
               {{ item.userSpoke }}
