@@ -11,6 +11,7 @@ export class SpeechDetectService {
   referenceText: string = '';
   resultList: {
     letter?: string;
+    word?: string;
     sentence?: string;
     noResponse: string;
     letterSubstituted: string;

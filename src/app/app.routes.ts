@@ -19,6 +19,7 @@ import { WordListComponent as PostWordList } from './components/post-test/word-l
 import { OralReadingPassagesComponent as PostOralReadingPassages } from './components/post-test/oral-reading-passages/oral-reading-passages.component';
 
 import { multicast } from 'rxjs';
+import { WordComponent } from './components/pre-test/word-list/components/word/word.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -37,6 +38,8 @@ export const routes: Routes = [
     component: SentenceFilterComponent,
   },
   { path: 'dashboard/:mode/pre-word-list', component: WordListComponent },
+
+  { path: 'dashboard/:mode/pre-word-list/:type', component: WordComponent },
   {
     path: 'dashboard/:mode/pre-oral-reading-passages',
     component: OralReadingPassagesComponent,
