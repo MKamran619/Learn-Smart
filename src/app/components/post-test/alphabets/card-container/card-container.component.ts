@@ -77,7 +77,7 @@ export class CardContainerComponent
         const result = {
           letter: this.letter,
           noResponse: this.accuracyService.transcription ? '' : 'noResponse',
-          letterSubstituted: this.accuracyService.transcription,
+          userSpoke: this.accuracyService.transcription,
           accuracy: this.accuracyService.accuracyScore.toFixed(0),
         };
 

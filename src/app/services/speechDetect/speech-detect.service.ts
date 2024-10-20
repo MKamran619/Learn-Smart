@@ -14,7 +14,7 @@ export class SpeechDetectService {
     word?: string;
     sentence?: string;
     noResponse: string;
-    letterSubstituted: string;
+    userSpoke: string;
     accuracy: any;
   }[] = [];
 

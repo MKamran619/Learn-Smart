@@ -8,15 +8,23 @@
 
         <tr>
           <th scope="col">Words</th>
-          <th scope="col">Word Substituted</th>
-          <th scope="col">No Response</th>
+          <th scope="col">User Response</th>
+          <th scope="col">Accuracy</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of dataSource">
-          <th style="text-align: center">{{ item.word }}</th>
-          <td>{{ item.letterSubstituted }}</td>
-          <td>{{ item.noResponse }}</td>
+          <td style="text-align: center">{{ item.word }}</td>
+
+          <div *ngIf="item.userSpoke">
+            <th style="font-weight: 400">
+              {{ item.userSpoke }}
+            </th>
+          </div>
+          <div *ngIf="!item.userSpoke">
+            <th style="font-weight: 200" style="color: red">no response</th>
+          </div>
+          <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
         </tr>
         <tr>
           <th colspan="3" style="text-align: center">

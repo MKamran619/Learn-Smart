@@ -33,6 +33,7 @@ export class WordComponent implements OnInit {
   selectedTab = 'Capital Letter';
   wordsList: string[] = [];
   title = '';
+  totalCount = 10;
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
@@ -67,6 +68,7 @@ export class WordComponent implements OnInit {
   }
   setWordList() {
     if (this.type == 'pre-primer') {
+      this.totalCount = 10;
       this.wordsList = [
         'A',
         'AND',
@@ -110,6 +112,7 @@ export class WordComponent implements OnInit {
         'YOU',
       ];
     } else if (this.type == 'primer') {
+      this.totalCount = 10;
       this.wordsList = [
         'all',
         'am',
@@ -164,6 +167,7 @@ export class WordComponent implements OnInit {
         'yes',
       ];
     } else if (this.type == 'level-1') {
+      this.totalCount = 15;
       this.wordsList = [
         'after',
         'again',
@@ -208,6 +212,7 @@ export class WordComponent implements OnInit {
         'When',
       ];
     } else if (this.type == 'level-2') {
+      this.totalCount = 15;
       this.wordsList = [
         'always',
         'around',
@@ -257,6 +262,7 @@ export class WordComponent implements OnInit {
         'your',
       ];
     } else if (this.type == 'level-3') {
+      this.totalCount = 15;
       this.wordsList = [
         'about',
         'better',
@@ -300,6 +306,7 @@ export class WordComponent implements OnInit {
         'try',
       ];
     } else if (this.type == 'level-4') {
+      this.totalCount = 20;
       this.wordsList = [
         'listen',
         'important',
@@ -342,6 +349,7 @@ export class WordComponent implements OnInit {
         'instant',
       ];
     } else if (this.type == 'level-5') {
+      this.totalCount = 20;
       this.wordsList = [
         'wonderful',
         'holiday',
@@ -384,6 +392,7 @@ export class WordComponent implements OnInit {
         'renowned',
       ];
     } else if (this.type == 'level-6') {
+      this.totalCount = 20;
       this.wordsList = [
         'technology',
         'results',

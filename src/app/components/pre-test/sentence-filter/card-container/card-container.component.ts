@@ -77,6 +77,7 @@ export class CardContainerComponent
       this.onCallAccuracyFunction();
     }, 10000);
   }
+
   onCallAccuracyFunction() {
     this.showCircleAnimation();
     this.showQuaterCircleAnimation();
@@ -85,7 +86,7 @@ export class CardContainerComponent
       const result = {
         sentence: this.sentence,
         noResponse: this.accuracyService.transcription ? '' : 'noResponse',
-        letterSubstituted: this.accuracyService.transcription,
+        userSpoke: this.accuracyService.transcription,
         accuracy: this.accuracyService.accuracyScore.toFixed(0),
       };
 
