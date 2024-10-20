@@ -17,13 +17,7 @@
 .dashboard h1 {
   cursor: pointer;
 }
-.label-card-container:hover {
-  // background-color: #bedc74;
-  color: var(--common-color);
-  background-color: var(--secondary-color);
-  border-radius: 5px;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
-}
+
 .pre-test .label-card-container {
   width: 400px;
   margin-right: 50px;
@@ -88,15 +82,7 @@
   .dashboard-content {
     display: block;
   }
-  .pre-test .label-card-container,
-  .label-card-container {
-    width: 250px;
-    height: 50px;
-    margin-right: 0;
-  }
-  .pre-test h3 {
-    font-size: 15px !important;
-  }
+
   .pre-test-content {
     display: block;
   }

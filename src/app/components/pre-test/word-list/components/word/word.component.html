@@ -1,0 +1,34 @@
+<app-header></app-header>
+<div class="justfy-content-center">
+  <div>
+    <div>
+      <div class="title-card-container justfy-content-left">
+        <div style="width: 35%">
+          <div
+            class="title-card-icon justfy-content-left"
+            (click)="onChangePreviewMode(this.mode)"
+          >
+            <svg
+              [cIcon]="icons.cilArrowLeft"
+              width="50"
+              title="Shield Icon"
+            ></svg>
+          </div>
+        </div>
+        <h4>{{ this.title }}</h4>
+      </div>
+      <div *ngIf="!accuracyService.onShowResult">
+        <div class="justfy-content-center">
+          <app-card-container
+            [charOrWordList]="wordsList"
+            key="common"
+          ></app-card-container>
+        </div>
+      </div>
+
+      <div class="justfy-content-center" *ngIf="accuracyService.onShowResult">
+        <app-result-table></app-result-table>
+      </div>
+    </div>
+  </div>
+</div>

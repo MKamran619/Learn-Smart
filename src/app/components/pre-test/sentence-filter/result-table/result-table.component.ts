@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
+import { SpeechDetectService } from '../../../../services/speechDetect/speech-detect.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,7 +19,7 @@ export class ResultTableComponent implements OnInit {
     'noResponse',
   ];
   totalScore = 0;
-  dataSource: any[] = [{ letter: 'A' }, { letter: 'B' }];
+  dataSource: any[] = [{ sentence: '' }, { sentence: '' }];
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
     this.dataSource = this.accuracyService.resultList;

@@ -1,0 +1,17 @@
+.label-card-container {
+  //   margin-top: 50px;
+  width: 400px;
+  margin-right: 50px;
+  // height: 40px;
+  // font-size: 10px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+}
+
+/** <--- style for Mobile  ----> **/
+@media screen and (max-width: 767px) {
+  .pre-test-word-list {
+    display: block;
+  }
+}

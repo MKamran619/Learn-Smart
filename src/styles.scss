@@ -73,6 +73,13 @@ $frontend-theme: mat.define-theme(
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+.label-card-container:hover {
+  // background-color: #bedc74;
+  color: var(--common-color);
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
 .justfy-content-center {
   display: flex;
   align-items: center;
@@ -268,4 +275,25 @@ body {
   width: 30px; /* Adjust width */
   height: auto; /* Maintain aspect ratio */
   // fill: #4a90e2; /* Set icon color */
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+}
+
+/** <--- style for Mobile  ----> **/
+@media screen and (max-width: 767px) {
+  .title-card-container {
+    width: 280px;
+    height: 60px !important;
+  }
+  .label-card-container h3 {
+    font-size: 20px !important;
+  }
+
+  .pre-test .label-card-container,
+  .label-card-container {
+    width: 250px;
+    height: 50px;
+    margin-right: 0;
+    font-weight: 100;
+  }
 }

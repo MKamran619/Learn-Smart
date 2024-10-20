@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { ResultTableComponent } from './result-table/result-table.component';
 
 @Component({
-  selector: 'app-sentence-filter',
+  selector: 'app-alphabets',
   standalone: true,
   imports: [
     HeaderComponent,
@@ -20,17 +20,17 @@ import { ResultTableComponent } from './result-table/result-table.component';
     CommonModule,
     ResultTableComponent,
   ],
-  templateUrl: './sentence-filter.component.html',
-  styleUrl: './sentence-filter.component.scss',
+  templateUrl: './alphabets.component.html',
+  styleUrl: './alphabets.component.scss',
 })
-export class SentenceFilterComponent implements OnInit {
+export class AlphabetsComponent implements OnInit {
   @ViewChild(CardContainerComponent) childComponent!: CardContainerComponent;
 
   icons = { cilArrowLeft };
   mode = '';
   btnCapitalActive = true;
   selectedTab = 'Capital Letter';
-  sentenceList: string[] = [];
+  letters: string[] = [];
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
@@ -43,22 +43,27 @@ export class SentenceFilterComponent implements OnInit {
         this.mode = params['mode'];
       }
     });
-    this.onLoadInitialData();
+    this.onClickCapitalLetter();
   }
-  onLoadInitialData() {
+
+  onClickCapitalLetter() {
     this.accuracyService.resultList = [];
     this.accuracyService.accuracyScore = 0;
     this.accuracyService.transcription = '';
     this.btnCapitalActive = true;
-    this.sentenceList = [
-      'I can play with the bat and ball here.',
-      'The three boys like to walk to the bus stop.',
-      'We are sleeping. We woke up late and we are very tired.',
-      'Mother and father work from home. They help people and tell them what to do. Some of them left their houses very early.',
-      'Sometimes we need to place animals into groups of same and different. Together, we must write the important ones on the same list.',
-    ];
+    this.selectedTab = 'Capital Letter';
+    this.letters = Array.from({ length: 26 }, (_, i) =>
+      String.fromCharCode(65 + i)
+    );
   }
-
+  onClickCommonLetter() {
+    this.accuracyService.resultList = [];
+    this.accuracyService.accuracyScore = 0;
+    this.accuracyService.transcription = '';
+    this.btnCapitalActive = false;
+    this.selectedTab = 'Common Letter';
+    this.letters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
+  }
   onChangePreviewMode(mode: string) {
     if (this.accuracyService.onShowResult) {
       this.accuracyService.onShowResult = false;
