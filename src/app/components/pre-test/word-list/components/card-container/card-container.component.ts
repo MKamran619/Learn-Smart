@@ -36,6 +36,7 @@ export class CardContainerComponent
 
   showCircle = false;
   showQuaterCircle = true;
+  totalCount = 10;
 
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
@@ -83,7 +84,7 @@ export class CardContainerComponent
 
         this.accuracyService.resultList.push(result);
       }
-      if (currentIndex >= itemsCopy.length) {
+      if (currentIndex >= this.totalCount) {
         this.clearInterval();
         console.log('result = ', this.accuracyService.resultList);
         this.accuracyService.onShowResult = true;
@@ -92,7 +93,7 @@ export class CardContainerComponent
       }
       this.startFrom = this.startFrom + 1;
       this.word = itemsCopy[currentIndex];
-      this.accuracyService.referenceText = `letter ${this.word}`;
+      this.accuracyService.referenceText = `${this.word}`;
       if (this.showVolumIcon) {
         this.showQuaterCircle = true;
         // this.showQuaterCircleAnimation();

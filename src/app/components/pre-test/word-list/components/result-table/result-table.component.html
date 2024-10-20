@@ -5,19 +5,16 @@
         <tr>
           <th colspan="3">Student Name: username</th>
         </tr>
+
         <tr>
-          <th>Capital Letters</th>
-          <th colspan="2">Letter Names</th>
-        </tr>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">Letter Substituted</th>
+          <th scope="col">Words</th>
+          <th scope="col">Word Substituted</th>
           <th scope="col">No Response</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of dataSource">
-          <th style="text-align: center">{{ item.letter }}</th>
+          <th style="text-align: center">{{ item.word }}</th>
           <td>{{ item.letterSubstituted }}</td>
           <td>{{ item.noResponse }}</td>
         </tr>

@@ -15,12 +15,12 @@
             ></svg>
           </div>
         </div>
-        <h4>Word List / {{ this.type }}</h4>
+        <h4>{{ this.title }}</h4>
       </div>
       <div *ngIf="!accuracyService.onShowResult">
         <div class="justfy-content-center">
           <app-card-container
-            [charOrWordList]="word"
+            [charOrWordList]="wordsList"
             key="common"
           ></app-card-container>
         </div>
