@@ -15,15 +15,7 @@
       <tbody>
         <tr *ngFor="let item of dataSource">
           <td style="text-align: center">{{ item.word }}</td>
-
-          <div *ngIf="item.userSpoke">
-            <th style="font-weight: 400">
-              {{ item.userSpoke }}
-            </th>
-          </div>
-          <div *ngIf="!item.userSpoke">
-            <th style="font-weight: 200" style="color: red">no response</th>
-          </div>
+          <td>{{ item.userSpoke }}</td>
           <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
         </tr>
         <tr>

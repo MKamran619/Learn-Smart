@@ -1,0 +1,10 @@
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+}
+
+/** <--- style for Mobile  ----> **/
+@media screen and (max-width: 767px) {
+  .table-container {
+    width: 290px;
+    // overflow-x: auto;
+  }
+}
