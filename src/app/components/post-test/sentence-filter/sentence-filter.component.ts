@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { HeaderComponent } from '../../../home/header/header.component';
 
 @Component({
-  selector: 'app-sentence-filter',
+  selector: 'app-post-sentence-filter',
   standalone: true,
-  imports: [],
+  imports: [HeaderComponent],
   templateUrl: './sentence-filter.component.html',
-  styleUrl: './sentence-filter.component.scss'
+  styleUrl: './sentence-filter.component.scss',
 })
-export class SentenceFilterComponent {
-
-}
+export class SentenceFilterComponent {}
