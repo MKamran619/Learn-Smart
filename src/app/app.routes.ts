@@ -31,35 +31,35 @@ export const routes: Routes = [
 
   //  Pre Test components
 
-  { path: 'dashboard/pre-test/alphabets', component: AlphabetsComponent },
+  { path: 'dashboard/:mode/pre-alphabets', component: AlphabetsComponent },
   {
-    path: 'dashboard/pre-test/sentence-filter',
+    path: 'dashboard/:mode/pre-sentence-filter',
     component: SentenceFilterComponent,
   },
-  { path: 'dashboard/pre-test/word-list', component: WordListComponent },
+  { path: 'dashboard/:mode/pre-word-list', component: WordListComponent },
   {
-    path: 'dashboard/pre-test/oral-reading-passages',
+    path: 'dashboard/:mode/pre-oral-reading-passages',
     component: OralReadingPassagesComponent,
   },
   {
-    path: 'dashboard/pre-test/interest-inventory',
+    path: 'dashboard/:mode/pre-interest-inventory',
     component: InterestInventoryComponent,
   },
   {
-    path: 'dashboard/pre-test/multiple-intelligence-test',
+    path: 'dashboard/:mode/pre-multiple-intelligence-test',
     component: MultipleIntelligenceTestComponent,
   },
 
   //  Post Test components
 
-  { path: 'dashboard/post-test/alphabets', component: postAlphabets },
+  { path: 'dashboard/:mode/post-alphabets', component: postAlphabets },
   {
-    path: 'dashboard/post-test/sentence-filter',
+    path: 'dashboard/:mode/post-sentence-filter',
     component: PostSentenceFilter,
   },
-  { path: 'dashboard/post-test/word-list', component: PostWordList },
+  { path: 'dashboard/:mode/post-word-list', component: PostWordList },
   {
-    path: 'dashboard/post-test/oral-reading-passages',
+    path: 'dashboard/:mode/post-oral-reading-passages',
     component: PostOralReadingPassages,
   },
 
