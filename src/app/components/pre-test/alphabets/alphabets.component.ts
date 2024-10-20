@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HeaderComponent } from '../../home/header/header.component';
+import { HeaderComponent } from '../../../home/header/header.component';
 import { IconDirective } from '@coreui/icons-angular';
 import { cilArrowLeft } from '@coreui/icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardContainerComponent } from './card-container/card-container.component';
-import { SpeechDetectService } from '../../services/speechDetect/speech-detect.service';
+import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ResultTableComponent } from './result-table/result-table.component';

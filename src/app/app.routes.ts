@@ -3,7 +3,7 @@ import { DashboardComponent } from './home/dashboard/dashboard.component';
 import { LoginComponent } from './account/login/login.component';
 import { AboutComponent } from './home/about/about.component';
 import { ContactComponent } from './home/contact/contact.component';
-import { AlphabetsComponent } from './components/alphabets/alphabets.component';
+import { AlphabetsComponent } from './components/pre-test/alphabets/alphabets.component';
 import { WelcomeScreenComponent } from './home/welcome-screen/welcome-screen.component';
 import { SignupComponent } from './account/signup/signup.component';
 

@@ -12,7 +12,7 @@ import {
   cilVolumeOff,
 } from '@coreui/icons';
 import { IconDirective, IconModule } from '@coreui/icons-angular';
-import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
+import { SpeechDetectService } from '../../../../services/speechDetect/speech-detect.service';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
@@ -93,8 +93,11 @@ export class CardContainerComponent
       this.startFrom = this.startFrom + 1;
       this.letter = itemsCopy[currentIndex];
       this.accuracyService.referenceText = `letter ${this.letter}`;
-      if (this.showVolumIcon)
+      if (this.showVolumIcon) {
+        this.showQuaterCircle = true;
+        // this.showQuaterCircleAnimation();
         this.accuracyService.speakText(this.accuracyService.referenceText);
+      }
 
       this.accuracyService.startSpeechRecognition();
 
