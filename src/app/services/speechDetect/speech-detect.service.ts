@@ -10,7 +10,8 @@ export class SpeechDetectService {
   onShowResult = false;
   referenceText: string = '';
   resultList: {
-    letter: string;
+    letter?: string;
+    sentence?: string;
     noResponse: string;
     letterSubstituted: string;
     accuracy: any;

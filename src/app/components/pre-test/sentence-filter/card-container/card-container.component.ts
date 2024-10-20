@@ -26,16 +26,18 @@ import { SpeechDetectService } from '../../../../services/speechDetect/speech-de
 export class CardContainerComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  @Input() charOrWordList: string[] = [];
-  letter = '';
+  @Input() sentenceList: string[] = [];
+  sentence = '';
   icons = { cilMic, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
   private intervalId: any;
   totalLength = 0;
   startFrom = 0;
-  showVolumIcon = true;
+  showVolumIcon = false;
 
   showCircle = false;
   showQuaterCircle = true;
+  currentIndex = 0;
+  itemsCopy: any = [];
 
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
@@ -61,48 +63,53 @@ export class CardContainerComponent
     this.accuracyService.resultList = [];
     this.accuracyService.transcription = '';
     this.accuracyService.accuracyScore = 0;
-    this.totalLength = this.charOrWordList.length;
+    this.totalLength = this.sentenceList.length;
 
     // Create a copy of the original array and shuffle it
-    const itemsCopy = [...this.charOrWordList];
-    this.shuffleArray(itemsCopy);
+    this.itemsCopy = [...this.sentenceList];
+    // this.shuffleArray(itemsCopy);
 
-    let currentIndex = 0;
+    this.currentIndex = 0;
+
+    this.onCallAccuracyFunction();
 
     this.intervalId = setInterval(() => {
-      this.showCircleAnimation();
-      this.showQuaterCircleAnimation();
+      this.onCallAccuracyFunction();
+    }, 10000);
+  }
+  onCallAccuracyFunction() {
+    this.showCircleAnimation();
+    this.showQuaterCircleAnimation();
 
-      if (this.letter) {
-        const result = {
-          letter: this.letter,
-          noResponse: this.accuracyService.transcription ? '' : 'noResponse',
-          letterSubstituted: this.accuracyService.transcription,
-          accuracy: this.accuracyService.accuracyScore.toFixed(0),
-        };
+    if (this.sentence) {
+      const result = {
+        sentence: this.sentence,
+        noResponse: this.accuracyService.transcription ? '' : 'noResponse',
+        letterSubstituted: this.accuracyService.transcription,
+        accuracy: this.accuracyService.accuracyScore.toFixed(0),
+      };
 
-        this.accuracyService.resultList.push(result);
-      }
-      if (currentIndex >= itemsCopy.length) {
-        this.clearInterval();
-        console.log('result = ', this.accuracyService.resultList);
-        this.accuracyService.onShowResult = true;
-        console.log('All items have been selected. Stopping random selection.');
-        return;
-      }
-      this.startFrom = this.startFrom + 1;
-      this.letter = itemsCopy[currentIndex];
-      this.accuracyService.referenceText = `letter ${this.letter}`;
-      if (this.showVolumIcon) {
-        this.showQuaterCircle = true;
-        // this.showQuaterCircleAnimation();
-        this.accuracyService.speakText(this.accuracyService.referenceText);
-      }
+      this.accuracyService.resultList.push(result);
+    }
+    if (this.currentIndex >= this.itemsCopy.length) {
+      this.clearInterval();
+      console.log('result = ', this.accuracyService.resultList);
+      this.accuracyService.onShowResult = true;
+      console.log('All items have been selected. Stopping random selection.');
+      return;
+    }
+    this.startFrom = this.startFrom + 1;
+    this.sentence = this.itemsCopy[this.currentIndex];
+    this.accuracyService.referenceText = `${this.sentence}`;
+    if (this.showVolumIcon) {
+      this.showQuaterCircle = true;
+      // this.showQuaterCircleAnimation();
+      this.accuracyService.speakText(this.accuracyService.referenceText);
+    }
 
-      this.accuracyService.startSpeechRecognition();
+    this.accuracyService.startSpeechRecognition();
 
-      currentIndex++;
-    }, 5000);
+    this.currentIndex++;
   }
 
   private shuffleArray(array: string[]) {
@@ -126,9 +133,3 @@ export class CardContainerComponent
     }
   }
 }
-// <button (click)="accuracyService.startSpeechRecognition()">
-//   Start Speech Recognition
-// </button>
-
-// <p><strong>Transcribed Text:</strong> {{ accuracyService.transcription }}</p>
-// <p><strong>Accuracy Score:</strong> {{ accuracyService.accuracyScore }}%</p>

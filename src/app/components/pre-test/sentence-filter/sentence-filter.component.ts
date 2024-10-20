@@ -30,7 +30,7 @@ export class SentenceFilterComponent implements OnInit {
   mode = '';
   btnCapitalActive = true;
   selectedTab = 'Capital Letter';
-  letters: string[] = [];
+  sentenceList: string[] = [];
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
@@ -43,27 +43,22 @@ export class SentenceFilterComponent implements OnInit {
         this.mode = params['mode'];
       }
     });
-    this.onClickCapitalLetter();
+    this.onLoadInitialData();
   }
-
-  onClickCapitalLetter() {
+  onLoadInitialData() {
     this.accuracyService.resultList = [];
     this.accuracyService.accuracyScore = 0;
     this.accuracyService.transcription = '';
     this.btnCapitalActive = true;
-    this.selectedTab = 'Capital Letter';
-    this.letters = Array.from({ length: 26 }, (_, i) =>
-      String.fromCharCode(65 + i)
-    );
+    this.sentenceList = [
+      'I can play with the bat and ball here.',
+      'The three boys like to walk to the bus stop.',
+      'We are sleeping. We woke up late and we are very tired.',
+      'Mother and father work from home. They help people and tell them what to do. Some of them left their houses very early.',
+      'Sometimes we need to place animals into groups of same and different. Together, we must write the important ones on the same list.',
+    ];
   }
-  onClickCommonLetter() {
-    this.accuracyService.resultList = [];
-    this.accuracyService.accuracyScore = 0;
-    this.accuracyService.transcription = '';
-    this.btnCapitalActive = false;
-    this.selectedTab = 'Common Letter';
-    this.letters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
-  }
+
   onChangePreviewMode(mode: string) {
     if (this.accuracyService.onShowResult) {
       this.accuracyService.onShowResult = false;

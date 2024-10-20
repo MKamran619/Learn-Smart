@@ -19,7 +19,7 @@ export class ResultTableComponent implements OnInit {
     'noResponse',
   ];
   totalScore = 0;
-  dataSource: any[] = [{ letter: 'A' }, { letter: 'B' }];
+  dataSource: any[] = [{ sentence: '' }, { sentence: '' }];
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
     this.dataSource = this.accuracyService.resultList;
