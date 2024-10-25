@@ -30,7 +30,7 @@ export class CardContainerComponent implements OnInit {
   icons = { cilMic, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
   private intervalId: any;
   totalLength = 0;
-  startFrom = 1;
+  startFrom = 0;
   showVolumIcon = false;
 
   showCircle = false;
