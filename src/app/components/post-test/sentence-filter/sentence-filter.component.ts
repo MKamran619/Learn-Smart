@@ -28,8 +28,6 @@ export class SentenceFilterComponent implements OnInit {
 
   icons = { cilArrowLeft };
   mode = '';
-  btnCapitalActive = true;
-  selectedTab = 'Capital Letter';
   sentenceList: string[] = [];
   constructor(
     private router: Router,
@@ -49,7 +47,6 @@ export class SentenceFilterComponent implements OnInit {
     this.accuracyService.resultList = [];
     this.accuracyService.accuracyScore = 0;
     this.accuracyService.transcription = '';
-    this.btnCapitalActive = true;
     this.sentenceList = [
       'I can play with the bat and ball here.',
       'The three boys like to walk to the bus stop.',

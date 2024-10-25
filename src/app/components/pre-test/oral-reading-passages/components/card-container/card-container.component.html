@@ -1,0 +1,42 @@
+<div class="justfy-content-center">
+  <div>
+    <div>
+      <div class="justfy-content-center">
+        <h6>{{ startFrom + "/" + totalLength }}</h6>
+      </div>
+      <div class="story-container-component justfy-content-center">
+        <div class="justfy-content-center p-4">
+          <div>
+            <div class="paragraph-container">
+              <div
+                *ngFor="let line of story; let i = index"
+                class="justfy-content-center"
+                style="margin-top: 10px"
+                [style.fontWeight]="i == 0 ? 'bold' : 'normal'"
+              >
+                <p>{{ line }}</p>
+              </div>
+            </div>
+
+            <div class="justfy-content-center">
+              <div
+                class="justfy-content-center"
+                style="width: 300px; margin-top: 20px"
+              >
+                <button
+                  cButton
+                  color="success"
+                  type="submit"
+                  style="width: 100%"
+                  (click)="onClickReadyBtn()"
+                >
+                  Ready For Quiz
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,2 +1,31 @@
 <app-header></app-header>
-<p>oral-reading-passages works!</p>
+<div>
+  <div class="justfy-content-center">
+    <div>
+      <div class="justfy-content-center">
+        <div class="title-card-container justfy-content-left">
+          <div style="width: 35%">
+            <div
+              class="title-card-icon justfy-content-left"
+              (click)="onChangePreviewMode(this.mode)"
+            >
+              <svg
+                [cIcon]="icons.cilArrowLeft"
+                width="50"
+                title="Shield Icon"
+              ></svg>
+            </div>
+          </div>
+          <h4>Oral Reading Passages</h4>
+        </div>
+      </div>
+
+      <div>
+        <app-card-container
+          [storyList]="storyList"
+          key="common"
+        ></app-card-container>
+      </div>
+    </div>
+  </div>
+</div>

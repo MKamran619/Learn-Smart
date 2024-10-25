@@ -1,11 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../../home/header/header.component';
+import { SharedService } from '../../../services/sharedServices/shared.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { cilArrowLeft } from '@coreui/icons';
+import { IconDirective } from '@coreui/icons-angular';
+import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
+import { storyList } from './components/storyList';
+import { CardContainerComponent } from './components/card-container/card-container.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-oral-reading-passages',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [
+    HeaderComponent,
+    IconDirective,
+    CardContainerComponent,
+    CommonModule,
+  ],
   templateUrl: './oral-reading-passages.component.html',
   styleUrl: './oral-reading-passages.component.scss',
 })
-export class OralReadingPassagesComponent {}
+export class OralReadingPassagesComponent implements OnInit {
+  icons = { cilArrowLeft };
+  mode = '';
+
+  storyList: any = storyList;
+
+  constructor(
+    public sharedService: SharedService,
+    public router: Router,
+    public activatedRoute: ActivatedRoute,
+    public accuracyService: SpeechDetectService,
+    public activeRouter: ActivatedRoute
+  ) {}
+  ngOnInit(): void {
+    this.activeRouter.params.subscribe((params) => {
+      {
+        this.mode = params['mode'];
+      }
+    });
+    this.onLoadInitialData();
+  }
+
+  onLoadInitialData() {
+    this.accuracyService.resultList = [];
+    this.accuracyService.accuracyScore = 0;
+    this.accuracyService.transcription = '';
+  }
+  onChangePreviewMode(mode: string) {
+    if (this.accuracyService.onShowResult) {
+      this.accuracyService.onShowResult = false;
+    } else {
+      this.router.navigate([`dashboard/${mode}`]);
+    }
+  }
+}
