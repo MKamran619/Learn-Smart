@@ -38,8 +38,9 @@ import { storyList, answerList, questionList } from '../storyList';
   styleUrl: './card-container.component.scss',
 })
 export class CardContainerComponent implements OnInit {
-  @Input() storyList: { story: string[] }[] = [];
-  @Input() storyQuestions: { questionList: string[] }[] = questionList;
+  @Input() storyIndex: number = 0;
+
+  storyQuestions: { questionList: string[] }[] = questionList;
   story: string[] = [];
   icons = { cilMic, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
   private intervalId: any;
@@ -65,13 +66,14 @@ export class CardContainerComponent implements OnInit {
 
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
-    this.story = this.storyList[this.startFrom].story;
-    this.totalLength = this.storyList.length;
+    this.story = storyList[this.storyIndex].story;
+    this.totalLength = storyList.length;
+    this.startFrom = this.storyIndex;
   }
   onClickReadyBtn() {
     this.showQuestions = true;
     this.startFrom = this.startFrom + 1;
-    this.story = this.storyList[this.startFrom].story;
+    this.story = storyList[this.storyIndex].story;
     // this.showCircleAnimation();
     this.startRandomSelection();
   }
@@ -88,11 +90,11 @@ export class CardContainerComponent implements OnInit {
     this.accuracyService.resultList = [];
     this.accuracyService.transcription = '';
     this.accuracyService.accuracyScore = 0;
-    this.totalLength = this.storyQuestions[0].questionList.length;
+    this.totalLength = this.storyQuestions[this.storyIndex].questionList.length;
 
     // Create a copy of the original array and shuffle it
-    this.itemsCopy = this.storyQuestions[0].questionList;
-    this.answerCopy = answerList[0].answerList;
+    this.itemsCopy = this.storyQuestions[this.storyIndex].questionList;
+    this.answerCopy = answerList[this.storyIndex].answerList;
     // this.shuffleArray(this.itemsCopy);
 
     this.onCallAccuracyFunction();

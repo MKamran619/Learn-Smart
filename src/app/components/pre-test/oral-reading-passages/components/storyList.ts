@@ -41,6 +41,19 @@ const story2 = [
   'When I go to school,',
   'my mother stays at home with our pets.',
 ];
+
+const storyTwoQestion = [
+  'What colour are the cats?',
+  'What is a pet?',
+  'Who does the cats belong to?',
+  'Why does mother stay at home with the pets? ',
+];
+const storyTwoAnswers = [
+  'brown & white',
+  'an animal kept at home for fun/ pleasure',
+  'child, boy, girl',
+  'any appropriate answer',
+];
 const story3 = [
   'The Farm',
   'Pat lives on a farm.',
@@ -55,6 +68,18 @@ const story3 = [
   'He likes to go to the market.',
 ];
 
+const storyThreeQestion = [
+  'Who lives on the farm?',
+  'Where does the farmer sells his things?',
+  'How does the rain help the farmer?',
+  'What other things do you believe are on the farm? ',
+];
+const storyThreeAnswers = [
+  'pat, farmer',
+  'at the market',
+  'plants grow, he gets water',
+  'cows, goats, plants, cabbage',
+];
 const story4 = [
   'Cake day at home',
   'My name is Peter. There are four of us at home: mother, father, Ann, and I.',
@@ -152,11 +177,11 @@ export const storyList = [
 ];
 export const questionList = [
   { questionList: storyOneQestion },
-  { questionList: storyOneQestion },
-  { questionList: storyOneQestion },
+  { questionList: storyTwoQestion },
+  { questionList: storyThreeQestion },
 ];
 export const answerList = [
   { answerList: storyOneAnswers },
-  { answerList: storyOneAnswers },
-  { answerList: storyOneAnswers },
+  { answerList: storyTwoAnswers },
+  { answerList: storyThreeAnswers },
 ];

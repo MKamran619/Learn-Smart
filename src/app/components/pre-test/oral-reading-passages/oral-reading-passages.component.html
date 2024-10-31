@@ -22,12 +22,25 @@
 
       <div *ngIf="!accuracyService.onShowResult">
         <app-card-container
-          [storyList]="storyList"
+          [storyIndex]="selectedIndex"
           key="common"
         ></app-card-container>
       </div>
       <div class="justfy-content-center" *ngIf="accuracyService.onShowResult">
-        <app-result-table></app-result-table>
+        <div>
+          <div class="justfy-content-center">
+            <div
+              class="justfy-content-center m-3"
+              style="width: 300px; margin-top: 20px"
+              (click)="onMoveToNextStory()"
+            >
+              <button cButton color="success" type="submit" style="width: 100%">
+                Continue to Next Story
+              </button>
+            </div>
+          </div>
+          <app-result-table></app-result-table>
+        </div>
       </div>
     </div>
   </div>

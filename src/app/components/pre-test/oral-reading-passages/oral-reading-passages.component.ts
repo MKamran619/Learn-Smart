@@ -9,6 +9,7 @@ import { storyList, questionList } from './components/storyList';
 import { CardContainerComponent } from './components/card-container/card-container.component';
 import { CommonModule } from '@angular/common';
 import { ResultTableComponent } from './components/result-table/result-table.component';
+import { ButtonDirective } from '@coreui/angular';
 
 @Component({
   selector: 'app-oral-reading-passages',
@@ -19,6 +20,7 @@ import { ResultTableComponent } from './components/result-table/result-table.com
     CardContainerComponent,
     CommonModule,
     ResultTableComponent,
+    ButtonDirective,
   ],
   templateUrl: './oral-reading-passages.component.html',
   styleUrl: './oral-reading-passages.component.scss',
@@ -26,9 +28,7 @@ import { ResultTableComponent } from './components/result-table/result-table.com
 export class OralReadingPassagesComponent implements OnInit {
   icons = { cilArrowLeft };
   mode = '';
-
-  storyList: any = storyList;
-  questionList: any = questionList;
+  selectedIndex = 0;
 
   constructor(
     public sharedService: SharedService,
@@ -57,5 +57,9 @@ export class OralReadingPassagesComponent implements OnInit {
     } else {
       this.router.navigate([`dashboard/${mode}`]);
     }
+  }
+  onMoveToNextStory() {
+    this.accuracyService.onShowResult = false;
+    this.selectedIndex += 1;
   }
 }
