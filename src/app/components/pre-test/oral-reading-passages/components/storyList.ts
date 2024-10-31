@@ -16,6 +16,20 @@ const story1 = [
   'Pam is a little girl.',
   'She can play bat and ball.',
 ];
+
+const storyOneQestion = [
+  'Who is the story about?',
+  'What can Roy do?',
+  'What do they have?',
+  'Where can he play with the bat and the ball? ',
+];
+const storyOneAnswers = [
+  'Pam or Roy',
+  'Run, play',
+  'bat and ball',
+  'outside, field, play area etc',
+];
+
 const story2 = [
   'I have two brown and white cats.',
   'They love to run and play.',
@@ -135,4 +149,14 @@ export const storyList = [
   { story: story6 },
   { story: story7 },
   { story: story8 },
+];
+export const questionList = [
+  { questionList: storyOneQestion },
+  { questionList: storyOneQestion },
+  { questionList: storyOneQestion },
+];
+export const answerList = [
+  { answerList: storyOneAnswers },
+  { answerList: storyOneAnswers },
+  { answerList: storyOneAnswers },
 ];

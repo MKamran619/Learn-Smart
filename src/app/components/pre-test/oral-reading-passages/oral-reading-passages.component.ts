@@ -5,9 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { cilArrowLeft } from '@coreui/icons';
 import { IconDirective } from '@coreui/icons-angular';
 import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
-import { storyList } from './components/storyList';
+import { storyList, questionList } from './components/storyList';
 import { CardContainerComponent } from './components/card-container/card-container.component';
 import { CommonModule } from '@angular/common';
+import { ResultTableComponent } from './components/result-table/result-table.component';
 
 @Component({
   selector: 'app-oral-reading-passages',
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
     IconDirective,
     CardContainerComponent,
     CommonModule,
+    ResultTableComponent,
   ],
   templateUrl: './oral-reading-passages.component.html',
   styleUrl: './oral-reading-passages.component.scss',
@@ -26,6 +28,7 @@ export class OralReadingPassagesComponent implements OnInit {
   mode = '';
 
   storyList: any = storyList;
+  questionList: any = questionList;
 
   constructor(
     public sharedService: SharedService,

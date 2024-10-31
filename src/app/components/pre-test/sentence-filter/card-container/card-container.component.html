@@ -6,7 +6,13 @@
       </div>
       <div class="card-container-component justfy-content-center">
         <div class="justfy-content-center p-4">
-          <h5>{{ sentence }}</h5>
+          <h5
+            [style.color]="
+              startFrom % 2 === 0 ? 'var(--dark-color)' : 'var(--warning-color)'
+            "
+          >
+            {{ sentence }}
+          </h5>
         </div>
       </div>
       <div

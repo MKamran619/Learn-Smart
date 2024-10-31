@@ -1,4 +1,4 @@
-<div class="justfy-content-center">
+<div class="justfy-content-center" *ngIf="!showQuestions">
   <div>
     <div>
       <div class="justfy-content-center">
@@ -36,6 +36,52 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="justfy-content-center" *ngIf="showQuestions">
+  <div>
+    <div class="justfy-content-center">
+      <h2 style="font-size: larger">
+        Question {{ startFrom }} of {{ totalLength }}
+      </h2>
+    </div>
+    <div class="question-container">
+      <div>
+        <h5
+          class="mb-3"
+          [style.color]="
+            startFrom % 2 === 0 ? 'var(--dark-color)' : 'var(--warning-color)'
+          "
+        >
+          {{ question }}
+        </h5>
+        <input
+          cFormControl
+          id="inputPassword-1"
+          type="text"
+          [value]="accuracyService.transcription"
+          placeholder="Answer with your voice..."
+          readonly
+        />
+        <div
+          class="mic-icon justfy-content-center"
+          style="margin-top: 20px; cursor: pointer"
+        >
+          <div class="circle-container">
+            <div class="medium" [ngClass]="showCircle ? 'circle' : ''"></div>
+            <div class="small" [ngClass]="showCircle ? 'circle' : ''"></div>
+            <svg
+              [cIcon]="icons.cilMic"
+              class="mic-icon"
+              title="Microphone Icon"
+            ></svg>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div></div>
       </div>
     </div>
   </div>

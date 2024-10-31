@@ -59,7 +59,15 @@
             </div>
           </div>
           <div class="justfy-content-center">
-            <h1>{{ letter }}</h1>
+            <h1
+              [style.color]="
+                startFrom % 2 === 0
+                  ? 'var(--dark-color)'
+                  : 'var(--warning-color)'
+              "
+            >
+              {{ letter }}
+            </h1>
           </div>
         </div>
       </div>

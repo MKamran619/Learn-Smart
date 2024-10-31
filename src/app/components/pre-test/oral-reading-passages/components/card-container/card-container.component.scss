@@ -20,6 +20,10 @@
   margin: 0 auto; /* Center container horizontally */
   max-width: 600px; /* Adjusts the width for better readability */
 }
+.qa-mic-icon {
+  // font-size: small;
+  width: 40px;
+}
 
 // .paragraph-container p {
 //   line-height: 1.6; /* Adjust line height for readability */
@@ -27,6 +31,15 @@
 //   text-align: justify; /* Ensures even line endings */
 //   word-wrap: break-word; /* Breaks long words onto the next line */
 // }
+.question-container {
+  height: auto;
+  width: auto;
+  padding: 20px;
+  margin-bottom: 50px;
+  border-radius: 5px;
+  font-size: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
 .paragraph-container p:last-child {
   margin-bottom: 0; /* Removes the bottom margin on the last paragraph */
@@ -44,15 +57,16 @@ h1 {
 .mic-icon {
   size: 300px;
 }
-// .animated-icon {
-//   transition: transform 0.3s ease-in-out;
-// }
 .animate-icon {
   display: inline-block;
   animation: rotate 2s infinite linear; /* Adjust speed and type of animation */
 }
 .circle-container {
-  margin-top: 350px !important;
+  margin-top: 150px !important;
+}
+::ng-deep .custom-placeholder::placeholder {
+  font-size: 20px; /* Adjust the font size as needed */
+  color: #666; /* Optional: Change placeholder color */
 }
 
 /** <--- style for Tablet ----> **/
@@ -61,7 +75,7 @@ h1 {
     height: 220px;
   }
   .circle-container {
-    margin-top: 400px !important;
+    margin-top: 280px !important;
   }
 }
 
@@ -80,5 +94,8 @@ h1 {
     line-height: 20px !important;
     // overflow-y: auto;
     line-height: 40px;
+  }
+  .circle-container {
+    margin-top: 260px !important;
   }
 }

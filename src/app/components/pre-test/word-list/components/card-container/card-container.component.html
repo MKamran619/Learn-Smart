@@ -59,7 +59,15 @@
             </div>
           </div>
           <div class="justfy-content-center" style="margin-top: 20px">
-            <h3>{{ word }}</h3>
+            <h3
+              [style.color]="
+                startFrom % 2 === 0
+                  ? 'var(--dark-color)'
+                  : 'var(--warning-color)'
+              "
+            >
+              {{ word }}
+            </h3>
           </div>
         </div>
       </div>
