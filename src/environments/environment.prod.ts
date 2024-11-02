@@ -5,4 +5,6 @@ export enum Environment {
 }
 export const environment = {
   production: true,
+
+  API_URL: 'https://peruzor-backend-production.up.railway.app',
 };

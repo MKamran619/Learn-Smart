@@ -16,7 +16,9 @@ import { AuthService } from '../../services/auth/auth.service';
 export class LoginComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.onRegisterUser();
+  }
   onRegisterUser() {
     const params = {
       username: 'Test34',

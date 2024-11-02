@@ -7,11 +7,18 @@ import { cilArrowLeft } from '@coreui/icons';
 import { HeaderComponent } from '../header/header.component';
 import { SharedService } from '../../services/sharedServices/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, ButtonDirective, IconDirective],
+  imports: [
+    HeaderComponent,
+    CommonModule,
+    ButtonDirective,
+    IconDirective,
+    MatIconModule,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
