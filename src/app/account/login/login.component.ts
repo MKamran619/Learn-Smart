@@ -16,26 +16,7 @@ import { AuthService } from '../../services/auth/auth.service';
 export class LoginComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.onRegisterUser();
-  }
-  onRegisterUser() {
-    const params = {
-      username: 'Test34',
-      email: 'test34@example.com',
-      password: 'password12332',
-    };
-    this.authService
-      .onRegisterUser(params)
-      .pipe(
-        finalize(() => {
-          console.log('asdad');
-        })
-      )
-      .subscribe((res: any) => {
-        console.log('res ', res);
-      });
-  }
+  ngOnInit(): void {}
 
   onSubmit() {
     this.router.navigate(['dashboard']);
