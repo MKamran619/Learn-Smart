@@ -6,83 +6,122 @@
       <!-- <h1>Log In</h1> -->
     </div>
     <div class="signin-form justfy-content-center">
-      <form cForm class="Login-from">
+      <form [formGroup]="signupForm" class="Login-from" (ngSubmit)="onSubmit()">
         <div class="mb-3">
-          <label cLabel for="inputEmail-1">Username</label>
+          <label cLabel for="inputUsername"
+            >Username<span style="color: red">*</span></label
+          >
           <input
             cFormControl
-            id="inputEmail-1"
-            type="email"
+            id="inputUsername"
+            type="text"
             placeholder="Enter Username"
+            formControlName="username"
           />
-          <!-- <div cFormText>We'll never share your email with anyone else</div> -->
         </div>
+        <ng-container
+          *ngIf="
+            signupForm.get('username')?.invalid &&
+            signupForm.get('username')?.touched
+          "
+        >
+          <span style="color: red">{{ getErrorMessage("username") }}</span>
+        </ng-container>
         <div class="mb-3">
-          <label cLabel for="inputEmail-2">Email</label>
+          <label cLabel for="inputEmail"
+            >Email<span style="color: red">*</span></label
+          >
           <input
             cFormControl
-            id="inputEmail-2"
+            id="inputEmail"
             type="email"
             placeholder="Enter Email"
+            formControlName="email"
           />
-          <!-- <div cFormText>We'll never share your email with anyone else</div> -->
         </div>
+        <ng-container
+          *ngIf="
+            signupForm.get('email')?.invalid && signupForm.get('email')?.touched
+          "
+        >
+          <span style="color: red">{{ getErrorMessage("email") }}</span>
+        </ng-container>
         <div class="mb-3">
-          <label cLabel for="inputEmail-3">Name</label>
+          <label cLabel for="inputName"
+            >Name<span style="color: red">*</span></label
+          >
           <input
             cFormControl
-            id="inputEmail-3"
-            type="email"
+            id="inputName"
+            type="text"
             placeholder="Enter Name"
+            formControlName="name"
           />
-          <!-- <div cFormText>We'll never share your email with anyone else</div> -->
         </div>
+        <ng-container
+          *ngIf="
+            signupForm.get('name')?.invalid && signupForm.get('name')?.touched
+          "
+        >
+          <span style="color: red">{{ getErrorMessage("name") }}</span>
+        </ng-container>
         <div class="mb-3">
-          <label cLabel for="inputPassword-1">Password</label>
+          <label cLabel for="inputPassword"
+            >Password<span style="color: red">*</span></label
+          >
           <input
             cFormControl
-            id="inputPassword-1"
+            id="inputPassword"
             type="password"
             placeholder="Enter Password"
+            formControlName="password"
           />
         </div>
+        <ng-container
+          *ngIf="
+            signupForm.get('password')?.invalid &&
+            signupForm.get('password')?.touched
+          "
+        >
+          <span style="color: red">{{ getErrorMessage("password") }}</span>
+        </ng-container>
         <div class="mb-3">
-          <label cLabel for="inputPassword-1">Re-enter password</label>
+          <label cLabel for="inputRePassword"
+            >Re-enter password<span style="color: red">*</span></label
+          >
           <input
             cFormControl
-            id="inputPassword-1"
+            id="inputRePassword"
             type="password"
             placeholder="Re-enter Password"
+            formControlName="reEnteredPassword"
           />
         </div>
+        <ng-container
+          *ngIf="
+            signupForm.get('reEnteredPassword')?.invalid &&
+            signupForm.get('reEnteredPassword')?.touched
+          "
+        >
+          <span style="color: red">{{
+            getErrorMessage("reEnteredPassword")
+          }}</span>
+        </ng-container>
 
         <div class="mb-1 mt-4">
-          <!-- <input
-            cButton
-            color="success"
-            type="submit"
-            text="Log In"
-            style="width: 100%"
-          /> -->
-          <button
-            cButton
-            color="success"
-            type="submit"
-            style="width: 100%"
-            (click)="onSubmit()"
-          >
+          <button cButton color="success" type="submit" style="width: 100%">
             Sign Up
           </button>
         </div>
-        <!-- //Don’t have an account? Signup! -->
-        <div class="mb-3 mt-3 justfy-content-right">
+        <div class="mb-3 mt-3 justify-content-right">
           <label
             class="sign-up"
             (click)="onClickLogin()"
             title="Already have an account? login!"
-            >Already have an account?
-            <span style="font-weight: bold"> login!</span></label
           >
+            Already have an account?
+            <span style="font-weight: bold">login!</span>
+          </label>
         </div>
       </form>
     </div>
