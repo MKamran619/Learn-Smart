@@ -15,4 +15,7 @@ export class AuthService {
       userData
     ); // Sends a POST request to the API
   }
+  onLogin(userData: any): Observable<any> {
+    return this.http.post(environment.API_URL + '/api/auth/local', userData); // Sends a POST request to the API
+  }
 }

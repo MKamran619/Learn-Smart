@@ -107,6 +107,9 @@
             getErrorMessage("reEnteredPassword")
           }}</span>
         </ng-container>
+        <ng-container *ngIf="serverError">
+          <span style="color: red">{{ serverError }}</span>
+        </ng-container>
 
         <div class="mb-1 mt-4">
           <button cButton color="success" type="submit" style="width: 100%">
@@ -126,4 +129,8 @@
       </form>
     </div>
   </div>
+</div>
+
+<div class="spinner-overlay" *ngIf="sharedService.isLoading">
+  <div class="spinner"></div>
 </div>
