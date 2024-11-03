@@ -6,7 +6,7 @@
       <!-- <h1>Log In</h1> -->
     </div>
     <div class="signin-form justfy-content-center">
-      <form cForm class="Login-from">
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
         <div class="mb-3">
           <label cLabel for="inputEmail-1">Username/Email</label>
           <input
@@ -14,9 +14,17 @@
             id="inputEmail-1"
             type="email"
             placeholder="Enter Username/Email"
-            value="example@gmail.com"
+            formControlName="identifier"
           />
           <!-- <div cFormText>We'll never share your email with anyone else</div> -->
+        </div>
+        <div
+          *ngIf="
+            loginForm.get('identifier')?.invalid &&
+            loginForm.get('identifier')?.touched
+          "
+        >
+          <small style="color: red">This field is required</small>
         </div>
         <div class="mb-3">
           <label cLabel for="inputPassword-1">Password</label>
@@ -25,8 +33,16 @@
             id="inputPassword-1"
             type="password"
             placeholder="Enter Password"
-            value="1234567891"
+            formControlName="password"
           />
+        </div>
+        <div
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        >
+          <small style="color: red">This field is required</small>
         </div>
         <div class="remember-me mb-3">
           <c-form-check>
@@ -43,13 +59,7 @@
             text="Log In"
             style="width: 100%"
           /> -->
-          <button
-            cButton
-            color="success"
-            type="submit"
-            style="width: 100%"
-            (click)="onSubmit()"
-          >
+          <button cButton color="success" type="submit" style="width: 100%">
             Log In
           </button>
         </div>

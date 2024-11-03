@@ -80,6 +80,7 @@ export class SignupComponent implements OnInit {
           }
         },
         error: (err) => {
+          console.error('Registration', err);
           alert(err.error.error.message);
         },
       });
