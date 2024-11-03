@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SharedService {
+  isLoading = false;
   activeLink = 'home';
   preWordListActive = false;
   preOralActive = false;
