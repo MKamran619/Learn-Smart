@@ -8,6 +8,9 @@ import { HeaderComponent } from '../../../../../home/header/header.component';
 import { CardContainerComponent } from '../card-container/card-container.component';
 import { SpeechDetectService } from '../../../../../services/speechDetect/speech-detect.service';
 import { ResultTableComponent } from '../result-table/result-table.component';
+import { finalize } from 'rxjs';
+import { ApiService } from '../../../../../services/apiServices/api.service';
+import { SharedService } from '../../../../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-word',
@@ -37,7 +40,9 @@ export class WordComponent implements OnInit {
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
-    public accuracyService: SpeechDetectService
+    public accuracyService: SpeechDetectService,
+    public apiService: ApiService,
+    public sharedService: SharedService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +62,7 @@ export class WordComponent implements OnInit {
     this.accuracyService.transcription = '';
     this.btnCapitalActive = false;
     this.selectedTab = 'Common Letter';
-    this.setWordList();
+    this.onGetWordList();
   }
   onChangePreviewMode(mode: string) {
     if (this.accuracyService.onShowResult) {
@@ -65,6 +70,25 @@ export class WordComponent implements OnInit {
     } else {
       this.router.navigate([`dashboard/${mode}/pre-word-list`]);
     }
+  }
+  onGetWordList() {
+    this.accuracyService.resultList = [];
+    this.accuracyService.accuracyScore = 0;
+    this.accuracyService.transcription = '';
+    this.sharedService.isLoading = true;
+    this.apiService
+      .GetWordLists()
+      .pipe(
+        finalize(() => {
+          this.sharedService.isLoading = false;
+        })
+      )
+      .subscribe((res) => {
+        console.log({ res });
+        this.wordsList = res.data
+          .filter((item: any) => item.level.toLowerCase() === this.type)
+          .map((item: any) => item.Words);
+      });
   }
   setWordList() {
     if (this.type == 'pre-primer') {

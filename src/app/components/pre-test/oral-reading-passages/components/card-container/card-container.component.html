@@ -2,17 +2,23 @@
   <div>
     <div>
       <div class="justfy-content-center">
-        <h6>{{ startFrom + 1 + "/" + totalLength }}</h6>
+        <h6>{{ startFrom + "/" + totalCountOfStory }}</h6>
       </div>
       <div class="story-container-component justfy-content-center">
         <div class="justfy-content-center p-4">
           <div>
             <div class="paragraph-container">
               <div
-                *ngFor="let line of story; let i = index"
                 class="justfy-content-center"
                 style="margin-top: 10px"
-                [style.fontWeight]="i == 0 ? 'bold' : 'normal'"
+                [style.fontWeight]="storyTitle ? 'bold' : 'normal'"
+              >
+                <p>{{ storyTitle }}</p>
+              </div>
+              <div
+                *ngFor="let line of story; let i = index"
+                class="justfy-content-center"
+                [style.fontWeight]="!storyTitle && i == 0 ? 'bold' : 'normal'"
               >
                 <p>{{ line }}</p>
               </div>
@@ -44,7 +50,7 @@
   <div>
     <div class="justfy-content-center">
       <h2 style="font-size: larger">
-        Question {{ startFrom }} of {{ totalLength }}
+        Question {{ startFrom }} of {{ totalCountOfQuestions }}
       </h2>
     </div>
     <div class="question-container">

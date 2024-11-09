@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { SpeechDetectService } from '../../../../services/speechDetect/speech-detect.service';
 import { CommonModule } from '@angular/common';
+import { SharedService } from '../../../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-result-table',
@@ -20,7 +21,10 @@ export class ResultTableComponent implements OnInit {
   ];
   totalScore = 0;
   dataSource: any[] = [{ sentence: '' }, { sentence: '' }];
-  constructor(public accuracyService: SpeechDetectService) {}
+  constructor(
+    public accuracyService: SpeechDetectService,
+    public sharedService: SharedService
+  ) {}
   ngOnInit(): void {
     this.dataSource = this.accuracyService.resultList;
     const filteredRows = this.dataSource.filter(

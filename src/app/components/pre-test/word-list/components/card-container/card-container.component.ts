@@ -19,14 +19,12 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-card-container',
   standalone: true,
-  imports: [CommonModule, IconDirective, IconModule, MatIcon],
+  imports: [CommonModule, IconDirective, IconModule],
   templateUrl: './card-container.component.html',
   styleUrl: './card-container.component.scss',
 })
-export class CardContainerComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
-  @Input() charOrWordList: string[] = [];
+export class CardContainerComponent implements OnInit, OnDestroy {
+  @Input() wordList: string[] = [];
 
   @Input() totalCount = 10;
   word = '';
@@ -43,7 +41,7 @@ export class CardContainerComponent
 
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
-    console.log('Component initialized');
+    console.log('Component initialized, inn ', this.wordList[0]);
     this.startRandomSelection();
   }
   showQuaterCircleAnimation() {
@@ -58,17 +56,14 @@ export class CardContainerComponent
       this.showCircle = true;
     }, 50);
   }
-  ngAfterViewInit(): void {
-    // this.startRandomSelection();
-  }
   startRandomSelection() {
     this.accuracyService.resultList = [];
     this.accuracyService.transcription = '';
     this.accuracyService.accuracyScore = 0;
-    this.totalLength = this.charOrWordList.length;
+    this.totalLength = this.wordList[0].length;
 
     // Create a copy of the original array and shuffle it
-    this.itemsCopy = [...this.charOrWordList];
+    this.itemsCopy = [...this.wordList[0]];
     this.shuffleArray(this.itemsCopy);
 
     this.onCallAccuracyFunction();

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ButtonDirective } from '@coreui/angular';
 import { IconDirective } from '@coreui/icons-angular';
 import { cilArrowLeft } from '@coreui/icons';
 
@@ -12,13 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    HeaderComponent,
-    CommonModule,
-    ButtonDirective,
-    IconDirective,
-    MatIconModule,
-  ],
+  imports: [HeaderComponent, CommonModule, IconDirective, MatIconModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -56,6 +49,7 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(routes[mode]);
   }
   onNavigate(mode: string, type: string) {
+    this.sharedService.isLoading = true;
     this.router.navigate([`dashboard/${mode}/${type}`]);
   }
 }
