@@ -59,6 +59,7 @@ export class OralReadingPassagesComponent implements OnInit {
     }
   }
   onMoveToNextStory() {
+    // this.sharedService.isLoading = true;
     this.accuracyService.onShowResult = false;
     this.selectedIndex += 1;
   }

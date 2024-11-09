@@ -7,15 +7,13 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
+  API_URL = environment.API_URL;
   constructor(private http: HttpClient) {}
 
   onRegisterUser(userData: any): Observable<any> {
-    return this.http.post(
-      environment.API_URL + '/api/auth/local/register',
-      userData
-    ); // Sends a POST request to the API
+    return this.http.post(this.API_URL + '/api/auth/local/register', userData);
   }
   onLogin(userData: any): Observable<any> {
-    return this.http.post(environment.API_URL + '/api/auth/local', userData); // Sends a POST request to the API
+    return this.http.post(this.API_URL + '/api/auth/local', userData);
   }
 }

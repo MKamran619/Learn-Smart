@@ -8,6 +8,7 @@ import { SpeechDetectService } from '../../../services/speechDetect/speech-detec
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ResultTableComponent } from './result-table/result-table.component';
+import { SharedService } from '../../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-alphabets',
@@ -34,10 +35,12 @@ export class AlphabetsComponent implements OnInit {
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
-    public accuracyService: SpeechDetectService
+    public accuracyService: SpeechDetectService,
+    public sharedService: SharedService
   ) {}
 
   ngOnInit(): void {
+    this.sharedService.isLoading = false;
     this.activeRouter.params.subscribe((params) => {
       {
         this.mode = params['mode'];

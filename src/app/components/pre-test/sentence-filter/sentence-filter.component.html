@@ -19,19 +19,21 @@
           <h4>Sentence Filter</h4>
         </div>
       </div>
-      <div *ngIf="!accuracyService.onShowResult">
-        <div class="justfy-content-center">
-          <div>
-            <app-card-container
-              [sentenceList]="sentenceList"
-              key="common"
-            ></app-card-container>
+      <div *ngIf="!sharedService.isLoading">
+        <div *ngIf="!accuracyService.onShowResult">
+          <div class="justfy-content-center">
+            <div>
+              <app-card-container
+                [sentenceList]="sentenceList"
+                key="common"
+              ></app-card-container>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="justfy-content-center" *ngIf="accuracyService.onShowResult">
-        <app-result-table></app-result-table>
+        <div class="justfy-content-center" *ngIf="accuracyService.onShowResult">
+          <app-result-table></app-result-table>
+        </div>
       </div>
     </div>
   </div>

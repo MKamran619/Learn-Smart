@@ -21,6 +21,9 @@ import {
 } from '@coreui/angular';
 import { SpeechDetectService } from '../../../../../services/speechDetect/speech-detect.service';
 import { storyList, answerList, questionList } from '../storyList';
+import { finalize } from 'rxjs';
+import { SharedService } from '../../../../../services/sharedServices/shared.service';
+import { ApiService } from '../../../../../services/apiServices/api.service';
 
 @Component({
   selector: 'app-card-container',
@@ -29,9 +32,7 @@ import { storyList, answerList, questionList } from '../storyList';
     CommonModule,
     IconDirective,
     IconModule,
-    MatIcon,
     ButtonDirective,
-    InputGroupComponent,
     FormModule,
   ],
   templateUrl: './card-container.component.html',
@@ -40,13 +41,15 @@ import { storyList, answerList, questionList } from '../storyList';
 export class CardContainerComponent implements OnInit {
   @Input() storyIndex: number = 0;
 
-  storyQuestions: { questionList: string[] }[] = questionList;
+  // storyQuestions: { questionList: string[] }[] = questionList;
   story: string[] = [];
   icons = { cilMic, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
   private intervalId: any;
-  totalLength = 0;
+  totalCountOfStory = 0;
+  totalCountOfQuestions = 0;
   startFrom = 0;
   showVolumIcon = false;
+  storyTitle = '';
 
   showCircle = false;
   showQuaterCircle = true;
@@ -56,26 +59,72 @@ export class CardContainerComponent implements OnInit {
   showQuestions = false;
   question = '';
   expectedAnswer = '';
-  voiceAnswer = '';
-  // qestionList = [
-  //   'Who is the story about?',
-  //   'What can Roy do?',
-  //   'What do they have?',
-  //   'Where can he play with the bat and the ball? ',
-  // ];
 
-  constructor(public accuracyService: SpeechDetectService) {}
+  questionsList!: string[];
+  expectedAnswersList!: string[];
+  voiceAnswer = '';
+
+  constructor(
+    public accuracyService: SpeechDetectService,
+    public apiService: ApiService,
+    public sharedService: SharedService
+  ) {}
   ngOnInit(): void {
-    this.story = storyList[this.storyIndex].story;
-    this.totalLength = storyList.length;
-    this.startFrom = this.storyIndex;
+    this.onGetFilterSentence();
+  }
+  onGetFilterSentence() {
+    this.accuracyService.resultList = [];
+    this.accuracyService.accuracyScore = 0;
+    this.accuracyService.transcription = '';
+
+    if (this.sharedService.storiesConfig) {
+      console.log('i am in', this.sharedService.storiesConfig);
+      // this.sharedService.isLoading = false;
+      this.setStoryData(this.sharedService.storiesConfig);
+    } else {
+      this.sharedService.isLoading = true;
+      this.apiService
+        .GetOralReadingPassagesList()
+        .pipe(
+          finalize(() => {
+            this.sharedService.isLoading = false;
+          })
+        )
+        .subscribe((res) => {
+          console.log({ res });
+          this.sharedService.storiesConfig = res;
+          this.setStoryData(res);
+        });
+    }
+  }
+  setStoryData(res: any) {
+    // this.sharedService.isLoading = false;
+    this.startFrom = this.storyIndex + 1;
+    this.totalCountOfStory = res.meta.pagination.total;
+
+    const storyData = res.data.find(
+      (item: any, index: number) => index === this.storyIndex
+    );
+    this.story = storyData.story
+      .replace(/\n/g, ' ')
+      .split(/\. +|\. *$/)
+      .filter((sentence: string) => sentence.trim())
+      .map((sentence: string) => sentence.trim() + '.');
+
+    this.storyTitle = storyData.title;
+    this.questionsList = storyData.QuestionAnswer.map(
+      (item: any) => item.question
+    );
+    this.expectedAnswersList = storyData.QuestionAnswer.map(
+      (item: any) => item.expectedAnswer
+    );
+    this.totalCountOfQuestions = this.questionsList.length;
   }
   onClickReadyBtn() {
     this.showQuestions = true;
     this.startFrom = this.startFrom + 1;
     this.story = storyList[this.storyIndex].story;
-    // this.showCircleAnimation();
-    this.startRandomSelection();
+    this.startQuestionSession();
   }
   showCircleAnimation() {
     this.showCircle = false;
@@ -83,19 +132,14 @@ export class CardContainerComponent implements OnInit {
       this.showCircle = true;
     }, 50);
   }
-  startRandomSelection() {
-    // this.accuracyService.transcription = '';
+  startQuestionSession() {
     this.startFrom = 0;
 
     this.accuracyService.resultList = [];
     this.accuracyService.transcription = '';
     this.accuracyService.accuracyScore = 0;
-    this.totalLength = this.storyQuestions[this.storyIndex].questionList.length;
-
-    // Create a copy of the original array and shuffle it
-    this.itemsCopy = this.storyQuestions[this.storyIndex].questionList;
-    this.answerCopy = answerList[this.storyIndex].answerList;
-    // this.shuffleArray(this.itemsCopy);
+    this.itemsCopy = this.questionsList;
+    this.answerCopy = this.expectedAnswersList;
 
     this.onCallAccuracyFunction();
 

@@ -8,6 +8,9 @@ import { SpeechDetectService } from '../../../services/speechDetect/speech-detec
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ResultTableComponent } from './result-table/result-table.component';
+import { ApiService } from '../../../services/apiServices/api.service';
+import { finalize } from 'rxjs';
+import { SharedService } from '../../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-sentence-filter',
@@ -28,13 +31,13 @@ export class SentenceFilterComponent implements OnInit {
 
   icons = { cilArrowLeft };
   mode = '';
-  btnCapitalActive = true;
-  selectedTab = 'Capital Letter';
   sentenceList: string[] = [];
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
-    public accuracyService: SpeechDetectService
+    public accuracyService: SpeechDetectService,
+    public apiService: ApiService,
+    public sharedService: SharedService
   ) {}
 
   ngOnInit(): void {
@@ -43,22 +46,26 @@ export class SentenceFilterComponent implements OnInit {
         this.mode = params['mode'];
       }
     });
-    this.onLoadInitialData();
+    this.onGetFilterSentence();
   }
-  onLoadInitialData() {
+  onGetFilterSentence() {
     this.accuracyService.resultList = [];
     this.accuracyService.accuracyScore = 0;
     this.accuracyService.transcription = '';
-    this.btnCapitalActive = true;
-    this.sentenceList = [
-      'I can play with the bat and ball here.',
-      'The three boys like to walk to the bus stop.',
-      'We are sleeping. We woke up late and we are very tired.',
-      'Mother and father work from home. They help people and tell them what to do. Some of them left their houses very early.',
-      'Sometimes we need to place animals into groups of same and different. Together, we must write the important ones on the same list.',
-    ];
+    this.sharedService.isLoading = true;
+    this.apiService
+      .GetFilterSentence()
+      .pipe(
+        finalize(() => {
+          this.sharedService.isLoading = false;
+        })
+      )
+      .subscribe((res) => {
+        console.log({ res });
+        this.sentenceList = res.data.map((items: any) => items.Sentence);
+        console.log('this.sentenceList = ', this.sentenceList);
+      });
   }
-
   onChangePreviewMode(mode: string) {
     if (this.accuracyService.onShowResult) {
       this.accuracyService.onShowResult = false;
