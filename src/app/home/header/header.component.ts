@@ -22,4 +22,7 @@ export class HeaderComponent implements OnInit {
   onToggleMenu() {
     this.isShowMenu = !this.isShowMenu;
   }
+  onClickLogout() {
+    localStorage.clear();
+  }
 }

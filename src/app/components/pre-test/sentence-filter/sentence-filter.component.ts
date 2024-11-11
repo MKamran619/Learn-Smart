@@ -48,6 +48,7 @@ export class SentenceFilterComponent implements OnInit {
     });
     this.onGetFilterSentence();
   }
+
   onGetFilterSentence() {
     this.accuracyService.resultList = [];
     this.accuracyService.accuracyScore = 0;

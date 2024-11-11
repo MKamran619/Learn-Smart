@@ -5,18 +5,14 @@ import { FormModule as coreFormModule } from '@coreui/angular';
 import { ButtonDirective } from '@coreui/angular';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { interval, take } from 'rxjs';
+import { finalize, interval, take } from 'rxjs';
+import { ApiService } from '../../services/apiServices/api.service';
+import { SharedService } from '../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-welcome-screen',
   standalone: true,
-  imports: [
-    CommonModule,
-    AlertModule,
-    ButtonDirective,
-    coreFormModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, AlertModule, coreFormModule, FormsModule],
   templateUrl: './welcome-screen.component.html',
   styleUrl: './welcome-screen.component.scss',
 })
@@ -30,7 +26,11 @@ export class WelcomeScreenComponent implements OnInit {
   timer = 60;
   userName = '';
   placeName = '';
-  constructor(public router: Router) {}
+  constructor(
+    public router: Router,
+    public apiService: ApiService,
+    public sharedService: SharedService
+  ) {}
   ngOnInit(): void {
     this.userName =
       this.userName.charAt(0).toUpperCase() + this.userName.slice(1);
@@ -73,11 +73,27 @@ export class WelcomeScreenComponent implements OnInit {
     }, 15000);
   }
   onCountDown(s: number) {
+    if (!this.sharedService.userConfig) {
+      const data = localStorage.getItem('userConfig') || '';
+      this.sharedService.userConfig = JSON.parse(data);
+    }
+
+    const user = this.sharedService.userConfig.user.username;
     if (s > 0) {
       setTimeout(() => {
         this.timer = this.timer - 1;
         this.onCountDown(this.timer);
         if (this.timer == 0) {
+          this.apiService
+            .getUserLevelsByUsernameOrEmail(user)
+            .pipe(
+              finalize(() => {
+                this.sharedService.isLoading = false;
+              })
+            )
+            .subscribe((res) => {
+              localStorage.setItem('levelConfig', JSON.stringify(res));
+            });
           this.router.navigate(['dashboard']);
         }
       }, 1000);

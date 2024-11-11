@@ -4,15 +4,19 @@ import { SharedService } from '../../../services/sharedServices/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cilArrowLeft } from '@coreui/icons';
 import { IconDirective } from '@coreui/icons-angular';
+import { Constants } from '../../../constants';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-word-list',
   standalone: true,
-  imports: [HeaderComponent, IconDirective],
+  imports: [HeaderComponent, IconDirective, CommonModule, MatIconModule],
   templateUrl: './word-list.component.html',
   styleUrl: './word-list.component.scss',
 })
 export class WordListComponent {
+  Constants = Constants;
   icons = { cilArrowLeft };
   constructor(
     public sharedService: SharedService,

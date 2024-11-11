@@ -7,6 +7,7 @@ import { HeaderComponent } from '../header/header.component';
 import { SharedService } from '../../services/sharedServices/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { Constants } from '../../constants';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+  Constants = Constants;
   icons = { cilArrowLeft };
   isDashboardPreview = true;
   isPreTestPreview = false;
