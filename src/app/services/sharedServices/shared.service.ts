@@ -44,8 +44,8 @@ export class SharedService {
       this.levelsConfig = JSON.parse(data);
     }
 
-    const result = this.levelsConfig.userLevelEntries.find(
-      (item: any) => item.level_name.level_ID == levelId
+    const result = this.levelsConfig?.userLevelEntries?.find(
+      (item: any) => item?.level_name?.level_ID == levelId
     )?.isActive;
     console.log('result = ', result);
 

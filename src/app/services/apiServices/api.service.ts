@@ -29,7 +29,7 @@ export class ApiService {
     return this.http.get(this.API_URL + '/api/t-user-levels?populate=*');
   }
 
-  getUserByUsernameOrEmail(identifier: any): Observable<any> {
+  getUserLevelsByUsernameOrEmail(identifier: any): Observable<any> {
     return this.http.post(
       this.API_URL + '/api/t-user-levels/getUserBy-Username-Email',
       { identifier }

@@ -16,6 +16,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { SharedService } from '../../services/sharedServices/shared.service';
+import { ApiService } from '../../services/apiServices/api.service';
 
 @Component({
   selector: 'app-signup',
@@ -39,7 +40,8 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public authService: AuthService,
-    public sharedService: SharedService
+    public sharedService: SharedService,
+    public apiService: ApiService
   ) {
     this.signupForm = this.fb.group({
       username: ['', Validators.required],
@@ -77,6 +79,7 @@ export class SignupComponent implements OnInit {
           console.log('res ', res);
           if (res.jwt) {
             this.router.navigate(['welcome']);
+            localStorage.setItem('userConfig', JSON.stringify(res));
           }
         },
         error: (err) => {

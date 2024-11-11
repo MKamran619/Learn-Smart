@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     // First, call onLogin, then getUserLevels in parallel using forkJoin
     forkJoin([
       this.authService.onLogin(params), // Login request
-      this.apiService.getUserByUsernameOrEmail(identifier), // Get user levels request
+      this.apiService.getUserLevelsByUsernameOrEmail(identifier), // Get user levels request
     ])
       .pipe(
         finalize(() => {

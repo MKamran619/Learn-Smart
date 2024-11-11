@@ -304,6 +304,17 @@ body {
     margin-left: 25px !important;
   }
 }
+.inactive-block {
+  background-color: #f0f0f0;
+  // cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
+}
+.blocked-icon {
+  margin-left: 10px;
+  color: #ff0000;
+  pointer-events: none;
+}
 
 /* <--- spinner  ---> */
 .spinner-overlay {
