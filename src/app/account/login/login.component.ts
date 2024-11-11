@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AlertModule } from '@coreui/angular';
 import { FormModule } from '@coreui/angular';
 import { ButtonDirective } from '@coreui/angular';
-import { finalize } from 'rxjs';
+import { finalize, forkJoin } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import {
   FormBuilder,
@@ -14,6 +14,7 @@ import {
 } from '@angular/forms';
 import { SharedService } from '../../services/sharedServices/shared.service';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../services/apiServices/api.service';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     public sharedService: SharedService,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    public apiService: ApiService
   ) {
     this.loginForm = this.fb.group({
       identifier: ['testuser@gmail.com', Validators.required],
@@ -60,26 +62,85 @@ export class LoginComponent implements OnInit {
     const { identifier, password } = this.loginForm.value;
     const params = { identifier, password };
 
-    this.authService
-      .onLogin(params)
+    // First, call onLogin, then getUserLevels in parallel using forkJoin
+    forkJoin([
+      this.authService.onLogin(params), // Login request
+      this.apiService.getUserByUsernameOrEmail(identifier), // Get user levels request
+    ])
       .pipe(
         finalize(() => {
           this.sharedService.isLoading = false;
         })
       )
       .subscribe({
-        next: (res) => {
-          console.log('Login successful', res);
-          if (res.jwt) {
-            localStorage.setItem('jwt', res.jwt);
+        next: ([loginRes, levelsRes]) => {
+          if (loginRes.jwt) {
+            localStorage.setItem('userConfig', JSON.stringify(loginRes));
+            localStorage.setItem('levelConfig', JSON.stringify(levelsRes));
+
+            this.sharedService.userConfig = loginRes;
+            this.sharedService.levelsConfig = levelsRes;
+
             this.router.navigate(['dashboard']);
           }
         },
         error: (err) => {
-          console.error('Login failed', err);
-          alert(err.error.error.message);
-          // Handle error, like showing an error message to the user
+          console.error('Error occurred', err);
+          alert(err.error.error.message); // Show the error message
+          // Optionally, handle specific error cases if necessary
         },
       });
   }
+
+  // onLogin() {
+  //   if (this.loginForm.invalid) {
+  //     return;
+  //   }
+  //   this.sharedService.isLoading = true;
+  //   const { identifier, password } = this.loginForm.value;
+  //   const params = { identifier, password };
+
+  //   this.authService
+  //     .onLogin(params)
+  //     .pipe(
+  //       finalize(() => {
+  //         this.sharedService.isLoading = false;
+  //       })
+  //     )
+  //     .subscribe({
+  //       next: (res) => {
+  //         console.log('Login successful', res);
+  //         if (res.jwt) {
+  //           localStorage.setItem('jwt', res.jwt);
+  //           this.router.navigate(['dashboard']);
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.error('Login failed', err);
+  //         alert(err.error.error.message);
+  //         // Handle error, like showing an error message to the user
+  //       },
+  //     });
+  // }
+  // getUserLevels() {
+  //   this.apiService
+  //     .getUserLevels()
+  //     .pipe(
+  //       finalize(() => {
+  //         this.sharedService.isLoading = false;
+  //       })
+  //     )
+  //     .subscribe({
+  //       next: (res) => {
+  //         console.log('Login successful', res);
+  //         this.sharedService.levelsConfig = res;
+  //         // localStorage.setItem('jwt', res.jwt);
+  //       },
+  //       error: (err) => {
+  //         console.error('Login failed', err);
+  //         alert(err.error.error.message);
+  //         // Handle error, like showing an error message to the user
+  //       },
+  //     });
+  // }
 }

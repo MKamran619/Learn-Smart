@@ -47,7 +47,9 @@ export class SentenceFilterComponent implements OnInit {
       }
     });
     this.onGetFilterSentence();
+    this.sharedService.hasAuthentication(67);
   }
+
   onGetFilterSentence() {
     this.accuracyService.resultList = [];
     this.accuracyService.accuracyScore = 0;

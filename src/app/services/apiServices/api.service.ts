@@ -24,4 +24,34 @@ export class ApiService {
       this.API_URL + '/api/t-oral-reading-passages?sort=position:asc'
     );
   }
+
+  getUserLevels(): Observable<any> {
+    return this.http.get(this.API_URL + '/api/t-user-levels?populate=*');
+  }
+
+  getUserByUsernameOrEmail(identifier: any): Observable<any> {
+    return this.http.post(
+      this.API_URL + '/api/t-user-levels/getUserBy-Username-Email',
+      { identifier }
+    );
+  }
+  updateUserLevelActiveStatus(
+    identifier: any,
+    level_id: number
+  ): Observable<any> {
+    return this.http.post(
+      this.API_URL + '/api/t-user-levels/update-UserLevel-ActiveStatus',
+      { identifier, level_id }
+    );
+  }
+
+  createUserLevels(params: any): Observable<any> {
+    return this.http.post(
+      this.API_URL + '/api/t-user-levels/create-user-levels',
+      params
+    );
+  }
+  getLevels(): Observable<any> {
+    return this.http.get(this.API_URL + '/api/t-levels');
+  }
 }

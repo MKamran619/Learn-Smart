@@ -70,11 +70,21 @@
         <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
           <div
             class="label-card-container justfy-content-center"
-            [class]="{ 'inactive-block': sharedService.preWordListActive }"
+            [class]="{
+              'inactive-block': !sharedService.hasAuthentication(
+                Constants.preTestLevel.WordList
+              )
+            }"
             (click)="onNavigate('pre-test', 'pre-word-list')"
           >
             <h3>Word List</h3>
-            <div *ngIf="sharedService.preWordListActive">
+            <div
+              *ngIf="
+                !sharedService.hasAuthentication(
+                  Constants.preTestLevel.WordList
+                )
+              "
+            >
               <mat-icon class="blocked-icon">block</mat-icon>
             </div>
           </div>
@@ -83,10 +93,20 @@
           <div
             class="label-card-container justfy-content-center"
             (click)="onNavigate('pre-test', 'pre-oral-reading-passages')"
-            [class]="{ 'inactive-block': sharedService.preOralActive }"
+            [class]="{
+              'inactive-block': !sharedService.hasAuthentication(
+                Constants.preTestLevel.OralReadingPassages
+              )
+            }"
           >
             <h3>Oral Reading Passages</h3>
-            <div *ngIf="sharedService.preOralActive">
+            <div
+              *ngIf="
+                !sharedService.hasAuthentication(
+                  Constants.preTestLevel.OralReadingPassages
+                )
+              "
+            >
               <mat-icon class="blocked-icon">block</mat-icon>
             </div>
           </div>
@@ -96,10 +116,20 @@
           <div
             class="label-card-container justfy-content-center"
             (click)="onNavigate('pre-test', 'pre-interest-inventory')"
-            [class]="{ 'inactive-block': !sharedService.preInventoryActive }"
+            [class]="{
+              'inactive-block': !sharedService.hasAuthentication(
+                Constants.preTestLevel.interestInventory
+              )
+            }"
           >
             <h3>Interest Inventory</h3>
-            <div *ngIf="!sharedService.preInventoryActive">
+            <div
+              *ngIf="
+                !sharedService.hasAuthentication(
+                  Constants.preTestLevel.interestInventory
+                )
+              "
+            >
               <mat-icon class="blocked-icon">block</mat-icon>
             </div>
           </div>
@@ -109,10 +139,20 @@
           <div
             class="label-card-container justfy-content-center"
             (click)="onNavigate('pre-test', 'pre-multiple-intelligence-test')"
-            [class]="{ 'inactive-block': !sharedService.preMultipleActive }"
+            [class]="{
+              'inactive-block': !sharedService.hasAuthentication(
+                Constants.preTestLevel.MultipleIntelligence
+              )
+            }"
           >
             <h3>Multiple Intelligence Test</h3>
-            <div *ngIf="!sharedService.preMultipleActive">
+            <div
+              *ngIf="
+                !sharedService.hasAuthentication(
+                  Constants.preTestLevel.MultipleIntelligence
+                )
+              "
+            >
               <mat-icon class="blocked-icon">block</mat-icon>
             </div>
           </div>
@@ -166,11 +206,19 @@
                 class="label-card-container justfy-content-center"
                 (click)="onNavigate('post-test', 'post-word-list')"
                 [class]="{
-                  'inactive-block': !sharedService.postWordListActive
+                  'inactive-block': !sharedService.hasAuthentication(
+                    Constants.postTestLevel.WordList
+                  )
                 }"
               >
                 <h3>Word List</h3>
-                <div *ngIf="!sharedService.postWordListActive">
+                <div
+                  *ngIf="
+                    !sharedService.hasAuthentication(
+                      Constants.postTestLevel.WordList
+                    )
+                  "
+                >
                   <mat-icon class="blocked-icon">block</mat-icon>
                 </div>
               </div>
@@ -179,10 +227,20 @@
               <div
                 class="label-card-container justfy-content-center"
                 (click)="onNavigate('post-test', 'post-oral-reading-passages')"
-                [class]="{ 'inactive-block': !sharedService.postOralActive }"
+                [class]="{
+                  'inactive-block': !sharedService.hasAuthentication(
+                    Constants.postTestLevel.OralReadingPassages
+                  )
+                }"
               >
                 <h3>Oral Reading Passages</h3>
-                <div *ngIf="!sharedService.postOralActive">
+                <div
+                  *ngIf="
+                    !sharedService.hasAuthentication(
+                      Constants.postTestLevel.OralReadingPassages
+                    )
+                  "
+                >
                   <mat-icon class="blocked-icon">block</mat-icon>
                 </div>
               </div>

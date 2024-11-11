@@ -17,6 +17,8 @@ export class SharedService {
   postMultipleActive = false;
 
   storiesConfig: any;
+  levelsConfig: any;
+  userConfig: any;
 
   constructor() {}
 
@@ -30,5 +32,23 @@ export class SharedService {
     }
 
     return chunks;
+  }
+
+  hasAuthentication(levelId: number) {
+    // if (!this.userConfig) {
+    //   const data = localStorage.getItem('userConfig') || '';
+    //   this.userConfig = JSON.parse(data);
+    // }
+    if (!this.levelsConfig) {
+      const data = localStorage.getItem('levelConfig') || '';
+      this.levelsConfig = JSON.parse(data);
+    }
+
+    const result = this.levelsConfig.userLevelEntries.find(
+      (item: any) => item.level_name.level_ID == levelId
+    )?.isActive;
+    console.log('result = ', result);
+
+    return result;
   }
 }
