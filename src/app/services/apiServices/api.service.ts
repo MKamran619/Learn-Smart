@@ -31,7 +31,7 @@ export class ApiService {
 
   getUserLevelsByUsernameOrEmail(identifier: any): Observable<any> {
     return this.http.post(
-      this.API_URL + '/api/t-user-levels/getUserBy-Username-Email',
+      this.API_URL + '/api/t-user-levels/getUserLevelsBy-Username-Email',
       { identifier }
     );
   }
