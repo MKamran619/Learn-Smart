@@ -15,6 +15,7 @@ import {
 import { SharedService } from '../../services/sharedServices/shared.service';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/apiServices/api.service';
+import { UrlWithStringQuery } from 'node:url';
 
 @Component({
   selector: 'app-login',
@@ -62,24 +63,23 @@ export class LoginComponent implements OnInit {
     const { identifier, password } = this.loginForm.value;
     const params = { identifier, password };
 
-    // First, call onLogin, then getUserLevels in parallel using forkJoin
-    forkJoin([
-      this.authService.onLogin(params), // Login request
-      this.apiService.getUserLevelsByUsernameOrEmail(identifier), // Get user levels request
-    ])
+    this.authService
+      .onLogin(params)
       .pipe(
         finalize(() => {
           this.sharedService.isLoading = false;
         })
       )
       .subscribe({
-        next: ([loginRes, levelsRes]) => {
+        next: (loginRes) => {
           if (loginRes.jwt) {
             localStorage.setItem('userConfig', JSON.stringify(loginRes));
-            localStorage.setItem('levelConfig', JSON.stringify(levelsRes));
+            // localStorage.setItem('levelConfig', JSON.stringify(levelsRes));
 
             this.sharedService.userConfig = loginRes;
-            this.sharedService.levelsConfig = levelsRes;
+            // this.sharedService.levelsConfig = levelsRes;
+            // this.apiService.getUserLevelsByUsernameOrEmail(identifier)
+            this.getUserLevels(identifier);
 
             this.router.navigate(['dashboard']);
           }
@@ -89,6 +89,15 @@ export class LoginComponent implements OnInit {
           alert(err.error.error.message); // Show the error message
           // Optionally, handle specific error cases if necessary
         },
+      });
+  }
+  getUserLevels(identifier: UrlWithStringQuery) {
+    this.apiService
+      .getUserLevelsByUsernameOrEmail(identifier)
+      .pipe(finalize(() => {}))
+      .subscribe((res) => {
+        localStorage.setItem('levelConfig', JSON.stringify(res));
+        this.sharedService.levelsConfig = res;
       });
   }
 
