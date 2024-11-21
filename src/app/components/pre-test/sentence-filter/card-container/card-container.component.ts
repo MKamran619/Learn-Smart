@@ -19,7 +19,7 @@ import { SpeechDetectService } from '../../../../services/speechDetect/speech-de
 @Component({
   selector: 'app-card-container',
   standalone: true,
-  imports: [CommonModule, IconDirective, IconModule, MatIcon],
+  imports: [CommonModule, IconDirective, IconModule],
   templateUrl: './card-container.component.html',
   styleUrl: './card-container.component.scss',
 })
@@ -88,6 +88,7 @@ export class CardContainerComponent
         noResponse: this.accuracyService.transcription ? '' : 'noResponse',
         userSpoke: this.accuracyService.transcription,
         accuracy: this.accuracyService.accuracyScore.toFixed(0),
+        unBlockedLevelIndex: this.currentIndex,
       };
 
       this.accuracyService.resultList.push(result);
