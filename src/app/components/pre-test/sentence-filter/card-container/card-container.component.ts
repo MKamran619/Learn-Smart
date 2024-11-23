@@ -38,6 +38,16 @@ export class CardContainerComponent
   showQuaterCircle = true;
   currentIndex = 0;
   itemsCopy: any = [];
+  levelList = [
+    'pre-primer',
+    'primer',
+    'level-1',
+    'level-2',
+    'level-3',
+    'level-4',
+    'level-5',
+    'level-6',
+  ];
 
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
@@ -88,7 +98,7 @@ export class CardContainerComponent
         noResponse: this.accuracyService.transcription ? '' : 'noResponse',
         userSpoke: this.accuracyService.transcription,
         accuracy: this.accuracyService.accuracyScore.toFixed(0),
-        unBlockedLevelIndex: this.currentIndex,
+        level: this.levelList[this.currentIndex],
       };
 
       this.accuracyService.resultList.push(result);

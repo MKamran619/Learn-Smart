@@ -7,11 +7,13 @@ import { ApiService } from '../../../../services/apiServices/api.service';
 import { finalize } from 'rxjs';
 import { Constants } from '../../../../constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { ButtonDirective } from '@coreui/angular';
 
 @Component({
   selector: 'app-result-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule],
+  imports: [CommonModule, MatTableModule, ButtonDirective],
   templateUrl: './result-table.component.html',
   styleUrl: './result-table.component.scss',
 })
@@ -29,7 +31,8 @@ export class ResultTableComponent implements OnInit {
     public accuracyService: SpeechDetectService,
     public sharedService: SharedService,
     public aptService: ApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public router: Router
   ) {}
   ngOnInit(): void {
     this.dataSource = this.accuracyService.resultList;
@@ -135,5 +138,9 @@ export class ResultTableComponent implements OnInit {
         horizontalPosition: 'center', // Position: 'start', 'center', 'end', 'left', or 'right'
       }
     );
+  }
+  onNavigateToLevel(mode: string) {
+    this.sharedService.isLoading = true;
+    this.router.navigate([`dashboard/pre-test/pre-word-list/${mode}`]);
   }
 }
