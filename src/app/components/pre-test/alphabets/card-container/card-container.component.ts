@@ -23,9 +23,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './card-container.component.html',
   styleUrl: './card-container.component.scss',
 })
-export class CardContainerComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export class CardContainerComponent implements OnInit, OnDestroy {
   @Input() charOrWordList: string[] = [];
   letter = '';
   icons = { cilMic, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
@@ -38,6 +36,7 @@ export class CardContainerComponent
   showQuaterCircle = true;
   currentIndex: any = 0;
   itemsCopy: any = [];
+  estimatedTime: any;
 
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
@@ -48,36 +47,39 @@ export class CardContainerComponent
     this.showQuaterCircle = true;
     setTimeout(() => {
       this.showQuaterCircle = false;
-    }, 1500);
+    }, 3000);
   }
   showCircleAnimation() {
     this.showCircle = false;
     setTimeout(() => {
       this.showCircle = true;
-    }, 50);
+    }, 0);
   }
-  ngAfterViewInit(): void {
-    // this.startRandomSelection();
-  }
+
   startRandomSelection() {
     this.accuracyService.resultList = [];
     this.accuracyService.transcription = '';
     this.accuracyService.accuracyScore = 0;
     this.totalLength = this.charOrWordList.length;
-
-    // Create a copy of the original array and shuffle it
     this.itemsCopy = [...this.charOrWordList];
     this.shuffleArray(this.itemsCopy);
 
     this.onCallAccuracyFunction();
+  }
+  onClickMicIcon() {
+    this.showQuaterCircle = false;
+    this.showCircleAnimation();
 
-    this.intervalId = setInterval(() => {
+    // this.accuracyService.startRecording(this.estimatedTime);
+    this.accuracyService.startSpeechRecognition();
+
+    setTimeout(() => {
       this.onCallAccuracyFunction();
-    }, 5000);
+    }, this.estimatedTime * 5000);
   }
   onCallAccuracyFunction() {
-    this.showCircleAnimation();
     this.showQuaterCircleAnimation();
+    this.showCircle = false;
 
     if (this.letter) {
       const result = {
@@ -101,14 +103,15 @@ export class CardContainerComponent
     this.accuracyService.referenceText = `letter ${this.letter}`;
     if (this.showVolumIcon) {
       this.showQuaterCircle = true;
-      // this.showQuaterCircleAnimation();
       this.accuracyService.speakText(this.accuracyService.referenceText);
     }
 
-    this.accuracyService.startSpeechRecognition();
-
+    this.estimatedTime = this.accuracyService.calculateSpeakingTime(
+      this.accuracyService.referenceText
+    );
     this.currentIndex++;
   }
+
   private shuffleArray(array: string[]) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -117,14 +120,12 @@ export class CardContainerComponent
   }
 
   clearInterval() {
-    // Clear the interval if it exists
     if (this.intervalId) {
       clearInterval(this.intervalId);
-      this.intervalId = null; // Reset the intervalId to null
+      this.intervalId = null;
     }
   }
   ngOnDestroy() {
-    // Clear interval on component destruction to prevent memory leaks
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
