@@ -9,13 +9,30 @@ h1 {
   font-weight: bolder;
 }
 .mic-icon svg {
-  width: 30px;
+  width: 130px;
 }
-.mic-icon svg:hover {
-  width: 70px !important;
+.mic-icon mat-icon {
+  transform: scaleX(1.2);
+  font-size: 25px;
+}
+.mic-icon mat-icon:hover {
+  transform: scaleX(1.2); /* Increase width on hover */
+  font-size: 30px; /* Optional: Adjust size to make it larger */
+  color: #ff5733;
+}
+svg:hover {
+  width: 170px !important;
 }
 .mic-icon {
   size: 300px;
+}
+
+.mic-icon:hoverh {
+  height: 100px;
+  width: 80px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 // .animated-icon {
 //   transition: transform 0.3s ease-in-out;

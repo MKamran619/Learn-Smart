@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SharedService } from '../sharedServices/shared.service';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +20,12 @@ export class SpeechDetectService {
     userSpoke: string;
     accuracy: any;
   }[] = [];
+
+  private mediaRecorder!: MediaRecorder;
+  private audioChunks: Blob[] = [];
+  // transcription: string = '';
+  estimatedTime: any;
+  constructor(private http: HttpClient, public sharedService: SharedService) {}
 
   // Function to start speech recognition using Web Speech API
   startSpeechRecognition() {
@@ -52,6 +61,72 @@ export class SpeechDetectService {
 
     recognition.start();
   }
+
+  calculateSpeakingTime(text: string): number {
+    const words = text.trim().split(/\s+/).length; // Count words
+    const wordsPerSecond = 2.5; // Average speaking rate (words per second)
+    return words / wordsPerSecond;
+  }
+  // startRecording(estimatedTime: any) {
+  //   navigator.mediaDevices
+  //     .getUserMedia({ audio: true })
+  //     .then((stream) => {
+  //       this.mediaRecorder = new MediaRecorder(stream);
+
+  //       this.mediaRecorder.ondataavailable = (event) => {
+  //         this.audioChunks.push(event.data);
+  //       };
+
+  //       this.mediaRecorder.start();
+  //       console.log('Recording started...');
+
+  //       setTimeout(() => {
+  //         this.stopRecording();
+  //       }, estimatedTime * 3000);
+  //     })
+  //     .catch((err) => {
+  //       console.error('Error accessing microphone:', err);
+  //     });
+  // }
+
+  // stopRecording() {
+  //   if (!this.mediaRecorder) return;
+
+  //   this.mediaRecorder.stop();
+
+  //   this.mediaRecorder.onstop = () => {
+  //     const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+
+  //     this.audioChunks = []; // Clear the audio chunks
+  //     this.transcribeAudio(audioBlob);
+  //   };
+  // }
+  // transcribeAudio(audioBlob: Blob) {
+  //   this.sharedService.isLoading = true;
+  //   const apiKey = '5221502e1ff6076de6eb5f51a27e883cd1637ada';
+  //   const url = 'https://api.deepgram.com/v1/listen';
+  //   const headers = {
+  //     Authorization: `Token ${apiKey}`,
+  //     'Content-Type': 'audio/wav',
+  //   };
+
+  //   this.http
+  //     .post(url, audioBlob, { headers })
+  //     .pipe(
+  //       finalize(() => {
+  //         this.sharedService.isLoading = false;
+  //       })
+  //     )
+  //     .subscribe((response: any) => {
+  //       this.transcription =
+  //         response.results.channels[0].alternatives[0].transcript;
+
+  //       this.accuracyScore = this.calculateAccuracy(
+  //         this.referenceText,
+  //         this.transcription
+  //       );
+  //     });
+  // }
 
   // Function to clean text (remove special characters and convert to lowercase)
   cleanText(text: string): string {
