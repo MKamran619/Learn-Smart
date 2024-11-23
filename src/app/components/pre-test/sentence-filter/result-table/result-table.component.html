@@ -3,7 +3,7 @@
     <table class="table table-success table-bordered table-striped">
       <thead>
         <tr>
-          <th colspan="3">
+          <th colspan="4">
             Student Name: {{ sharedService.getUserConfig().user.username }}
           </th>
         </tr>
@@ -36,10 +36,14 @@
           </td>
 
           <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
-          <td><a></a></td>
+          <td>
+            <button cButton (click)="onNavigateToLevel(item.level)">
+              {{ item.level }}
+            </button>
+          </td>
         </tr>
         <tr>
-          <th colspan="3" style="text-align: center">
+          <th colspan="4" style="text-align: center">
             Score = {{ totalScore }} / {{ this.dataSource.length }}
           </th>
         </tr>

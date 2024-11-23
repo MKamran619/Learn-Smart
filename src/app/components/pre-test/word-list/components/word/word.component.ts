@@ -61,7 +61,6 @@ export class WordComponent implements OnInit {
     this.accuracyService.accuracyScore = 0;
     this.accuracyService.transcription = '';
     this.btnCapitalActive = false;
-    this.selectedTab = 'Common Letter';
     this.onGetWordList();
   }
   onChangePreviewMode(mode: string) {
@@ -86,11 +85,14 @@ export class WordComponent implements OnInit {
       .subscribe((res) => {
         console.log({ res });
         this.wordsList = res.data
-          .filter((item: any) => item.level.toLowerCase() === this.type)
+          .filter(
+            (item: any) => item.level.toLowerCase() == this.type.toLowerCase()
+          )
           .map((item: any) => item.Words);
+        console.log('this.wordsList  = ', this.wordsList);
       });
   }
-  setWordList() {
+  setWordList1() {
     if (this.type == 'pre-primer') {
       this.totalCount = 10;
       this.wordsList = [
