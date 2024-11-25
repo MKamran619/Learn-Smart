@@ -37,6 +37,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   currentIndex: any = 0;
   itemsCopy: any = [];
   estimatedTime: any;
+  timeoutIds: number[] = [];
 
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
@@ -66,17 +67,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     this.onCallAccuracyFunction();
   }
-  onClickMicIcon() {
-    this.showQuaterCircle = false;
-    this.showCircleAnimation();
 
-    // this.accuracyService.startRecording(this.estimatedTime);
-    this.accuracyService.startSpeechRecognition();
-
-    setTimeout(() => {
-      this.onCallAccuracyFunction();
-    }, this.estimatedTime * 5000);
-  }
   onCallAccuracyFunction() {
     this.showQuaterCircleAnimation();
     this.showCircle = false;
@@ -109,7 +100,24 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.estimatedTime = this.accuracyService.calculateSpeakingTime(
       this.accuracyService.referenceText
     );
+    const timeoutId = setTimeout(() => {
+      this.onClickMicIcon();
+    }, this.estimatedTime * 2000) as unknown as number;
+    this.timeoutIds.push(timeoutId);
+
     this.currentIndex++;
+  }
+  onClickMicIcon() {
+    this.showQuaterCircle = false;
+    this.showCircleAnimation();
+
+    // this.accuracyService.startRecording(this.estimatedTime);
+    this.accuracyService.startSpeechRecognition();
+
+    const timeoutId = setTimeout(() => {
+      this.onCallAccuracyFunction();
+    }, this.estimatedTime * 5000) as unknown as number;
+    this.timeoutIds.push(timeoutId);
   }
 
   private shuffleArray(array: string[]) {
@@ -129,5 +137,17 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+
+    // Clear all intervals
+    this.clearInterval();
+
+    // Clear timeouts
+    this.timeoutIds.forEach((id) => clearTimeout(id));
+
+    // Stop service operations
+    // this.accuracyService.stopSpeechRecognition();
+
+    // Prevent further recursive calls
+    // this.isComponentActive = false;
   }
 }
