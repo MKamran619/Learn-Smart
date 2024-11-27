@@ -46,6 +46,7 @@ export class WordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.accuracyService.onShowResult = false;
     this.activeRouter.params.subscribe((params) => {
       {
         this.mode = params['mode'];
@@ -79,7 +80,7 @@ export class WordComponent implements OnInit {
       .GetWordLists()
       .pipe(
         finalize(() => {
-          this.sharedService.isLoading = false;
+          // this.sharedService.isLoading = false;
         })
       )
       .subscribe((res) => {
@@ -89,6 +90,7 @@ export class WordComponent implements OnInit {
             (item: any) => item.level.toLowerCase() == this.type.toLowerCase()
           )
           .map((item: any) => item.Words);
+        this.sharedService.isLoading = false;
         console.log('this.wordsList  = ', this.wordsList);
       });
   }

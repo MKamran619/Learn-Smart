@@ -102,7 +102,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     );
     const timeoutId = setTimeout(() => {
       this.onClickMicIcon();
-    }, this.estimatedTime * 2000) as unknown as number;
+    }, this.estimatedTime * 1000) as unknown as number;
     this.timeoutIds.push(timeoutId);
 
     this.currentIndex++;
