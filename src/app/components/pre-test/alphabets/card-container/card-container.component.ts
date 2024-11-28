@@ -113,6 +113,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     // this.accuracyService.startRecording(this.estimatedTime);
     this.accuracyService.startSpeechRecognition();
+    // this.accuracyService.startRecording(1.5);
 
     const timeoutId = setTimeout(() => {
       this.onCallAccuracyFunction();
