@@ -40,7 +40,7 @@ export class AlphabetsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.accuracyService.onShowResult = true;
+    this.accuracyService.onShowResult = false;
     this.sharedService.isLoading = false;
     this.activeRouter.params.subscribe((params) => {
       {
