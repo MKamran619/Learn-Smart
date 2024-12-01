@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-card-container',
   standalone: true,
-  imports: [CommonModule, IconDirective, IconModule],
+  imports: [CommonModule, IconDirective, IconModule, MatIcon],
   templateUrl: './card-container.component.html',
   styleUrl: './card-container.component.scss',
 })
@@ -38,6 +38,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   showQuaterCircle = true;
   currentIndex = 0;
   itemsCopy: any[] = [];
+  timeoutIds: number[] = [];
 
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
@@ -68,12 +69,13 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     this.onCallAccuracyFunction();
 
-    this.intervalId = setInterval(() => {
-      this.onCallAccuracyFunction();
-    }, 5000);
+    // this.intervalId = setInterval(() => {
+    //   this.onCallAccuracyFunction();
+    // }, 5000);
   }
   onCallAccuracyFunction() {
-    this.showCircleAnimation();
+    this.showCircle = false;
+    // this.showCircleAnimation();
     this.showQuaterCircleAnimation();
 
     if (this.word) {
@@ -102,11 +104,34 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       this.accuracyService.speakText(this.accuracyService.referenceText);
     }
 
-    this.accuracyService.startSpeechRecognition();
+    // this.accuracyService.startSpeechRecognition();
+    this.onClickMicIcon();
 
     this.currentIndex++;
   }
 
+  onClickMicIcon() {
+    this.showQuaterCircle = false;
+
+    const timeoutId3 = setTimeout(() => {
+      this.showCircleAnimation();
+    }, 1500) as unknown as number;
+    this.timeoutIds.push(timeoutId3);
+
+    // this.accuracyService.startRecording(this.estimatedTime);
+    // this.accuracyService.startSpeechRecognition();
+    this.accuracyService.startRecording(1);
+
+    const timeoutId = setTimeout(() => {
+      this.showCircle = false;
+      // this.accuracyService.stopRecording();
+    }, 1100) as unknown as number;
+    this.timeoutIds.push(timeoutId);
+    const timeoutId2 = setTimeout(() => {
+      this.onCallAccuracyFunction();
+    }, 7000) as unknown as number;
+    this.timeoutIds.push(timeoutId2);
+  }
   private shuffleArray(array: string[]) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
