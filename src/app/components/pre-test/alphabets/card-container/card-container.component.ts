@@ -36,7 +36,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   showQuaterCircle = true;
   currentIndex: any = 0;
   itemsCopy: any = [];
-  estimatedTime: any;
+  estimatedTime: any = 1;
   timeoutIds: number[] = [];
 
   constructor(public accuracyService: SpeechDetectService) {}
@@ -69,6 +69,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   }
 
   onCallAccuracyFunction() {
+    // this.accuracyService.stopRecording();
     this.showQuaterCircleAnimation();
     this.showCircle = false;
 
@@ -97,27 +98,37 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       this.accuracyService.speakText(this.accuracyService.referenceText);
     }
 
-    this.estimatedTime = this.accuracyService.calculateSpeakingTime(
-      this.accuracyService.referenceText
-    );
-    const timeoutId = setTimeout(() => {
-      this.onClickMicIcon();
-    }, this.estimatedTime * 2000) as unknown as number;
-    this.timeoutIds.push(timeoutId);
+    // this.estimatedTime = this.accuracyService.calculateSpeakingTime(
+    //   this.accuracyService.referenceText
+    // );
+    // const timeoutId = setTimeout(() => {
+    this.onClickMicIcon();
+    // }, this.estimatedTime * 1000) as unknown as number;
+    // this.timeoutIds.push(timeoutId);
 
     this.currentIndex++;
   }
   onClickMicIcon() {
     this.showQuaterCircle = false;
-    this.showCircleAnimation();
+
+    const timeoutId3 = setTimeout(() => {
+      this.showCircleAnimation();
+    }, 1500) as unknown as number;
+    this.timeoutIds.push(timeoutId3);
 
     // this.accuracyService.startRecording(this.estimatedTime);
-    this.accuracyService.startSpeechRecognition();
+    // this.accuracyService.startSpeechRecognition();
+    this.accuracyService.startRecording(1);
 
     const timeoutId = setTimeout(() => {
-      this.onCallAccuracyFunction();
-    }, this.estimatedTime * 5000) as unknown as number;
+      this.showCircle = false;
+      // this.accuracyService.stopRecording();
+    }, 1100) as unknown as number;
     this.timeoutIds.push(timeoutId);
+    const timeoutId2 = setTimeout(() => {
+      this.onCallAccuracyFunction();
+    }, this.estimatedTime * 7000) as unknown as number;
+    this.timeoutIds.push(timeoutId2);
   }
 
   private shuffleArray(array: string[]) {

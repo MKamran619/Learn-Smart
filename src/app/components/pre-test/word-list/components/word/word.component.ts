@@ -46,6 +46,7 @@ export class WordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.accuracyService.onShowResult = false;
     this.activeRouter.params.subscribe((params) => {
       {
         this.mode = params['mode'];
@@ -61,7 +62,6 @@ export class WordComponent implements OnInit {
     this.accuracyService.accuracyScore = 0;
     this.accuracyService.transcription = '';
     this.btnCapitalActive = false;
-    this.selectedTab = 'Common Letter';
     this.onGetWordList();
   }
   onChangePreviewMode(mode: string) {
@@ -80,17 +80,21 @@ export class WordComponent implements OnInit {
       .GetWordLists()
       .pipe(
         finalize(() => {
-          this.sharedService.isLoading = false;
+          // this.sharedService.isLoading = false;
         })
       )
       .subscribe((res) => {
         console.log({ res });
         this.wordsList = res.data
-          .filter((item: any) => item.level.toLowerCase() === this.type)
+          .filter(
+            (item: any) => item.level.toLowerCase() == this.type.toLowerCase()
+          )
           .map((item: any) => item.Words);
+        this.sharedService.isLoading = false;
+        console.log('this.wordsList  = ', this.wordsList);
       });
   }
-  setWordList() {
+  setWordList1() {
     if (this.type == 'pre-primer') {
       this.totalCount = 10;
       this.wordsList = [

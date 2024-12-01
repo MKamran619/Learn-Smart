@@ -50,4 +50,13 @@ export class SharedService {
 
     return result;
   }
+  getUserConfig() {
+    if (!this.userConfig) {
+      const data = localStorage.getItem('userConfig') || '';
+      this.userConfig = JSON.parse(data);
+      return this.userConfig;
+    } else {
+      return this.userConfig;
+    }
+  }
 }
