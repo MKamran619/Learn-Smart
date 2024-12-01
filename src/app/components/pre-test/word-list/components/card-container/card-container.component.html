@@ -71,18 +71,22 @@
           </div>
         </div>
       </div>
+      <div *ngIf="showCircle" style="margin-top: 40px">
+        <span style="color: red">Recording in progress....</span>
+      </div>
       <div
         class="mic-icon justfy-content-center"
         style="margin-top: 20px; cursor: pointer"
       >
-        <div class="circle-container">
+        <div class="circle-container" (click)="onClickMicIcon()">
           <div class="medium" [ngClass]="showCircle ? 'circle' : ''"></div>
           <div class="small" [ngClass]="showCircle ? 'circle' : ''"></div>
-          <svg
-            [cIcon]="icons.cilMic"
-            class="mic-icon"
-            title="Microphone Icon"
-          ></svg>
+          <div *ngIf="showCircle" class="mic-icon" style="margin-left: 4px">
+            🔴
+          </div>
+          <div class="mic-icon" *ngIf="!showCircle">
+            <mat-icon>mic</mat-icon>
+          </div>
         </div>
       </div>
     </div>
