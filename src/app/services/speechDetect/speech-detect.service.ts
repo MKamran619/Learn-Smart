@@ -33,6 +33,7 @@ export class SpeechDetectService {
 
   // Function to start speech recognition using Web Speech API
   startSpeechRecognition() {
+    console.log('Speech recognition started');
     this.transcription = '';
     this.accuracyScore = 0;
     const SpeechRecognition =
@@ -43,33 +44,35 @@ export class SpeechDetectService {
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
-    recognition.onresult = (event: any) => {
-      this.transcription = event.results[0][0].transcript;
-      // console.log('Transcribed Text: ', this.transcription);
-
-      console.log('single result', this.transcription);
-      // After transcription, calculate accuracy score
-      this.accuracyScore = this.calculateAccuracy(
-        this.referenceText,
-        this.transcription
-      );
-      // console.log('Accuracy Score: ', this.accuracyScore);
-    };
-    // this.noResponse = '';
-
-    recognition.onerror = (event: any) => {
-      this.transcription = '';
-      this.accuracyScore = 0;
-      this.noResponse = 'true';
-      // console.error('Speech recognition error: ', event.error);
-    };
-
     recognition.start();
-    const timeoutDuration = 5000; // Time in milliseconds
     setTimeout(() => {
       recognition.stop();
+
+      recognition.onresult = (event: any) => {
+        this.transcription = event.results[0][0].transcript;
+        // console.log('Transcribed Text: ', this.transcription);
+
+        console.log('single result', this.transcription);
+        // After transcription, calculate accuracy score
+        this.accuracyScore = this.calculateAccuracy(
+          this.referenceText,
+          this.transcription
+        );
+        // console.log('Accuracy Score: ', this.accuracyScore);
+      };
+      // this.noResponse = '';
+
+      recognition.onerror = (event: any) => {
+        this.transcription = '';
+        this.accuracyScore = 0;
+        this.noResponse = 'true';
+        // console.error('Speech recognition error: ', event.error);
+      };
+
+      const timeoutDuration = 5000; // Time in milliseconds
+
       console.log('Speech recognition stopped after timeout');
-    }, 2000);
+    }, 4000);
   }
 
   calculateSpeakingTime(text: string): number {
@@ -91,20 +94,21 @@ export class SpeechDetectService {
         console.log('Recording started...');
 
         setTimeout(() => {
-          this.stopRecording();
-        }, estimatedTime * 3000);
+          this.stopRecording(stream);
+        }, estimatedTime * 4500);
       })
       .catch((err) => {
         console.error('Error accessing microphone:', err);
       });
   }
 
-  stopRecording() {
-    console.log('this.mediaRecorder = ', this.mediaRecorder);
+  stopRecording(stream: any) {
+    console.log('Recording stoped..');
     if (!this.mediaRecorder) return;
     console.log('this.mediaRecorder');
 
     this.mediaRecorder.stop();
+    stream.getTracks().forEach((track: any) => track.stop());
 
     this.mediaRecorder.onstop = () => {
       const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
@@ -133,6 +137,9 @@ export class SpeechDetectService {
       .subscribe((response: any) => {
         this.transcription =
           response.results.channels[0].alternatives[0].transcript;
+
+        console.log('origonal = ', this.referenceText);
+        console.log('origonal = ', this.transcription);
 
         this.accuracyScore = this.calculateAccuracy(
           this.referenceText,
