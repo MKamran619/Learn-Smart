@@ -30,7 +30,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   private intervalId: any;
   totalLength = 0;
   startFrom = 0;
-  showVolumIcon = true;
+  showVolumIcon = false;
 
   showCircle = false;
   showQuaterCircle = true;
@@ -75,11 +75,13 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     if (this.letter) {
       const result = {
-        letter: this.letter,
+        letter: 'Letter ' + this.letter,
         noResponse: this.accuracyService.transcription ? '' : 'noResponse',
         userSpoke: this.accuracyService.transcription,
         accuracy: this.accuracyService.accuracyScore.toFixed(0),
       };
+      this.letter = '';
+      console.log('sing;e result = ', result);
 
       this.accuracyService.resultList.push(result);
     }
@@ -113,15 +115,17 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     const timeoutId3 = setTimeout(() => {
       this.showCircleAnimation();
-    }, 1500) as unknown as number;
+    }, 1000) as unknown as number;
     this.timeoutIds.push(timeoutId3);
 
     // this.accuracyService.startRecording(this.estimatedTime);
     // this.accuracyService.startSpeechRecognition();
-    this.accuracyService.startRecording(1);
+    setTimeout(() => {
+      this.accuracyService.startRecording(1);
+    }, 700);
 
     const timeoutId = setTimeout(() => {
-      this.showCircle = false;
+      // this.showCircle = false;
       // this.accuracyService.stopRecording();
     }, 1100) as unknown as number;
     this.timeoutIds.push(timeoutId);
