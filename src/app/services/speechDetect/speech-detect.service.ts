@@ -87,6 +87,7 @@ export class SpeechDetectService {
         this.mediaRecorder = new MediaRecorder(stream);
 
         this.mediaRecorder.ondataavailable = (event) => {
+          this.audioChunks = [];
           this.audioChunks.push(event.data);
         };
 
@@ -103,17 +104,14 @@ export class SpeechDetectService {
   }
 
   stopRecording(stream: any) {
-    console.log('Recording stoped..');
     if (!this.mediaRecorder) return;
-    console.log('this.mediaRecorder');
 
     this.mediaRecorder.stop();
     stream.getTracks().forEach((track: any) => track.stop());
 
     this.mediaRecorder.onstop = () => {
-      const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
-      console.log('audioBlob = ', audioBlob);
-
+      let audioBlob: any;
+      audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
       this.audioChunks = []; // Clear the audio chunks
       this.transcribeAudio(audioBlob);
     };
@@ -135,11 +133,12 @@ export class SpeechDetectService {
         })
       )
       .subscribe((response: any) => {
+        this.transcription = '';
         this.transcription =
           response.results.channels[0].alternatives[0].transcript;
 
         console.log('origonal = ', this.referenceText);
-        console.log('origonal = ', this.transcription);
+        console.log('spoken = ', this.transcription);
 
         this.accuracyScore = this.calculateAccuracy(
           this.referenceText,

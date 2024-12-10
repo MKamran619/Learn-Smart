@@ -19,7 +19,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of dataSource">
-          <th style="text-align: center">{{ item.letter }}</th>
+          <td style="text-align: center">{{ item.letter }}</td>
           <td>{{ item.userSpoke }}</td>
           <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
         </tr>

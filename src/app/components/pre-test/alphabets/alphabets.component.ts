@@ -66,7 +66,7 @@ export class AlphabetsComponent implements OnInit {
     this.accuracyService.transcription = '';
     this.btnCapitalActive = false;
     this.selectedTab = 'Common Letter';
-    this.letters = ['E', 'T', 'A', 'O']; //, 'I', 'N', 'S', 'H', 'R', 'D'];
+    this.letters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
   }
   onChangePreviewMode(mode: string) {
     if (this.accuracyService.onShowResult) {
