@@ -47,29 +47,8 @@ export class AlphabetsComponent implements OnInit {
         this.mode = params['mode'];
       }
     });
-    this.onClickCapitalLetter();
   }
 
-  onClickCapitalLetter() {
-    this.accuracyService.stopPreviousRecording();
-    this.accuracyService.resultList = [];
-    this.accuracyService.accuracyScore = 0;
-    this.accuracyService.transcription = '';
-    this.btnCapitalActive = true;
-    this.selectedTab = 'Capital Letter';
-    this.CapitalLetters = Array.from({ length: 26 }, (_, i) =>
-      String.fromCharCode(65 + i)
-    );
-  }
-  onClickCommonLetter() {
-    this.accuracyService.stopPreviousRecording();
-    this.accuracyService.resultList = [];
-    this.accuracyService.accuracyScore = 0;
-    this.accuracyService.transcription = '';
-    this.btnCapitalActive = false;
-    this.selectedTab = 'Common Letter';
-    this.CommonLetters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
-  }
   onChangePreviewMode(mode: string) {
     if (this.accuracyService.onShowResult) {
       this.accuracyService.onShowResult = false;
