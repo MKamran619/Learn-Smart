@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ResultTableComponent } from './result-table/result-table.component';
 import { SharedService } from '../../../services/sharedServices/shared.service';
-
 @Component({
   selector: 'app-alphabets',
   standalone: true,
@@ -31,7 +30,8 @@ export class AlphabetsComponent implements OnInit {
   mode = '';
   btnCapitalActive = true;
   selectedTab = 'Capital Letter';
-  letters: string[] = [];
+  CapitalLetters: string[] = [];
+  CommonLetters: string[] = [];
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
@@ -51,22 +51,24 @@ export class AlphabetsComponent implements OnInit {
   }
 
   onClickCapitalLetter() {
+    this.accuracyService.stopPreviousRecording();
     this.accuracyService.resultList = [];
     this.accuracyService.accuracyScore = 0;
     this.accuracyService.transcription = '';
     this.btnCapitalActive = true;
     this.selectedTab = 'Capital Letter';
-    this.letters = Array.from({ length: 26 }, (_, i) =>
+    this.CapitalLetters = Array.from({ length: 26 }, (_, i) =>
       String.fromCharCode(65 + i)
     );
   }
   onClickCommonLetter() {
+    this.accuracyService.stopPreviousRecording();
     this.accuracyService.resultList = [];
     this.accuracyService.accuracyScore = 0;
     this.accuracyService.transcription = '';
     this.btnCapitalActive = false;
     this.selectedTab = 'Common Letter';
-    this.letters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
+    this.CommonLetters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
   }
   onChangePreviewMode(mode: string) {
     if (this.accuracyService.onShowResult) {
@@ -74,5 +76,8 @@ export class AlphabetsComponent implements OnInit {
     } else {
       this.router.navigate([`dashboard/${mode}`]);
     }
+  }
+  onNavigate(type: string) {
+    this.router.navigate([`dashboard/pre-test/pre-alphabets/${type}`]);
   }
 }

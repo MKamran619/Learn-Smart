@@ -17,7 +17,7 @@
         </div>
         <h4>Alphabets</h4>
       </div>
-      <div *ngIf="!accuracyService.onShowResult">
+      <!-- <div *ngIf="!accuracyService.onShowResult">
         <div class="justfy-content-center">
           <div
             class="small-card-container justfy-content-center"
@@ -43,16 +43,16 @@
             </div>
             <div *ngIf="selectedTab == 'Capital Letter'; else commonLetter">
               <app-card-container
-                [charOrWordList]="letters"
+                [charOrWordList]="CapitalLetters"
                 key="capital"
               ></app-card-container>
             </div>
 
             <ng-template #commonLetter>
-              <app-card-container
-                [charOrWordList]="letters"
+              <app-common-letter-card-container
+                [charOrWordList]="CommonLetters"
                 key="common"
-              ></app-card-container>
+              ></app-common-letter-card-container>
             </ng-template>
           </div>
         </div>
@@ -60,6 +60,30 @@
 
       <div class="justfy-content-center" *ngIf="accuracyService.onShowResult">
         <app-result-table></app-result-table>
+      </div> -->
+      <div class="container justfy-content-center mt-5">
+        <div class="justfy-content-center">
+          <div class="pre-test-content justfy-content-center">
+            <div>
+              <div>
+                <div
+                  class="label-card-container justfy-content-center mt-5"
+                  (click)="onNavigate('capital-letters')"
+                >
+                  <h3>Capital letters</h3>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="label-card-container justfy-content-center mt-5"
+                  (click)="onNavigate('common-letters')"
+                >
+                  <h3>Common Letters</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
