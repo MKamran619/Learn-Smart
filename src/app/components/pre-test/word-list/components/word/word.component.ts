@@ -65,11 +65,17 @@ export class WordComponent implements OnInit {
     this.onGetWordList();
   }
   onChangePreviewMode(mode: string) {
-    if (this.accuracyService.onShowResult) {
-      this.accuracyService.onShowResult = false;
-    } else {
+    this.accuracyService.stopPreviousRecording();
+    this.sharedService.isLoading = true;
+    // if (this.accuracyService.onShowResult) {
+    //   this.accuracyService.onShowResult = false;
+    // } else {
+    setTimeout(() => {
+      this.sharedService.isLoading = false;
       this.router.navigate([`dashboard/${mode}/pre-word-list`]);
-    }
+    }, 2000);
+
+    // }
   }
   onGetWordList() {
     this.accuracyService.resultList = [];

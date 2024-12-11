@@ -31,8 +31,8 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   icons = { cilMic, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
   private intervalId: any;
   totalLength = 0;
-  startFrom = 0;
-  showVolumIcon = true;
+  startFrom = 1;
+  showVolumIcon = false;
 
   showCircle = false;
   showQuaterCircle = true;
@@ -40,40 +40,18 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   itemsCopy: any[] = [];
   timeoutIds: number[] = [];
 
+  transcription: string = '';
+  referenceText: string = '';
+  accuracyScore: number = 0;
+
   constructor(public accuracyService: SpeechDetectService) {}
   ngOnInit(): void {
     console.log('Component initialized, inn ', this.wordList[0]);
+    this.clearAllTimers();
     this.startRandomSelection();
   }
-  showQuaterCircleAnimation() {
-    this.showQuaterCircle = true;
-    setTimeout(() => {
-      this.showQuaterCircle = false;
-    }, 1500);
-  }
-  showCircleAnimation() {
-    this.showCircle = false;
-    setTimeout(() => {
-      this.showCircle = true;
-    }, 50);
-  }
-  startRandomSelection() {
-    this.accuracyService.resultList = [];
-    this.accuracyService.transcription = '';
-    this.accuracyService.accuracyScore = 0;
-    this.totalLength = this.wordList[0].length;
 
-    // Create a copy of the original array and shuffle it
-    this.itemsCopy = [...this.wordList[0]];
-    this.shuffleArray(this.itemsCopy);
-
-    this.onCallAccuracyFunction();
-
-    // this.intervalId = setInterval(() => {
-    //   this.onCallAccuracyFunction();
-    // }, 5000);
-  }
-  onCallAccuracyFunction() {
+  onCallAccuracyFunction33() {
     this.showCircle = false;
     // this.showCircleAnimation();
     this.showQuaterCircleAnimation();
@@ -89,7 +67,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       this.accuracyService.resultList.push(result);
     }
     if (this.currentIndex >= this.totalCount) {
-      this.clearInterval();
+      // this.clearInterval();
       console.log('result = ', this.accuracyService.resultList);
       this.accuracyService.onShowResult = true;
       console.log('All items have been selected. Stopping random selection.');
@@ -139,17 +117,123 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearInterval() {
-    // Clear the interval if it exists
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null; // Reset the intervalId to null
-    }
+  showQuaterCircleAnimation() {
+    this.showQuaterCircle = true;
   }
-  ngOnDestroy() {
-    // Clear interval on component destruction to prevent memory leaks
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+  showCircleAnimation() {
+    this.showCircle = true;
+  }
+
+  startRandomSelection() {
+    this.accuracyService.resultList = [];
+    this.transcription = '';
+    this.accuracyScore = 0;
+    this.totalLength = this.wordList[0].length;
+    this.itemsCopy = [...this.wordList[0]];
+    this.shuffleArray(this.itemsCopy);
+
+    this.onCallAccuracyFunction();
+  }
+  startRandomSelection33() {
+    this.accuracyService.resultList = [];
+    this.accuracyService.transcription = '';
+    this.accuracyService.accuracyScore = 0;
+    this.totalLength = this.wordList[0].length;
+
+    // Create a copy of the original array and shuffle it
+    this.itemsCopy = [...this.wordList[0]];
+    this.shuffleArray(this.itemsCopy);
+
+    this.onCallAccuracyFunction();
+
+    // this.intervalId = setInterval(() => {
+    //   this.onCallAccuracyFunction();
+    // }, 5000);
+  }
+
+  onCallAccuracyFunction() {
+    this.word = '';
+    this.transcription = '';
+    this.referenceText = '';
+    // this.accuracyService.stopRecording();
+    this.showQuaterCircleAnimation();
+    this.showCircle = false;
+
+    if (this.currentIndex >= this.totalCount) {
+      // this.clearInterval();
+      this.clearAllTimers();
+      this.accuracyService.onShowResult = true;
+      console.log('All items have been selected. Stopping random selection.');
+      return;
     }
+
+    this.word = this.itemsCopy[this.currentIndex];
+    this.referenceText = this.word;
+    if (this.showVolumIcon) {
+      this.showQuaterCircle = true;
+      this.accuracyService.speakText(this.referenceText);
+    }
+    this.currentIndex++;
+    this.onCallRecorderFunction();
+  }
+  onCallRecorderFunction() {
+    this.showQuaterCircle = false;
+
+    const timeoutId3 = setTimeout(() => {
+      this.showCircleAnimation();
+    }, 1000) as unknown as number;
+    this.timeoutIds.push(timeoutId3);
+
+    const timeoutId4 = setTimeout(() => {
+      this.accuracyService
+        .startRecording(1)
+        .then((audioBlob) => {
+          this.handleRecordedAudio(audioBlob);
+        })
+        .catch((error) => {
+          console.error('Error during recording:', error);
+        });
+    }, 700) as unknown as number;
+    this.timeoutIds.push(timeoutId4);
+  }
+  handleRecordedAudio(audioBlob: Blob) {
+    this.showCircle = false;
+    this.accuracyService.transcribeAudio(audioBlob).subscribe({
+      next: (res) => {
+        this.accuracyService.transcription = '';
+        this.transcription = res.results.channels[0].alternatives[0].transcript;
+
+        this.accuracyScore = this.accuracyService.calculateAccuracy(
+          this.referenceText,
+          this.transcription
+        );
+        this.onCalculateResultTable();
+      },
+      error: (err) => {},
+    });
+  }
+  onCalculateResultTable() {
+    if (this.word) {
+      const result = {
+        word: this.word,
+        noResponse: this.transcription ? '' : 'noResponse',
+        userSpoke: this.transcription,
+        accuracy: this.accuracyScore.toFixed(0),
+      };
+
+      this.accuracyService.resultList.push(result);
+    }
+    this.startFrom += 1;
+
+    this.onCallAccuracyFunction();
+  }
+  ngOnDestroy(): void {
+    console.log('Component destroyed, clearing intervals and timeouts');
+    this.clearAllTimers();
+    this.accuracyService.stopPreviousRecording();
+  }
+  clearAllTimers(): void {
+    this.timeoutIds.forEach((id) => clearTimeout(id));
+    this.timeoutIds = [];
   }
 }

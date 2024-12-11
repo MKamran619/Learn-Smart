@@ -79,11 +79,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.startRandomSelection();
   }
   onChangePreviewMode() {
-    // if (this.accuracyService.onShowResult) {
-    //   this.accuracyService.onShowResult = false;
-    // } else {
     this.router.navigate([`dashboard/pre-test/pre-alphabets`]);
-    // }
   }
   onClickCapitalLetter() {
     this.accuracyService.stopPreviousRecording();
