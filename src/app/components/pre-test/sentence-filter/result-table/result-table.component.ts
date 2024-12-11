@@ -129,15 +129,15 @@ export class ResultTableComponent implements OnInit {
       });
   }
   showMessage() {
-    this.snackBar.open(
-      'Congratulations! You have unlocked the word list levels.',
-      'Close',
-      {
-        duration: 15000, // Duration in milliseconds
-        verticalPosition: 'bottom', // Position: 'top' or 'bottom'
-        horizontalPosition: 'center', // Position: 'start', 'center', 'end', 'left', or 'right'
-      }
-    );
+    // this.snackBar.open(
+    //   'Congratulations! You have unlocked the word list levels.',
+    //   'Close',
+    //   {
+    //     duration: 15000, // Duration in milliseconds
+    //     verticalPosition: 'bottom', // Position: 'top' or 'bottom'
+    //     horizontalPosition: 'center', // Position: 'start', 'center', 'end', 'left', or 'right'
+    //   }
+    // );
   }
   onNavigateToLevel(mode: string) {
     this.sharedService.isLoading = true;
