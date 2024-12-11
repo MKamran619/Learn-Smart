@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SharedService } from '../sharedServices/shared.service';
-import { finalize } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -80,7 +80,7 @@ export class SpeechDetectService {
     const wordsPerSecond = 2.5; // Average speaking rate (words per second)
     return words / wordsPerSecond;
   }
-  startRecording(estimatedTime: any) {
+  startRecording22(estimatedTime: any) {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
@@ -95,7 +95,7 @@ export class SpeechDetectService {
         console.log('Recording started...');
 
         setTimeout(() => {
-          this.stopRecording(stream);
+          return this.stopRecording(stream);
         }, estimatedTime * 4500);
       })
       .catch((err) => {
@@ -103,7 +103,7 @@ export class SpeechDetectService {
       });
   }
 
-  stopRecording(stream: any) {
+  stopRecording22(stream: any) {
     if (!this.mediaRecorder) return;
 
     this.mediaRecorder.stop();
@@ -113,10 +113,55 @@ export class SpeechDetectService {
       let audioBlob: any;
       audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
       this.audioChunks = []; // Clear the audio chunks
-      this.transcribeAudio(audioBlob);
+      return audioBlob;
     };
   }
-  transcribeAudio(audioBlob: Blob) {
+  startRecording(estimatedTime: any): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          this.mediaRecorder = new MediaRecorder(stream);
+          this.audioChunks = [];
+
+          this.mediaRecorder.ondataavailable = (event) => {
+            this.audioChunks.push(event.data);
+          };
+
+          this.mediaRecorder.start();
+          console.log('Recording started...');
+
+          // Stop the recording after the estimated time
+          setTimeout(() => {
+            this.stopRecording(stream)
+              .then((audioBlob) => resolve(audioBlob))
+              .catch((error) => reject(error));
+          }, estimatedTime * 4500);
+        })
+        .catch((err) => {
+          console.error('Error accessing microphone:', err);
+          reject(err); // Reject the promise on error
+        });
+    });
+  }
+  stopRecording(stream: any): Promise<Blob> {
+    if (!this.mediaRecorder)
+      return Promise.reject('MediaRecorder not initialized');
+
+    // Stop the MediaRecorder and the stream tracks
+    this.mediaRecorder.stop();
+    stream.getTracks().forEach((track: any) => track.stop());
+
+    return new Promise((resolve) => {
+      this.mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+        this.audioChunks = []; // Clear the audio chunks
+        resolve(audioBlob); // Resolve with the audioBlob
+      };
+    });
+  }
+
+  transcribeAudio(audioBlob: Blob): Observable<any> {
     // this.sharedService.isLoading = true;
     const apiKey = '5221502e1ff6076de6eb5f51a27e883cd1637ada';
     const url = 'https://api.deepgram.com/v1/listen';
@@ -125,26 +170,32 @@ export class SpeechDetectService {
       'Content-Type': 'audio/wav',
     };
 
-    this.http
-      .post(url, audioBlob, { headers })
-      .pipe(
-        finalize(() => {
-          this.sharedService.isLoading = false;
-        })
-      )
-      .subscribe((response: any) => {
-        this.transcription = '';
-        this.transcription =
-          response.results.channels[0].alternatives[0].transcript;
+    return this.http.post(url, audioBlob, { headers });
+    // .pipe(
+    //   finalize(() => {
+    //     this.sharedService.isLoading = false;
+    //   })
+    // )
+    // .subscribe((response: any) => {
+    //   this.transcription = '';
+    //   this.transcription =
+    //     response.results.channels[0].alternatives[0].transcript;
 
-        console.log('origonal = ', this.referenceText);
-        console.log('spoken = ', this.transcription);
+    //   console.log('origonal = ', this.referenceText);
+    //   console.log('spoken = ', this.transcription);
 
-        this.accuracyScore = this.calculateAccuracy(
-          this.referenceText,
-          this.transcription
-        );
-      });
+    //   this.accuracyScore = this.calculateAccuracy(
+    //     this.referenceText,
+    //     this.transcription
+    //   );
+    // });
+  }
+  stopPreviousRecording() {
+    if (this.mediaRecorder) {
+      this.mediaRecorder.stop();
+      // this.mediaRecorder = null; // Reset the recorder
+    }
+    // Perform any additional cleanup here if needed
   }
 
   // Function to clean text (remove special characters and convert to lowercase)

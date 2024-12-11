@@ -20,6 +20,7 @@ import { OralReadingPassagesComponent as PostOralReadingPassages } from './compo
 
 import { multicast } from 'rxjs';
 import { WordComponent } from './components/pre-test/word-list/components/word/word.component';
+import { CardContainerComponent } from './components/pre-test/alphabets/card-container/card-container.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -33,6 +34,10 @@ export const routes: Routes = [
   //  Pre Test components
 
   { path: 'dashboard/:mode/pre-alphabets', component: AlphabetsComponent },
+  {
+    path: 'dashboard/:mode/pre-alphabets/:type',
+    component: CardContainerComponent,
+  },
   {
     path: 'dashboard/:mode/pre-sentence-filter',
     component: SentenceFilterComponent,

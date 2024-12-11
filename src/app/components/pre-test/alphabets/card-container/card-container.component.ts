@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -10,27 +11,39 @@ import {
   cilVolumeHigh,
   cilVolumeLow,
   cilVolumeOff,
+  cilArrowLeft,
 } from '@coreui/icons';
 import { IconDirective, IconModule } from '@coreui/icons-angular';
 import { SpeechDetectService } from '../../../../services/speechDetect/speech-detect.service';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from '../../../../home/header/header.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ResultTableComponent } from '../result-table/result-table.component';
 
 @Component({
   selector: 'app-card-container',
   standalone: true,
-  imports: [CommonModule, IconDirective, IconModule, MatIcon],
+  imports: [
+    CommonModule,
+    IconDirective,
+    IconModule,
+    MatIcon,
+    HeaderComponent,
+    ResultTableComponent,
+  ],
   templateUrl: './card-container.component.html',
   styleUrl: './card-container.component.scss',
 })
 export class CardContainerComponent implements OnInit, OnDestroy {
-  @Input() charOrWordList: string[] = [];
+  letterList: string[] = [];
   letter = '';
-  icons = { cilMic, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
+  icons = { cilMic, cilArrowLeft, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
   private intervalId: any;
   totalLength = 0;
-  startFrom = 0;
+  startFrom = 1;
   showVolumIcon = false;
+  title = '';
 
   showCircle = false;
   showQuaterCircle = true;
@@ -39,76 +52,103 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   estimatedTime: any = 1;
   timeoutIds: number[] = [];
 
-  constructor(public accuracyService: SpeechDetectService) {}
+  transcription: string = '';
+  referenceText: string = '';
+  accuracyScore: number = 0;
+
+  constructor(
+    public accuracyService: SpeechDetectService,
+    public router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
   ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      this.accuracyService.stopPreviousRecording();
+      const type = params.get('type');
+      if (type == 'capital-letters') {
+        this.onClickCapitalLetter();
+      } else {
+        this.onClickCommonLetter();
+      }
+
+      // You can now use the 'mode' and 'type' values as needed
+    });
     console.log('Component initialized');
+    this.clearAllTimers();
     this.startRandomSelection();
+  }
+  onChangePreviewMode() {
+    // if (this.accuracyService.onShowResult) {
+    //   this.accuracyService.onShowResult = false;
+    // } else {
+    this.router.navigate([`dashboard/pre-test/pre-alphabets`]);
+    // }
+  }
+  onClickCapitalLetter() {
+    this.accuracyService.stopPreviousRecording();
+    this.accuracyService.resultList = [];
+    this.accuracyService.accuracyScore = 0;
+    this.accuracyService.transcription = '';
+    // this.btnCapitalActive = true;
+    this.title = 'Capital Letter';
+    this.letterList = Array.from({ length: 26 }, (_, i) =>
+      String.fromCharCode(65 + i)
+    );
+  }
+  onClickCommonLetter() {
+    this.accuracyService.stopPreviousRecording();
+    this.accuracyService.resultList = [];
+    this.accuracyService.accuracyScore = 0;
+    this.accuracyService.transcription = '';
+    // this.btnCapitalActive = false;
+    this.title = 'Common Letter';
+    this.letterList = ['E', 'T', 'A']; //, 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
   }
   showQuaterCircleAnimation() {
     this.showQuaterCircle = true;
-    setTimeout(() => {
-      this.showQuaterCircle = false;
-    }, 3000);
   }
   showCircleAnimation() {
-    this.showCircle = false;
-    setTimeout(() => {
-      this.showCircle = true;
-    }, 0);
+    this.showCircle = true;
   }
 
   startRandomSelection() {
     this.accuracyService.resultList = [];
-    this.accuracyService.transcription = '';
-    this.accuracyService.accuracyScore = 0;
-    this.totalLength = this.charOrWordList.length;
-    this.itemsCopy = [...this.charOrWordList];
+    this.transcription = '';
+    this.accuracyScore = 0;
+    this.totalLength = this.letterList.length;
+    this.itemsCopy = [...this.letterList];
     this.shuffleArray(this.itemsCopy);
 
     this.onCallAccuracyFunction();
   }
 
   onCallAccuracyFunction() {
+    console.log('un there');
+
+    this.letter = '';
+    this.transcription = '';
+    this.referenceText = '';
     // this.accuracyService.stopRecording();
     this.showQuaterCircleAnimation();
     this.showCircle = false;
 
-    if (this.letter) {
-      const result = {
-        letter: 'Letter ' + this.letter,
-        noResponse: this.accuracyService.transcription ? '' : 'noResponse',
-        userSpoke: this.accuracyService.transcription,
-        accuracy: this.accuracyService.accuracyScore.toFixed(0),
-      };
-      this.letter = '';
-      console.log('sing;e result = ', result);
-
-      this.accuracyService.resultList.push(result);
-    }
     if (this.currentIndex >= this.itemsCopy.length) {
-      this.clearInterval();
-      console.log('result = ', this.accuracyService.resultList);
+      // this.clearInterval();
+      this.clearAllTimers();
       this.accuracyService.onShowResult = true;
       console.log('All items have been selected. Stopping random selection.');
       return;
     }
-    this.startFrom = this.startFrom + 1;
+
     this.letter = this.itemsCopy[this.currentIndex];
-    this.accuracyService.referenceText = `letter ${this.letter}`;
+    this.referenceText = `letter ${this.letter}`;
     if (this.showVolumIcon) {
       this.showQuaterCircle = true;
-      this.accuracyService.speakText(this.accuracyService.referenceText);
+      this.accuracyService.speakText(this.referenceText);
     }
-
-    // this.estimatedTime = this.accuracyService.calculateSpeakingTime(
-    //   this.accuracyService.referenceText
-    // );
-    // const timeoutId = setTimeout(() => {
-    this.onClickMicIcon();
-    // }, this.estimatedTime * 1000) as unknown as number;
-    // this.timeoutIds.push(timeoutId);
-
     this.currentIndex++;
+    this.onClickMicIcon();
   }
   onClickMicIcon() {
     this.showQuaterCircle = false;
@@ -118,21 +158,52 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     }, 1000) as unknown as number;
     this.timeoutIds.push(timeoutId3);
 
-    // this.accuracyService.startRecording(this.estimatedTime);
-    // this.accuracyService.startSpeechRecognition();
-    setTimeout(() => {
-      this.accuracyService.startRecording(1);
-    }, 700);
+    const timeoutId4 = setTimeout(() => {
+      this.accuracyService
+        .startRecording(1)
+        .then((audioBlob) => {
+          this.handleRecordedAudio(audioBlob);
+        })
+        .catch((error) => {
+          console.error('Error during recording:', error);
+        });
+    }, 700) as unknown as number;
+    this.timeoutIds.push(timeoutId4);
+  }
+  handleRecordedAudio(audioBlob: Blob) {
+    this.showCircle = false;
+    this.accuracyService.transcribeAudio(audioBlob).subscribe({
+      next: (res) => {
+        this.accuracyService.transcription = '';
+        this.transcription = res.results.channels[0].alternatives[0].transcript;
 
-    const timeoutId = setTimeout(() => {
-      // this.showCircle = false;
-      // this.accuracyService.stopRecording();
-    }, 1100) as unknown as number;
-    this.timeoutIds.push(timeoutId);
-    const timeoutId2 = setTimeout(() => {
-      this.onCallAccuracyFunction();
-    }, this.estimatedTime * 7000) as unknown as number;
-    this.timeoutIds.push(timeoutId2);
+        console.log('origonal = ', this.referenceText);
+        console.log('spoken = ', this.transcription);
+
+        this.accuracyScore = this.accuracyService.calculateAccuracy(
+          this.referenceText,
+          this.transcription
+        );
+        this.onCalculateResultTable();
+      },
+      error: (err) => {},
+    });
+  }
+  onCalculateResultTable() {
+    if (this.letter) {
+      const result = {
+        letter: 'Letter ' + this.letter,
+        noResponse: this.transcription ? '' : 'noResponse',
+        userSpoke: this.transcription,
+        accuracy: this.accuracyScore.toFixed(0),
+      };
+      console.log('sing;e result = ', result);
+
+      this.accuracyService.resultList.push(result);
+    }
+    this.startFrom += 1;
+
+    this.onCallAccuracyFunction();
   }
 
   private shuffleArray(array: string[]) {
@@ -142,27 +213,20 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearInterval() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
+  // clearInterval() {
+  //   if (this.intervalId) {
+  //     clearInterval(this.intervalId);
+  //     this.intervalId = null;
+  //   }
+  // }
+
+  ngOnDestroy(): void {
+    console.log('Component destroyed, clearing intervals and timeouts');
+    this.clearAllTimers();
+    this.accuracyService.stopPreviousRecording();
   }
-  ngOnDestroy() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-
-    // Clear all intervals
-    this.clearInterval();
-
-    // Clear timeouts
+  clearAllTimers(): void {
     this.timeoutIds.forEach((id) => clearTimeout(id));
-
-    // Stop service operations
-    // this.accuracyService.stopSpeechRecognition();
-
-    // Prevent further recursive calls
-    // this.isComponentActive = false;
+    this.timeoutIds = [];
   }
 }

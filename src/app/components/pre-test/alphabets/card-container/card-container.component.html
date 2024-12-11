@@ -1,93 +1,125 @@
-<div class="justfy-content-center">
+<app-header></app-header>
+<div class="justfy-content-center mt-5">
   <div>
-    <div class="justfy-content-center">
-      <h6>{{ startFrom + "/" + totalLength }}</h6>
-    </div>
     <div>
-      <div class="card-container">
+      <div class="title-card-container justfy-content-left">
+        <div style="width: 35%">
+          <div
+            class="title-card-icon justfy-content-left"
+            (click)="onChangePreviewMode()"
+          >
+            <svg
+              [cIcon]="icons.cilArrowLeft"
+              width="50"
+              title="Shield Icon"
+            ></svg>
+          </div>
+        </div>
+        <h4>{{ title }}</h4>
+      </div>
+      <div class="justfy-content-center" *ngIf="!accuracyService.onShowResult">
         <div>
-          <div style="display: flex; margin-left: 120px">
-            <div>
-              <div class="justfy-content-center">
-                <div
-                  (click)="showVolumIcon = !showVolumIcon"
-                  style="cursor: pointer"
-                >
-                  <div class="quater-circle-container">
-                    <div *ngIf="showVolumIcon">
+          <div class="justfy-content-center">
+            <h6>{{ startFrom + "/" + totalLength }}</h6>
+          </div>
+          <div>
+            <div class="card-container">
+              <div>
+                <div style="display: flex; margin-left: 120px">
+                  <div>
+                    <div class="justfy-content-center">
                       <div
-                        class="quater-circle-large"
-                        [ngClass]="
-                          showQuaterCircle
-                            ? 'quater-circle'
-                            : 'hide-quater-circle'
-                        "
-                      ></div>
-                      <div
-                        class="quater-circle-medium"
-                        [ngClass]="
-                          showQuaterCircle
-                            ? 'quater-circle'
-                            : 'hide-quater-circle'
-                        "
-                      ></div>
-                      <div
-                        class="quater-circle-small"
-                        [ngClass]="
-                          showQuaterCircle
-                            ? 'quater-circle'
-                            : 'hide-quater-circle'
-                        "
-                      ></div>
-                      <svg
-                        [cIcon]="icons.cilVolumeLow"
-                        width="25"
-                        title="Shield Icon"
-                      ></svg>
+                        (click)="showVolumIcon = !showVolumIcon"
+                        style="cursor: pointer"
+                      >
+                        <div class="quater-circle-container">
+                          <div *ngIf="showVolumIcon">
+                            <div
+                              class="quater-circle-large"
+                              [ngClass]="
+                                showQuaterCircle
+                                  ? 'quater-circle'
+                                  : 'hide-quater-circle'
+                              "
+                            ></div>
+                            <div
+                              class="quater-circle-medium"
+                              [ngClass]="
+                                showQuaterCircle
+                                  ? 'quater-circle'
+                                  : 'hide-quater-circle'
+                              "
+                            ></div>
+                            <div
+                              class="quater-circle-small"
+                              [ngClass]="
+                                showQuaterCircle
+                                  ? 'quater-circle'
+                                  : 'hide-quater-circle'
+                              "
+                            ></div>
+                            <svg
+                              [cIcon]="icons.cilVolumeLow"
+                              width="25"
+                              title="Shield Icon"
+                            ></svg>
+                          </div>
+                        </div>
+                        <div *ngIf="!showVolumIcon">
+                          <svg
+                            [cIcon]="icons.cilVolumeOff"
+                            width="25"
+                            title="Shield Icon"
+                          ></svg>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div *ngIf="!showVolumIcon">
-                    <svg
-                      [cIcon]="icons.cilVolumeOff"
-                      width="25"
-                      title="Shield Icon"
-                    ></svg>
+                    sound
                   </div>
                 </div>
+                <div class="justfy-content-center">
+                  <h1
+                    [style.color]="
+                      startFrom % 2 === 0
+                        ? 'var(--dark-color)'
+                        : 'var(--warning-color)'
+                    "
+                  >
+                    {{ letter }}
+                  </h1>
+                </div>
               </div>
-              sound
+            </div>
+            <div *ngIf="showCircle" style="margin-top: 0">
+              <span style="color: red">Recording in progress....</span>
+            </div>
+            <div
+              class="mic-icon justfy-content-center"
+              style="margin-top: 20px; cursor: pointer"
+            >
+              <div class="circle-container" (click)="onClickMicIcon()">
+                <div
+                  class="medium"
+                  [ngClass]="showCircle ? 'circle' : ''"
+                ></div>
+                <div class="small" [ngClass]="showCircle ? 'circle' : ''"></div>
+                <div
+                  *ngIf="showCircle"
+                  class="mic-icon"
+                  style="margin-left: 4px"
+                >
+                  🔴
+                </div>
+                <div class="mic-icon" *ngIf="!showCircle">
+                  <mat-icon>mic</mat-icon>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="justfy-content-center">
-            <h1
-              [style.color]="
-                startFrom % 2 === 0
-                  ? 'var(--dark-color)'
-                  : 'var(--warning-color)'
-              "
-            >
-              {{ letter }}
-            </h1>
-          </div>
         </div>
       </div>
-      <div *ngIf="showCircle" style="margin-top: 0">
-        <span style="color: red">Recording in progress....</span>
-      </div>
-      <div
-        class="mic-icon justfy-content-center"
-        style="margin-top: 20px; cursor: pointer"
-      >
-        <div class="circle-container" (click)="onClickMicIcon()">
-          <div class="medium" [ngClass]="showCircle ? 'circle' : ''"></div>
-          <div class="small" [ngClass]="showCircle ? 'circle' : ''"></div>
-          <div *ngIf="showCircle" class="mic-icon" style="margin-left: 4px">
-            🔴
-          </div>
-          <div class="mic-icon" *ngIf="!showCircle">
-            <mat-icon>mic</mat-icon>
-          </div>
-        </div>
+      <div class="justfy-content-center" *ngIf="accuracyService.onShowResult">
+        <app-result-table></app-result-table>
       </div>
     </div>
   </div>
