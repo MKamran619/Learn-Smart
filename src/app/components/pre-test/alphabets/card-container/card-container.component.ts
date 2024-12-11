@@ -103,7 +103,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.accuracyService.transcription = '';
     // this.btnCapitalActive = false;
     this.title = 'Common Letter';
-    this.letterList = ['E', 'T', 'A']; //, 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
+    this.letterList = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
   }
   showQuaterCircleAnimation() {
     this.showQuaterCircle = true;
@@ -124,8 +124,6 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   }
 
   onCallAccuracyFunction() {
-    console.log('un there');
-
     this.letter = '';
     this.transcription = '';
     this.referenceText = '';
@@ -148,9 +146,9 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       this.accuracyService.speakText(this.referenceText);
     }
     this.currentIndex++;
-    this.onClickMicIcon();
+    this.onCallRecorderFunction();
   }
-  onClickMicIcon() {
+  onCallRecorderFunction() {
     this.showQuaterCircle = false;
 
     const timeoutId3 = setTimeout(() => {
