@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class SharedService {
   levelsConfig: any;
   userConfig: any;
 
-  constructor() {}
+  constructor(private snackbar: MatSnackBar) {}
 
   transformSentence(value: string, chunkSize: number = 10): string[] {
     if (!value) return [];
@@ -58,5 +59,24 @@ export class SharedService {
     } else {
       return this.userConfig;
     }
+  }
+  openCustomSnackBar(message: string, type: 'success' | 'alert' | 'warning') {
+    const snackBarRef = this.snackbar.open(message, 'X', {
+      duration: 8000,
+      panelClass: [
+        type == 'success'
+          ? 'success-snackbar'
+          : type == 'alert'
+          ? 'alert-snackbar'
+          : 'warning-snackbar',
+      ],
+    });
+
+    snackBarRef.afterOpened().subscribe(() => {
+      const actionButton = document.querySelector('.mat-mdc-snack-bar-action');
+      if (actionButton) {
+        actionButton.innerHTML = `<span class="material-icons">close</span>`;
+      }
+    });
   }
 }

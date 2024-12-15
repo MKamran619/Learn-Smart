@@ -15,11 +15,12 @@ import { IconDirective, IconModule } from '@coreui/icons-angular';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { SpeechDetectService } from '../../../../services/speechDetect/speech-detect.service';
+import { SharedService } from '../../../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-card-container',
   standalone: true,
-  imports: [CommonModule, IconDirective, MatIconModule, IconModule],
+  imports: [CommonModule, MatIconModule, IconModule],
   templateUrl: './card-container.component.html',
   styleUrl: './card-container.component.scss',
 })
@@ -41,19 +42,23 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   referenceText: string = '';
   accuracyScore: number = 0;
   timeoutIds: number[] = [];
+  isLoading = false;
 
-  levelList = [
-    'pre-primer',
-    'primer',
-    'level-1',
-    'level-2',
-    'level-3',
-    'level-4',
-    'level-5',
-    'level-6',
-  ];
+  // levelList = [
+  //   'pre-primer',
+  //   'primer',
+  //   'level-1',
+  //   'level-2',
+  //   'level-3',
+  //   'level-4',
+  //   'level-5',
+  //   'level-6',
+  // ];
 
-  constructor(public accuracyService: SpeechDetectService) {}
+  constructor(
+    public accuracyService: SpeechDetectService,
+    public sharedService: SharedService
+  ) {}
   ngOnInit(): void {
     console.log('Component initialized');
     this.startRandomSelection();
@@ -78,64 +83,11 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     }, 10000);
   }
 
-  onCallAccuracyFunction23() {
-    this.showCircleAnimation();
-    this.showQuaterCircleAnimation();
-
-    if (this.sentence) {
-      const result = {
-        sentence: this.sentence,
-        noResponse: this.accuracyService.transcription ? '' : 'noResponse',
-        userSpoke: this.accuracyService.transcription,
-        accuracy: this.accuracyService.accuracyScore.toFixed(0),
-        level: this.levelList[this.currentIndex],
-      };
-
-      this.accuracyService.resultList.push(result);
-    }
-    if (this.currentIndex >= this.itemsCopy.length) {
-      this.clearInterval();
-      console.log('result = ', this.accuracyService.resultList);
-      this.accuracyService.onShowResult = true;
-      console.log('All items have been selected. Stopping random selection.');
-      return;
-    }
-    this.startFrom = this.startFrom + 1;
-    this.sentence = this.itemsCopy[this.currentIndex];
-    this.accuracyService.referenceText = `${this.sentence}`;
-    if (this.showVolumIcon) {
-      this.showQuaterCircle = true;
-      // this.showQuaterCircleAnimation();
-      this.accuracyService.speakText(this.accuracyService.referenceText);
-    }
-
-    this.accuracyService.startSpeechRecognition();
-
-    this.currentIndex++;
-  }
   showQuaterCircleAnimation() {
     this.showQuaterCircle = true;
   }
   showCircleAnimation() {
     this.showCircle = true;
-  }
-  startRandomSelection2j3() {
-    this.accuracyService.resultList = [];
-    this.accuracyService.transcription = '';
-    this.accuracyService.accuracyScore = 0;
-    this.totalLength = this.sentenceList.length;
-
-    // Create a copy of the original array and shuffle it
-    this.itemsCopy = [...this.sentenceList];
-    // this.shuffleArray(itemsCopy);
-
-    this.currentIndex = 0;
-
-    this.onCallAccuracyFunction();
-
-    this.intervalId = setInterval(() => {
-      this.onCallAccuracyFunction();
-    }, 10000);
   }
 
   startRandomSelection() {
@@ -170,7 +122,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       this.showQuaterCircle = true;
       this.accuracyService.speakText(this.referenceText);
     }
-    this.currentIndex++;
+    // this.currentIndex++;
     this.onCallRecorderFunction();
   }
   onCallRecorderFunction() {
@@ -194,6 +146,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.timeoutIds.push(timeoutId4);
   }
   handleRecordedAudio(audioBlob: Blob) {
+    this.isLoading = true;
     this.showCircle = false;
     this.accuracyService.transcribeAudio(audioBlob).subscribe({
       next: (res) => {
@@ -204,9 +157,15 @@ export class CardContainerComponent implements OnInit, OnDestroy {
           this.referenceText,
           this.transcription
         );
+        this.isLoading = false;
         this.onCalculateResultTable();
       },
-      error: (err) => {},
+      error: (err) => {
+        this.isLoading = false;
+        const message = 'please try again';
+        this.sharedService.openCustomSnackBar(message, 'alert');
+        this.onCallAccuracyFunction();
+      },
     });
   }
   onCalculateResultTable() {
@@ -216,11 +175,13 @@ export class CardContainerComponent implements OnInit, OnDestroy {
         noResponse: this.transcription ? '' : 'noResponse',
         userSpoke: this.transcription,
         accuracy: this.accuracyScore.toFixed(0),
-        level: this.levelList[this.currentIndex],
+        level: this.currentIndex,
       };
       console.log('sing;e result = ', result);
 
       this.accuracyService.resultList.push(result);
+
+      this.currentIndex++;
     }
     this.startFrom += 1;
 
