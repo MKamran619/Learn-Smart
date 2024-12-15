@@ -11,7 +11,7 @@
           <th scope="col">Sentence Filter</th>
           <th scope="col">Sentence Spoken</th>
           <th scope="col">Accuracy</th>
-          <th scope="col">UnLocked WordList</th>
+          <th scope="col" *ngIf="isLevelUnlocked">UnLocked WordList</th>
         </tr>
       </thead>
       <tbody>
@@ -36,7 +36,7 @@
           </td>
 
           <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
-          <td>
+          <td *ngIf="isLevelUnlocked">
             <ng-container *ngIf="item.level == 0 && prePrimerUnlocked">
               <button cButton (click)="onNavigateToLevel('pre-primer')">
                 {{ "pre-primer" }}

@@ -39,6 +39,7 @@ export class ResultTableComponent implements OnInit {
 
   isLoading = false;
   currentUser = '';
+  isLevelUnlocked = false;
 
   constructor(
     public accuracyService: SpeechDetectService,
@@ -85,7 +86,6 @@ export class ResultTableComponent implements OnInit {
     );
   }
   unBlockingLevelByAccuracy() {
-    let isLevelUnlocked = false;
     if (!this.sharedService.userConfig) {
       const data = localStorage.getItem('userConfig') || '';
       this.sharedService.userConfig = JSON.parse(data);
@@ -109,28 +109,28 @@ export class ResultTableComponent implements OnInit {
         this.currentUser,
         Constants.preWordListLevel.PrePrimer
       );
-      isLevelUnlocked = true;
+      this.isLevelUnlocked = true;
     }
     if (
       accuracyOne > 25 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.Primer)
     ) {
       this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.Primer);
-      isLevelUnlocked = true;
+      this.isLevelUnlocked = true;
     }
     if (
       accuracyTwo > 60 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelOne)
     ) {
       this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelOne);
-      isLevelUnlocked = true;
+      this.isLevelUnlocked = true;
     }
     if (
       accuracyThree > 60 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelTwo)
     ) {
       this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelTwo);
-      isLevelUnlocked = true;
+      this.isLevelUnlocked = true;
     }
     if (
       accuracyFour > 40 &&
@@ -142,7 +142,7 @@ export class ResultTableComponent implements OnInit {
         this.currentUser,
         Constants.preWordListLevel.LevelThree
       );
-      isLevelUnlocked = true;
+      this.isLevelUnlocked = true;
     }
     if (
       accuracyFour > 70 &&
@@ -154,7 +154,7 @@ export class ResultTableComponent implements OnInit {
         this.currentUser,
         Constants.preWordListLevel.LevelFour
       );
-      isLevelUnlocked = true;
+      this.isLevelUnlocked = true;
     }
     if (
       accuracyFive > 40 &&
@@ -166,14 +166,14 @@ export class ResultTableComponent implements OnInit {
         this.currentUser,
         Constants.preWordListLevel.LevelFive
       );
-      isLevelUnlocked = true;
+      this.isLevelUnlocked = true;
     }
     if (
       accuracyFive > 70 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelSix)
     ) {
       this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelSix);
-      isLevelUnlocked = true;
+      this.isLevelUnlocked = true;
     }
     // this.onGetLatestUserLevels(user);
   }
