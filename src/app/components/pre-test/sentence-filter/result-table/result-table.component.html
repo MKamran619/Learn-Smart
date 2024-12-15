@@ -37,9 +37,6 @@
 
           <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
           <td>
-            <!-- <button cButton (click)="onNavigateToLevel(item.level)">
-              {{ item.level }}
-            </button> -->
             <ng-container *ngIf="item.level == 0 && prePrimerUnlocked">
               <button cButton (click)="onNavigateToLevel('pre-primer')">
                 {{ "pre-primer" }}
@@ -83,7 +80,7 @@
                 {{ "level-4" }}
               </button>
             </ng-container>
-            <ng-container *ngIf="item.level == '4'">
+            <ng-container *ngIf="item.level == 4">
               <button
                 cButton
                 (click)="onNavigateToLevel('level-5')"

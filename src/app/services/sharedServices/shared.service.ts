@@ -62,7 +62,7 @@ export class SharedService {
   }
   openCustomSnackBar(message: string, type: 'success' | 'alert' | 'warning') {
     const snackBarRef = this.snackbar.open(message, 'X', {
-      duration: 8000,
+      duration: 15000,
       panelClass: [
         type == 'success'
           ? 'success-snackbar'

@@ -38,6 +38,7 @@ export class ResultTableComponent implements OnInit {
   levelSixUnlocked = false;
 
   isLoading = false;
+  currentUser = '';
 
   constructor(
     public accuracyService: SpeechDetectService,
@@ -96,7 +97,7 @@ export class ResultTableComponent implements OnInit {
     const accuracyFour = this.dataSource[3].accuracy;
     const accuracyFive = this.dataSource[4].accuracy;
 
-    const user = this.sharedService.userConfig.user.username;
+    this.currentUser = this.sharedService.userConfig.user.username;
 
     if (
       accuracyOne < 25 &&
@@ -104,28 +105,31 @@ export class ResultTableComponent implements OnInit {
         Constants.preWordListLevel.PrePrimer
       )
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.PrePrimer);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.preWordListLevel.PrePrimer
+      );
       isLevelUnlocked = true;
     }
     if (
       accuracyOne > 25 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.Primer)
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.Primer);
+      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.Primer);
       isLevelUnlocked = true;
     }
     if (
       accuracyTwo > 60 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelOne)
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelOne);
+      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelOne);
       isLevelUnlocked = true;
     }
     if (
       accuracyThree > 60 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelTwo)
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelTwo);
+      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelTwo);
       isLevelUnlocked = true;
     }
     if (
@@ -134,7 +138,10 @@ export class ResultTableComponent implements OnInit {
         Constants.preWordListLevel.LevelThree
       )
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelThree);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.preWordListLevel.LevelThree
+      );
       isLevelUnlocked = true;
     }
     if (
@@ -143,7 +150,10 @@ export class ResultTableComponent implements OnInit {
         Constants.preWordListLevel.LevelFour
       )
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelFour);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.preWordListLevel.LevelFour
+      );
       isLevelUnlocked = true;
     }
     if (
@@ -152,31 +162,36 @@ export class ResultTableComponent implements OnInit {
         Constants.preWordListLevel.LevelFive
       )
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelFive);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.preWordListLevel.LevelFive
+      );
       isLevelUnlocked = true;
     }
     if (
       accuracyFive > 70 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelSix)
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelSix);
+      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelSix);
       isLevelUnlocked = true;
     }
-    this.onGetLatestUserLevels(user);
+    // this.onGetLatestUserLevels(user);
   }
   onUpdateLevel(identifier: string, level_id: number) {
     this.aptService
       .updateUserLevelActiveStatus(identifier, level_id)
       .pipe(finalize(() => {}))
       .subscribe((res) => {
-        // this.onGetLatestUserLevels();
+        // this.onGetLatestUserLevels(this.currentUser)
+        this.showMessage();
+        this.onGetLatestUserLevels();
       });
   }
-  onGetLatestUserLevels(user: string) {
+  onGetLatestUserLevels() {
     this.isLoading = true;
-    this.onUpdateLevel(user, Constants.preTestLevel.WordList);
+    // this.onUpdateLevel(user, Constants.preTestLevel.WordList);
     this.aptService
-      .getUserLevelsByUsernameOrEmail(user)
+      .getUserLevelsByUsernameOrEmail(this.currentUser)
       .pipe(
         finalize(() => {
           this.isLoading = false;
@@ -186,11 +201,10 @@ export class ResultTableComponent implements OnInit {
         localStorage.setItem('levelConfig', JSON.stringify(res));
         this.sharedService.levelsConfig = res;
         this.checkAndUnlockLevels();
-        this.showMessage();
       });
   }
   showMessage() {
-    const message = 'Congratulations! You have unlocked the word list levels.';
+    const message = 'Congratulations! You have unlocked the word list level.';
     this.sharedService.openCustomSnackBar(message, 'success');
   }
   onNavigateToLevel(mode: string) {

@@ -179,6 +179,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
         noResponse: this.transcription ? '' : 'noResponse',
         userSpoke: this.transcription,
         accuracy: this.accuracyScore.toFixed(0),
+        level: this.currentIndex,
       };
 
       this.accuracyService.resultList.push(result);

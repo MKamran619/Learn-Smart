@@ -70,15 +70,15 @@
         <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
           <div
             class="label-card-container justfy-content-center"
-            [class]="{
-              'inactive-block': !sharedService.hasAuthentication(
-                Constants.preTestLevel.WordList
-              )
-            }"
             (click)="onNavigate('pre-test', 'pre-word-list')"
           >
+            <!-- [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preTestLevel.WordList
+            )
+          }" -->
             <h3>Word List</h3>
-            <div
+            <!-- <div
               *ngIf="
                 !sharedService.hasAuthentication(
                   Constants.preTestLevel.WordList
@@ -86,7 +86,7 @@
               "
             >
               <mat-icon class="blocked-icon">block</mat-icon>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
@@ -97,7 +97,7 @@
             <!-- [class]="{ 'inactive-block': !sharedService.hasAuthentication(
             Constants.preTestLevel.OralReadingPassages ) }" -->
             <h3>Oral Reading Passages</h3>
-            <div
+            <!-- <div
               *ngIf="
                 !sharedService.hasAuthentication(
                   Constants.preTestLevel.OralReadingPassages
@@ -105,7 +105,7 @@
               "
             >
               <mat-icon class="blocked-icon">block</mat-icon>
-            </div>
+            </div> -->
           </div>
         </div>
 

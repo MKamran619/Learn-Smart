@@ -1,62 +1,17 @@
-// .label-card-container {
-//   //   margin-top: 50px;
-//   width: 400px;
-//   margin-right: 50px;
-//   // height: 40px;
-//   // font-size: 10px;
-// }
-// .title-card-container {
-//   margin-top: 20px;
-//   height: 45px;
-// }
-
-// @media screen and (min-width: 768px) and (max-width: 1024px) {
-// }
-
-// /** <--- style for Mobile  ----> **/
-// @media screen and (max-width: 767px) {
-//   .pre-test-word-list {
-//     display: block;
-//   }
-//   .title-card-container h4 {
-//     font-size: medium;
-//   }
-// }
-
-.title-card-container {
-  margin-top: 20px;
-  height: 45px;
+.label-card-container {
+  //   margin-top: 50px;
+  width: 400px;
+  margin-right: 50px;
+  // height: 40px;
+  // font-size: 10px;
 }
-.small-card-container {
-  height: 40px;
-  width: 200px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  background-color: var(--inactive-color);
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
-}
-.active {
-  color: var(--common-color);
-  background-color: var(--secondary-color);
-}
+
 @media screen and (min-width: 768px) and (max-width: 1024px) {
-  .title-card-container {
-    margin: 30px;
-    width: 400px;
-  }
-  .small-card-container {
-    margin-bottom: 30px;
-  }
 }
 
 /** <--- style for Mobile  ----> **/
 @media screen and (max-width: 767px) {
-  .title-card-container {
-    // margin-left: 20px;
-    width: 300px;
-  }
-  .small-card-container {
-    width: 140px;
+  .pre-test-word-list {
+    display: block;
   }
 }
