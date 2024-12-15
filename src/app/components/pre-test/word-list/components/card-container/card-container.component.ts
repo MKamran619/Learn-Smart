@@ -102,22 +102,6 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     this.onCallAccuracyFunction();
   }
-  startRandomSelection33() {
-    this.accuracyService.resultList = [];
-    this.accuracyService.transcription = '';
-    this.accuracyService.accuracyScore = 0;
-    this.totalLength = this.wordList[0].length;
-
-    // Create a copy of the original array and shuffle it
-    this.itemsCopy = [...this.wordList[0]];
-    this.shuffleArray(this.itemsCopy);
-
-    this.onCallAccuracyFunction();
-
-    // this.intervalId = setInterval(() => {
-    //   this.onCallAccuracyFunction();
-    // }, 5000);
-  }
 
   onCallAccuracyFunction() {
     this.word = '';

@@ -93,12 +93,9 @@
           <div
             class="label-card-container justfy-content-center"
             (click)="onNavigate('pre-test', 'pre-oral-reading-passages')"
-            [class]="{
-              'inactive-block': !sharedService.hasAuthentication(
-                Constants.preTestLevel.OralReadingPassages
-              )
-            }"
           >
+            <!-- [class]="{ 'inactive-block': !sharedService.hasAuthentication(
+            Constants.preTestLevel.OralReadingPassages ) }" -->
             <h3>Oral Reading Passages</h3>
             <div
               *ngIf="
