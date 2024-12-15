@@ -90,6 +90,7 @@ export class CardContainerComponent implements OnInit {
     public activeRouter: ActivatedRoute
   ) {}
   ngOnInit(): void {
+    this.sharedService.isLoading = false;
     this.checkIndexAndGetLevelRecord();
   }
   checkIndexAndGetLevelRecord() {
@@ -160,6 +161,7 @@ export class CardContainerComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
+            this.isLoading = false;
             console.log({ res });
             this.sharedService.storiesConfig = res;
             this.setStoryData(res);
@@ -174,6 +176,7 @@ export class CardContainerComponent implements OnInit {
 
   setStoryData(res: any) {
     // this.sharedService.isLoading = false;
+    this.isLoading = false;
     this.startFrom = this.storyIndex + 1;
     this.totalCountOfStory = res.meta.pagination.total;
 
@@ -282,19 +285,19 @@ export class CardContainerComponent implements OnInit {
 
     const timeoutId3 = setTimeout(() => {
       this.showCircleAnimation();
-    }, 1000) as unknown as number;
+    }, 3500) as unknown as number;
     this.timeoutIds.push(timeoutId3);
 
     const timeoutId4 = setTimeout(() => {
       this.accuracyService
-        .startRecording(1)
+        .startRecording(1.5)
         .then((audioBlob) => {
           this.handleRecordedAudio(audioBlob);
         })
         .catch((error) => {
           console.error('Error during recording:', error);
         });
-    }, 700) as unknown as number;
+    }, 3000) as unknown as number;
     this.timeoutIds.push(timeoutId4);
   }
   handleRecordedAudio(audioBlob: Blob) {

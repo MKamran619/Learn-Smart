@@ -103,6 +103,7 @@ export class OralReadingPassagesComponent {
   onNavigate(type: string) {
     this.sharedService.isLoading = true;
     setTimeout(() => {
+      this.sharedService.isLoading = false;
       this.router.navigate([
         `dashboard/pre-test/pre-oral-reading-passages/${type}`,
       ]);

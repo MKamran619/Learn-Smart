@@ -100,8 +100,10 @@
                 title="Microphone Icon"
               ></svg>
             </div> -->
-            <div *ngIf="showCircle" style="margin-top: 0">
-              <span style="color: red">Recording in progress....</span>
+            <div *ngIf="showCircle" style="margin-top: -100px">
+              <span style="color: red; white-space: nowrap"
+                >Recording in progress....</span
+              >
             </div>
             <div
               class="mic-icon justfy-content-center"
@@ -116,7 +118,7 @@
                 <div
                   *ngIf="showCircle"
                   class="mic-icon"
-                  style="margin-left: 4px"
+                  style="margin-left: -2px; margin-top: -2px"
                 >
                   🔴
                 </div>
