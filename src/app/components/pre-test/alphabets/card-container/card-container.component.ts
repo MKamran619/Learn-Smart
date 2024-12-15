@@ -51,6 +51,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   itemsCopy: any = [];
   estimatedTime: any = 1;
   timeoutIds: number[] = [];
+  isLoading = false;
 
   transcription: string = '';
   referenceText: string = '';
@@ -79,7 +80,11 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.startRandomSelection();
   }
   onChangePreviewMode() {
-    this.router.navigate([`dashboard/pre-test/pre-alphabets`]);
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = true;
+      this.router.navigate([`dashboard/pre-test/pre-alphabets`]);
+    }, 2000);
   }
   onClickCapitalLetter() {
     this.accuracyService.stopPreviousRecording();
@@ -149,12 +154,12 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     const timeoutId3 = setTimeout(() => {
       this.showCircleAnimation();
-    }, 1000) as unknown as number;
+    }, 1500) as unknown as number;
     this.timeoutIds.push(timeoutId3);
 
     const timeoutId4 = setTimeout(() => {
       this.accuracyService
-        .startRecording(1)
+        .startRecording(1.2)
         .then((audioBlob) => {
           this.handleRecordedAudio(audioBlob);
         })
@@ -170,15 +175,11 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.accuracyService.transcription = '';
         this.transcription = res.results.channels[0].alternatives[0].transcript;
-
-        console.log('origonal = ', this.referenceText);
-        console.log('spoken = ', this.transcription);
-
         this.accuracyScore = this.accuracyService.calculateAccuracy(
           this.referenceText,
           this.transcription
         );
-        this.onCalculateResultTable();
+        if (!this.isLoading) this.onCalculateResultTable();
       },
       error: (err) => {},
     });

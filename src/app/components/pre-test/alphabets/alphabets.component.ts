@@ -32,6 +32,7 @@ export class AlphabetsComponent implements OnInit {
   selectedTab = 'Capital Letter';
   CapitalLetters: string[] = [];
   CommonLetters: string[] = [];
+  isLoading = false;
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
@@ -57,6 +58,10 @@ export class AlphabetsComponent implements OnInit {
     }
   }
   onNavigate(type: string) {
-    this.router.navigate([`dashboard/pre-test/pre-alphabets/${type}`]);
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = true;
+      this.router.navigate([`dashboard/pre-test/pre-alphabets/${type}`]);
+    }, 2000);
   }
 }
