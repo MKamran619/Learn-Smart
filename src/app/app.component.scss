@@ -1,3 +1,16 @@
 // .app {
 //   // background-color: #c1cfa1;
 // }
+
+// <--- Alert Snackbar Background Color ---> /
+::ng-deep .alert-snackbar .mdc-snackbar__surface {
+  background-color: #cc2b52 !important;
+}
+// <--- Success Snackbar Background Color---> /
+::ng-deep .success-snackbar .mdc-snackbar__surface {
+  background-color: #508d4e !important;
+}
+// <--- Warning Snackbar Background Color---> /
+::ng-deep .warning-snackbar .mdc-snackbar__surface {
+  background-color: #dc6b19 !important;
+}

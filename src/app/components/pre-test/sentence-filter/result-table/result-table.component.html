@@ -37,9 +37,65 @@
 
           <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
           <td>
-            <button cButton (click)="onNavigateToLevel(item.level)">
-              {{ item.level }}
-            </button>
+            <ng-container *ngIf="item.level == 0 && prePrimerUnlocked">
+              <button cButton (click)="onNavigateToLevel('pre-primer')">
+                {{ "pre-primer" }}
+              </button>
+            </ng-container>
+            <ng-container *ngIf="item.level == 1 && primerUnlocked">
+              <button cButton (click)="onNavigateToLevel('primer')">
+                {{ "primer" }}
+              </button>
+            </ng-container>
+            <ng-container *ngIf="item.level == 2">
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-1')"
+                *ngIf="levelOneUnlocked"
+              >
+                {{ "level-1" }}
+              </button>
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-2')"
+                *ngIf="levelTwoUnlocked"
+              >
+                {{ "level-2" }}
+              </button>
+            </ng-container>
+
+            <ng-container *ngIf="item.level == 3">
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-3')"
+                *ngIf="levelThreeUnlocked"
+              >
+                {{ "level-3" }}
+              </button>
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-4')"
+                *ngIf="levelFourUnlocked"
+              >
+                {{ "level-4" }}
+              </button>
+            </ng-container>
+            <ng-container *ngIf="item.level == 4">
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-5')"
+                *ngIf="levelFiveUnlocked"
+              >
+                {{ "level-5" }}
+              </button>
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-6')"
+                *ngIf="levelSixUnlocked"
+              >
+                {{ "level-6" }}
+              </button>
+            </ng-container>
           </td>
         </tr>
         <tr>
@@ -50,4 +106,7 @@
       </tbody>
     </table>
   </div>
+</div>
+<div class="spinner-overlay" *ngIf="isLoading">
+  <div class="spinner"></div>
 </div>

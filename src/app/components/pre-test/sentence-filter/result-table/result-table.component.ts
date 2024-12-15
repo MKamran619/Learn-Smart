@@ -27,6 +27,19 @@ export class ResultTableComponent implements OnInit {
   ];
   totalScore = 0;
   dataSource: any[] = [{ sentence: '' }, { sentence: '' }];
+
+  prePrimerUnlocked = false;
+  primerUnlocked = false;
+  levelOneUnlocked = false;
+  levelTwoUnlocked = false;
+  levelThreeUnlocked = false;
+  levelFourUnlocked = false;
+  levelFiveUnlocked = false;
+  levelSixUnlocked = false;
+
+  isLoading = false;
+  currentUser = '';
+
   constructor(
     public accuracyService: SpeechDetectService,
     public sharedService: SharedService,
@@ -35,6 +48,7 @@ export class ResultTableComponent implements OnInit {
     public router: Router
   ) {}
   ngOnInit(): void {
+    this.checkAndUnlockLevels();
     this.dataSource = this.accuracyService.resultList;
 
     const filteredRows = this.dataSource.filter(
@@ -43,6 +57,32 @@ export class ResultTableComponent implements OnInit {
 
     this.totalScore = filteredRows.length;
     this.unBlockingLevelByAccuracy();
+  }
+  checkAndUnlockLevels() {
+    this.prePrimerUnlocked = this.sharedService.hasAuthentication(
+      Constants.preWordListLevel.PrePrimer
+    );
+    this.primerUnlocked = this.sharedService.hasAuthentication(
+      Constants.preWordListLevel.Primer
+    );
+    this.levelOneUnlocked = this.sharedService.hasAuthentication(
+      Constants.preWordListLevel.LevelOne
+    );
+    this.levelTwoUnlocked = this.sharedService.hasAuthentication(
+      Constants.preWordListLevel.LevelTwo
+    );
+    this.levelThreeUnlocked = this.sharedService.hasAuthentication(
+      Constants.preWordListLevel.LevelThree
+    );
+    this.levelFourUnlocked = this.sharedService.hasAuthentication(
+      Constants.preWordListLevel.LevelFour
+    );
+    this.levelFiveUnlocked = this.sharedService.hasAuthentication(
+      Constants.preWordListLevel.LevelFive
+    );
+    this.levelSixUnlocked = this.sharedService.hasAuthentication(
+      Constants.preWordListLevel.LevelSix
+    );
   }
   unBlockingLevelByAccuracy() {
     let isLevelUnlocked = false;
@@ -57,7 +97,7 @@ export class ResultTableComponent implements OnInit {
     const accuracyFour = this.dataSource[3].accuracy;
     const accuracyFive = this.dataSource[4].accuracy;
 
-    const user = this.sharedService.userConfig.user.username;
+    this.currentUser = this.sharedService.userConfig.user.username;
 
     if (
       accuracyOne < 25 &&
@@ -65,79 +105,107 @@ export class ResultTableComponent implements OnInit {
         Constants.preWordListLevel.PrePrimer
       )
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.PrePrimer);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.preWordListLevel.PrePrimer
+      );
       isLevelUnlocked = true;
     }
     if (
       accuracyOne > 25 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.Primer)
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.Primer);
+      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.Primer);
       isLevelUnlocked = true;
     }
     if (
       accuracyTwo > 60 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelOne)
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelOne);
+      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelOne);
       isLevelUnlocked = true;
     }
     if (
       accuracyThree > 60 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelTwo)
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelTwo);
+      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelTwo);
       isLevelUnlocked = true;
     }
     if (
-      accuracyFour > 60 &&
+      accuracyFour > 40 &&
       !this.sharedService.hasAuthentication(
         Constants.preWordListLevel.LevelThree
       )
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelThree);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.preWordListLevel.LevelThree
+      );
       isLevelUnlocked = true;
     }
     if (
-      accuracyFive > 60 &&
+      accuracyFour > 70 &&
       !this.sharedService.hasAuthentication(
         Constants.preWordListLevel.LevelFour
       )
     ) {
-      this.onUpdateLevel(user, Constants.preWordListLevel.LevelFour);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.preWordListLevel.LevelFour
+      );
       isLevelUnlocked = true;
     }
-    this.onGetLatestUserLevels(user);
+    if (
+      accuracyFive > 40 &&
+      !this.sharedService.hasAuthentication(
+        Constants.preWordListLevel.LevelFive
+      )
+    ) {
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.preWordListLevel.LevelFive
+      );
+      isLevelUnlocked = true;
+    }
+    if (
+      accuracyFive > 70 &&
+      !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelSix)
+    ) {
+      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelSix);
+      isLevelUnlocked = true;
+    }
+    // this.onGetLatestUserLevels(user);
   }
   onUpdateLevel(identifier: string, level_id: number) {
     this.aptService
       .updateUserLevelActiveStatus(identifier, level_id)
       .pipe(finalize(() => {}))
       .subscribe((res) => {
-        // this.onGetLatestUserLevels();
+        // this.onGetLatestUserLevels(this.currentUser)
+        this.showMessage();
+        this.onGetLatestUserLevels();
       });
   }
-  onGetLatestUserLevels(user: string) {
-    this.onUpdateLevel(user, Constants.preTestLevel.WordList);
+  onGetLatestUserLevels() {
+    this.isLoading = true;
+    // this.onUpdateLevel(user, Constants.preTestLevel.WordList);
     this.aptService
-      .getUserLevelsByUsernameOrEmail(user)
-      .pipe(finalize(() => {}))
+      .getUserLevelsByUsernameOrEmail(this.currentUser)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
       .subscribe((res) => {
         localStorage.setItem('levelConfig', JSON.stringify(res));
         this.sharedService.levelsConfig = res;
-        this.showMessage();
+        this.checkAndUnlockLevels();
       });
   }
   showMessage() {
-    // this.snackBar.open(
-    //   'Congratulations! You have unlocked the word list levels.',
-    //   'Close',
-    //   {
-    //     duration: 15000, // Duration in milliseconds
-    //     verticalPosition: 'bottom', // Position: 'top' or 'bottom'
-    //     horizontalPosition: 'center', // Position: 'start', 'center', 'end', 'left', or 'right'
-    //   }
-    // );
+    const message = 'Congratulations! You have unlocked the word list level.';
+    this.sharedService.openCustomSnackBar(message, 'success');
   }
   onNavigateToLevel(mode: string) {
     this.sharedService.isLoading = true;

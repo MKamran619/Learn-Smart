@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class WordListComponent {
   Constants = Constants;
   icons = { cilArrowLeft };
+  isLoading = false;
   constructor(
     public sharedService: SharedService,
     public router: Router,
@@ -26,10 +27,16 @@ export class WordListComponent {
     this.sharedService.isLoading = false;
   }
   onChangePreviewMode(mode: string) {
-    this.router.navigate([`dashboard/${mode}`]);
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = true;
+      this.router.navigate([`dashboard/${mode}`]);
+    }, 3500);
   }
   onNavigate(type: string) {
     this.sharedService.isLoading = true;
-    this.router.navigate([`dashboard/pre-test/pre-word-list/${type}`]);
+    setTimeout(() => {
+      this.router.navigate([`dashboard/pre-test/pre-word-list/${type}`]);
+    }, 2500);
   }
 }

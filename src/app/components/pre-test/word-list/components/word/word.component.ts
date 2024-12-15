@@ -54,7 +54,7 @@ export class WordComponent implements OnInit {
       }
     });
     this.onLoadInitialData();
-    this.title = this.transformValue(this.type);
+    this.title = this.sharedService.transformValue(this.type);
   }
 
   onLoadInitialData() {
@@ -469,23 +469,5 @@ export class WordComponent implements OnInit {
         'fascinate',
       ];
     }
-  }
-  transformValue(value: string): string {
-    if (!value) {
-      return value;
-    }
-
-    // Split the sentence into words
-    const words = value.split(' ');
-
-    // Transform each word: replace hyphens and capitalize first letters
-    const transformedWords = words.map((word) => {
-      return word
-        .replace(/-/g, ' ') // Replace hyphens with spaces
-        .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize the first letter of each word
-    });
-
-    // Join the transformed words back into a sentence
-    return transformedWords.join(' ');
   }
 }

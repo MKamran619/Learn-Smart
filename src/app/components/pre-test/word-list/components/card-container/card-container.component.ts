@@ -15,6 +15,7 @@ import { IconDirective, IconModule } from '@coreui/icons-angular';
 import { SpeechDetectService } from '../../../../../services/speechDetect/speech-detect.service';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { SharedService } from '../../../../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-card-container',
@@ -43,49 +44,16 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   transcription: string = '';
   referenceText: string = '';
   accuracyScore: number = 0;
+  isLoading = false;
 
-  constructor(public accuracyService: SpeechDetectService) {}
+  constructor(
+    public accuracyService: SpeechDetectService,
+    public sharedService: SharedService
+  ) {}
   ngOnInit(): void {
     console.log('Component initialized, inn ', this.wordList[0]);
     this.clearAllTimers();
     this.startRandomSelection();
-  }
-
-  onCallAccuracyFunction33() {
-    this.showCircle = false;
-    // this.showCircleAnimation();
-    this.showQuaterCircleAnimation();
-
-    if (this.word) {
-      const result = {
-        word: this.word,
-        noResponse: this.accuracyService.transcription ? '' : 'noResponse',
-        userSpoke: this.accuracyService.transcription,
-        accuracy: this.accuracyService.accuracyScore.toFixed(0),
-      };
-
-      this.accuracyService.resultList.push(result);
-    }
-    if (this.currentIndex >= this.totalCount) {
-      // this.clearInterval();
-      console.log('result = ', this.accuracyService.resultList);
-      this.accuracyService.onShowResult = true;
-      console.log('All items have been selected. Stopping random selection.');
-      return;
-    }
-    this.startFrom = this.startFrom + 1;
-    this.word = this.itemsCopy[this.currentIndex];
-    this.accuracyService.referenceText = `${this.word}`;
-    if (this.showVolumIcon) {
-      this.showQuaterCircle = true;
-      // this.showQuaterCircleAnimation();
-      this.accuracyService.speakText(this.accuracyService.referenceText);
-    }
-
-    // this.accuracyService.startSpeechRecognition();
-    this.onClickMicIcon();
-
-    this.currentIndex++;
   }
 
   onClickMicIcon() {
@@ -134,22 +102,6 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     this.onCallAccuracyFunction();
   }
-  startRandomSelection33() {
-    this.accuracyService.resultList = [];
-    this.accuracyService.transcription = '';
-    this.accuracyService.accuracyScore = 0;
-    this.totalLength = this.wordList[0].length;
-
-    // Create a copy of the original array and shuffle it
-    this.itemsCopy = [...this.wordList[0]];
-    this.shuffleArray(this.itemsCopy);
-
-    this.onCallAccuracyFunction();
-
-    // this.intervalId = setInterval(() => {
-    //   this.onCallAccuracyFunction();
-    // }, 5000);
-  }
 
   onCallAccuracyFunction() {
     this.word = '';
@@ -173,7 +125,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       this.showQuaterCircle = true;
       this.accuracyService.speakText(this.referenceText);
     }
-    this.currentIndex++;
+    // this.currentIndex++;
     this.onCallRecorderFunction();
   }
   onCallRecorderFunction() {
@@ -198,6 +150,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   }
   handleRecordedAudio(audioBlob: Blob) {
     this.showCircle = false;
+    this.isLoading = true;
     this.accuracyService.transcribeAudio(audioBlob).subscribe({
       next: (res) => {
         this.accuracyService.transcription = '';
@@ -207,9 +160,16 @@ export class CardContainerComponent implements OnInit, OnDestroy {
           this.referenceText,
           this.transcription
         );
+
+        this.isLoading = false;
         this.onCalculateResultTable();
       },
-      error: (err) => {},
+      error: (err) => {
+        this.isLoading = false;
+        const message = 'please try again';
+        this.sharedService.openCustomSnackBar(message, 'alert');
+        this.onCallAccuracyFunction();
+      },
     });
   }
   onCalculateResultTable() {
@@ -219,10 +179,12 @@ export class CardContainerComponent implements OnInit, OnDestroy {
         noResponse: this.transcription ? '' : 'noResponse',
         userSpoke: this.transcription,
         accuracy: this.accuracyScore.toFixed(0),
+        level: this.currentIndex,
       };
 
       this.accuracyService.resultList.push(result);
     }
+    this.currentIndex++;
     this.startFrom += 1;
 
     this.onCallAccuracyFunction();

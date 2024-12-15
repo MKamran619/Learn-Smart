@@ -32,6 +32,7 @@ export class SentenceFilterComponent implements OnInit {
   icons = { cilArrowLeft };
   mode = '';
   sentenceList: string[] = [];
+  isLoading = false;
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
@@ -68,10 +69,10 @@ export class SentenceFilterComponent implements OnInit {
       });
   }
   onChangePreviewMode(mode: string) {
-    if (this.accuracyService.onShowResult) {
-      this.accuracyService.onShowResult = false;
-    } else {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = true;
       this.router.navigate([`dashboard/${mode}`]);
-    }
+    }, 5000);
   }
 }

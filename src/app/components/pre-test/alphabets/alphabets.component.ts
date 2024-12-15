@@ -7,19 +7,11 @@ import { CardContainerComponent } from './card-container/card-container.componen
 import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ResultTableComponent } from './result-table/result-table.component';
 import { SharedService } from '../../../services/sharedServices/shared.service';
 @Component({
   selector: 'app-alphabets',
   standalone: true,
-  imports: [
-    HeaderComponent,
-    CardContainerComponent,
-    IconDirective,
-    FormsModule,
-    CommonModule,
-    ResultTableComponent,
-  ],
+  imports: [HeaderComponent, IconDirective, FormsModule, CommonModule],
   templateUrl: './alphabets.component.html',
   styleUrl: './alphabets.component.scss',
 })
@@ -32,6 +24,7 @@ export class AlphabetsComponent implements OnInit {
   selectedTab = 'Capital Letter';
   CapitalLetters: string[] = [];
   CommonLetters: string[] = [];
+  isLoading = false;
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
@@ -57,6 +50,10 @@ export class AlphabetsComponent implements OnInit {
     }
   }
   onNavigate(type: string) {
-    this.router.navigate([`dashboard/pre-test/pre-alphabets/${type}`]);
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = true;
+      this.router.navigate([`dashboard/pre-test/pre-alphabets/${type}`]);
+    }, 2000);
   }
 }

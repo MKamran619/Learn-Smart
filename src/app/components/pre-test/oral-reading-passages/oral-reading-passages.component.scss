@@ -5,10 +5,6 @@
   // height: 40px;
   // font-size: 10px;
 }
-.title-card-container {
-  margin-top: 20px;
-  height: 45px;
-}
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
 }
@@ -17,8 +13,5 @@
 @media screen and (max-width: 767px) {
   .pre-test-word-list {
     display: block;
-  }
-  .title-card-container h4 {
-    font-size: medium;
   }
 }

@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../../home/header/header.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResultTableComponent } from '../result-table/result-table.component';
+import { SharedService } from '../../../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-card-container',
@@ -51,6 +52,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   itemsCopy: any = [];
   estimatedTime: any = 1;
   timeoutIds: number[] = [];
+  isLoading = false;
 
   transcription: string = '';
   referenceText: string = '';
@@ -59,7 +61,8 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   constructor(
     public accuracyService: SpeechDetectService,
     public router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public sharedService: SharedService
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +82,11 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.startRandomSelection();
   }
   onChangePreviewMode() {
-    this.router.navigate([`dashboard/pre-test/pre-alphabets`]);
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+      this.router.navigate([`dashboard/pre-test/pre-alphabets`]);
+    }, 2000);
   }
   onClickCapitalLetter() {
     this.accuracyService.stopPreviousRecording();
@@ -141,7 +148,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       this.showQuaterCircle = true;
       this.accuracyService.speakText(this.referenceText);
     }
-    this.currentIndex++;
+    // this.currentIndex++;
     this.onCallRecorderFunction();
   }
   onCallRecorderFunction() {
@@ -149,12 +156,12 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     const timeoutId3 = setTimeout(() => {
       this.showCircleAnimation();
-    }, 1000) as unknown as number;
+    }, 1500) as unknown as number;
     this.timeoutIds.push(timeoutId3);
 
     const timeoutId4 = setTimeout(() => {
       this.accuracyService
-        .startRecording(1)
+        .startRecording(1.2)
         .then((audioBlob) => {
           this.handleRecordedAudio(audioBlob);
         })
@@ -166,21 +173,25 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   }
   handleRecordedAudio(audioBlob: Blob) {
     this.showCircle = false;
+    this.isLoading = true;
     this.accuracyService.transcribeAudio(audioBlob).subscribe({
       next: (res) => {
         this.accuracyService.transcription = '';
         this.transcription = res.results.channels[0].alternatives[0].transcript;
-
-        console.log('origonal = ', this.referenceText);
-        console.log('spoken = ', this.transcription);
-
         this.accuracyScore = this.accuracyService.calculateAccuracy(
           this.referenceText,
           this.transcription
         );
+        this.isLoading = false;
+        // if (!this.isLoading) this.onCalculateResultTable();
         this.onCalculateResultTable();
       },
-      error: (err) => {},
+      error: (err) => {
+        this.isLoading = false;
+        const message = 'please try again';
+        this.sharedService.openCustomSnackBar(message, 'alert');
+        this.onCallAccuracyFunction();
+      },
     });
   }
   onCalculateResultTable() {
@@ -191,10 +202,9 @@ export class CardContainerComponent implements OnInit, OnDestroy {
         userSpoke: this.transcription,
         accuracy: this.accuracyScore.toFixed(0),
       };
-      console.log('sing;e result = ', result);
-
       this.accuracyService.resultList.push(result);
     }
+    this.currentIndex++;
     this.startFrom += 1;
 
     this.onCallAccuracyFunction();

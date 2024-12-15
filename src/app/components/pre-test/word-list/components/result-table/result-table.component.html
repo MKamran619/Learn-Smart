@@ -20,9 +20,17 @@
           <td>{{ item.userSpoke }}</td>
           <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
         </tr>
+
         <tr>
           <th colspan="3" style="text-align: center">
             Score = {{ totalScore }} / {{ this.dataSource.length }}
+          </th>
+        </tr>
+        <tr *ngIf="IslevelUnlocked">
+          <th colspan="3" style="text-align: center">
+            <button cButton (click)="onNavigateToLevel()">
+              {{ "Nivigate to Oral Reading Passage " + type }}
+            </button>
           </th>
         </tr>
       </tbody>
