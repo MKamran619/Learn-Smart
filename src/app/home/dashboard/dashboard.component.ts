@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
   isDashboardPreview = true;
   isPreTestPreview = false;
   isPostTestPreview = false;
+  showHeaders = false;
 
   constructor(
     public sharedService: SharedService,
@@ -53,5 +54,8 @@ export class DashboardComponent implements OnInit {
   onNavigate(mode: string, type: string) {
     this.sharedService.isLoading = true;
     this.router.navigate([`dashboard/${mode}/${type}`]);
+  }
+  onImageLoad() {
+    this.showHeaders = true;
   }
 }
