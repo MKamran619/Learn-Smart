@@ -10,9 +10,9 @@
     <div class="justfy-content-center">
       <div class="dashboard-content justfy-content-center" style="height: 70%">
         <div>
-          <img src="/images/pic14.jfif" />
+          <img src="/images/pic14.jfif" (load)="onImageLoad()" />
         </div>
-        <div>
+        <div *ngIf="showHeaders">
           <div (click)="onChangePreviewMode('preTest')">
             <div class="label-card-container justfy-content-center">
               <h1>Pre-Test</h1>
