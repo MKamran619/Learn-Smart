@@ -1,58 +1,10 @@
-<!-- <app-header></app-header>
-<div>
-  <div class="justfy-content-center">
-    <div>
-      <div class="justfy-content-center">
-        <div class="title-card-container justfy-content-left">
-          <div style="width: 35%">
-            <div
-              class="title-card-icon justfy-content-left"
-              (click)="onChangePreviewMode(this.mode)"
-            >
-              <svg
-                [cIcon]="icons.cilArrowLeft"
-                width="50"
-                title="Shield Icon"
-              ></svg>
-            </div>
-          </div>
-          <h4>Oral Reading Passages</h4>
-        </div>
-      </div>
-
-      <div *ngIf="!accuracyService.onShowResult">
-        <app-card-container
-          [storyIndex]="selectedIndex"
-          key="common"
-        ></app-card-container>
-      </div>
-      <div class="justfy-content-center" *ngIf="accuracyService.onShowResult">
-        <div>
-          <div class="justfy-content-center">
-            <div
-              class="justfy-content-center m-3"
-              style="width: 300px; margin-top: 20px"
-              (click)="onMoveToNextStory()"
-            >
-              <button cButton color="success" type="submit" style="width: 100%">
-                Continue to Next Story
-              </button>
-            </div>
-          </div>
-          <app-result-table></app-result-table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
 <app-header></app-header>
 <div class="justfy-content-center" style="height: 150px">
   <div class="title-card-container justfy-content-left">
     <div style="width: 35%">
       <div
         class="title-card-icon justfy-content-left"
-        (click)="onChangePreviewMode('pre-test')"
+        (click)="onChangePreviewMode('post-test')"
       >
         <svg [cIcon]="icons.cilArrowLeft" width="50" title="Shield Icon"></svg>
       </div>

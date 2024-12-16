@@ -346,7 +346,7 @@ export class CardContainerComponent implements OnInit {
     this.isLoading = true;
     setTimeout(() => {
       this.isLoading = false;
-      this.router.navigate([`dashboard/pre-test/pre-oral-reading-passages`]);
+      this.router.navigate([`dashboard/post-test/post-oral-reading-passages`]);
     }, 3500);
   }
 

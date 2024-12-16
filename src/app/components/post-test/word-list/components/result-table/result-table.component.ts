@@ -211,7 +211,7 @@ export class ResultTableComponent implements OnInit {
   onNavigateToLevel() {
     this.sharedService.isLoading = true;
     this.router.navigate([
-      `dashboard/pre-test/pre-oral-reading-passages/${this.type}`,
+      `dashboard/post-test/post-oral-reading-passages/${this.type}`,
     ]);
   }
 }

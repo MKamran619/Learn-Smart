@@ -36,7 +36,7 @@ export class WordListComponent {
   onNavigate(type: string) {
     this.sharedService.isLoading = true;
     setTimeout(() => {
-      this.router.navigate([`dashboard/pre-test/pre-word-list/${type}`]);
+      this.router.navigate([`dashboard/post-test/post-word-list/${type}`]);
     }, 2500);
   }
 }

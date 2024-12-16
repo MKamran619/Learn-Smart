@@ -85,7 +85,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     setTimeout(() => {
       this.isLoading = false;
-      this.router.navigate([`dashboard/pre-test/pre-alphabets`]);
+      this.router.navigate([`dashboard/post-test/post-alphabets`]);
     }, 2000);
   }
   onClickCapitalLetter() {

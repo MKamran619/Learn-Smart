@@ -72,7 +72,7 @@ export class WordComponent implements OnInit {
     // } else {
     setTimeout(() => {
       this.sharedService.isLoading = false;
-      this.router.navigate([`dashboard/${mode}/pre-word-list`]);
+      this.router.navigate([`dashboard/${mode}/post-word-list`]);
     }, 2000);
 
     // }

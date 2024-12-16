@@ -53,7 +53,7 @@ export class AlphabetsComponent implements OnInit {
     this.isLoading = true;
     setTimeout(() => {
       this.isLoading = true;
-      this.router.navigate([`dashboard/pre-test/pre-alphabets/${type}`]);
+      this.router.navigate([`dashboard/post-test/post-alphabets/${type}`]);
     }, 2000);
   }
 }
