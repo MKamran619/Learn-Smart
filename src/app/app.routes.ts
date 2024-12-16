@@ -19,10 +19,13 @@ import { WordListComponent as PostWordList } from './components/post-test/word-l
 import { OralReadingPassagesComponent as PostOralReadingPassages } from './components/post-test/oral-reading-passages/oral-reading-passages.component';
 
 import { multicast } from 'rxjs';
-import { WordComponent } from './components/pre-test/word-list/components/word/word.component';
-import { CardContainerComponent as AlphabetsCardContainer } from './components/pre-test/alphabets/card-container/card-container.component';
-import { CardContainerComponent as OralCardContainer } from './components/pre-test/oral-reading-passages/components/card-container/card-container.component';
+import { WordComponent as PreWordComponent } from './components/pre-test/word-list/components/word/word.component';
+import { WordComponent as PostWordComponent } from './components/post-test/word-list/components/word/word.component';
+import { CardContainerComponent as PreAlphabetsCardContainer } from './components/pre-test/alphabets/card-container/card-container.component';
+import { CardContainerComponent as PreOralCardContainer } from './components/pre-test/oral-reading-passages/components/card-container/card-container.component';
 
+import { CardContainerComponent as PostAlphabetsCardContainer } from './components/post-test/alphabets/card-container/card-container.component';
+import { CardContainerComponent as PostOralCardContainer } from './components/post-test/oral-reading-passages/components/card-container/card-container.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 
@@ -37,7 +40,7 @@ export const routes: Routes = [
   { path: 'dashboard/:mode/pre-alphabets', component: AlphabetsComponent },
   {
     path: 'dashboard/:mode/pre-alphabets/:type',
-    component: AlphabetsCardContainer,
+    component: PreAlphabetsCardContainer,
   },
   {
     path: 'dashboard/:mode/pre-sentence-filter',
@@ -45,14 +48,14 @@ export const routes: Routes = [
   },
   { path: 'dashboard/:mode/pre-word-list', component: WordListComponent },
 
-  { path: 'dashboard/:mode/pre-word-list/:type', component: WordComponent },
+  { path: 'dashboard/:mode/pre-word-list/:type', component: PreWordComponent },
   {
     path: 'dashboard/:mode/pre-oral-reading-passages',
     component: OralReadingPassagesComponent,
   },
   {
     path: 'dashboard/:mode/pre-oral-reading-passages/:type',
-    component: OralCardContainer,
+    component: PreOralCardContainer,
   },
   {
     path: 'dashboard/:mode/pre-interest-inventory',
@@ -67,13 +70,26 @@ export const routes: Routes = [
 
   { path: 'dashboard/:mode/post-alphabets', component: postAlphabets },
   {
+    path: 'dashboard/:mode/post-alphabets/:type',
+    component: PostAlphabetsCardContainer,
+  },
+  {
     path: 'dashboard/:mode/post-sentence-filter',
     component: PostSentenceFilter,
   },
   { path: 'dashboard/:mode/post-word-list', component: PostWordList },
+
+  {
+    path: 'dashboard/:mode/post-word-list/:type',
+    component: PostWordComponent,
+  },
   {
     path: 'dashboard/:mode/post-oral-reading-passages',
     component: PostOralReadingPassages,
+  },
+  {
+    path: 'dashboard/:mode/post-oral-reading-passages/:type',
+    component: PostOralCardContainer,
   },
 
   { path: 'about', component: AboutComponent },

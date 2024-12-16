@@ -7,19 +7,16 @@
             Student Name: {{ sharedService.getUserConfig().user.username }}
           </th>
         </tr>
+
         <tr>
-          <th>Capital Letters</th>
-          <th colspan="2">Letter Names</th>
-        </tr>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">Letter Substituted</th>
+          <th scope="col">Expected Answer</th>
+          <th scope="col">Answer Spoken</th>
           <th scope="col">Accuracy</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of dataSource">
-          <td style="text-align: center">{{ item.letter }}</td>
+          <th style="text-align: center">{{ item.expectedAnswer }}</th>
           <td>{{ item.userSpoke }}</td>
           <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
         </tr>

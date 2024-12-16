@@ -45,7 +45,7 @@ export class Constants {
     PrePrimer: 61,
     Primer: 62,
     LevelOne: 63,
-    LevelTow: 64,
+    LevelTwo: 64,
     LevelThree: 65,
     LevelFour: 66,
     LevelFive: 67,

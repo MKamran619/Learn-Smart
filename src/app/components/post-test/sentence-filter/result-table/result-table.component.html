@@ -3,26 +3,110 @@
     <table class="table table-success table-bordered table-striped">
       <thead>
         <tr>
-          <th colspan="3">Student Name: username</th>
+          <th colspan="4">
+            Student Name: {{ sharedService.getUserConfig().user.username }}
+          </th>
         </tr>
         <tr>
           <th scope="col">Sentence Filter</th>
-          <th scope="col">Letter Substituted</th>
+          <th scope="col">Sentence Spoken</th>
           <th scope="col">Accuracy</th>
+          <th scope="col" *ngIf="isLevelUnlocked">UnLocked WordList</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of dataSource">
-          <td>{{ item.sentence }}</td>
-          <td>{{ item.userSpoke }}</td>
+          <td>
+            <div
+              *ngFor="
+                let line of sharedService.transformSentence(item.sentence)
+              "
+            >
+              {{ line }}
+            </div>
+          </td>
+          <td>
+            <div
+              *ngFor="
+                let line of sharedService.transformSentence(item?.userSpoke)
+              "
+            >
+              {{ line }}
+            </div>
+          </td>
+
           <td>{{ item.accuracy > 0 ? item.accuracy + " %" : 0 }}</td>
+          <td *ngIf="isLevelUnlocked">
+            <ng-container *ngIf="item.level == 0 && prePrimerUnlocked">
+              <button cButton (click)="onNavigateToLevel('pre-primer')">
+                {{ "pre-primer" }}
+              </button>
+            </ng-container>
+            <ng-container *ngIf="item.level == 1 && primerUnlocked">
+              <button cButton (click)="onNavigateToLevel('primer')">
+                {{ "primer" }}
+              </button>
+            </ng-container>
+            <ng-container *ngIf="item.level == 2">
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-1')"
+                *ngIf="levelOneUnlocked"
+              >
+                {{ "level-1" }}
+              </button>
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-2')"
+                *ngIf="levelTwoUnlocked"
+              >
+                {{ "level-2" }}
+              </button>
+            </ng-container>
+
+            <ng-container *ngIf="item.level == 3">
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-3')"
+                *ngIf="levelThreeUnlocked"
+              >
+                {{ "level-3" }}
+              </button>
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-4')"
+                *ngIf="levelFourUnlocked"
+              >
+                {{ "level-4" }}
+              </button>
+            </ng-container>
+            <ng-container *ngIf="item.level == 4">
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-5')"
+                *ngIf="levelFiveUnlocked"
+              >
+                {{ "level-5" }}
+              </button>
+              <button
+                cButton
+                (click)="onNavigateToLevel('level-6')"
+                *ngIf="levelSixUnlocked"
+              >
+                {{ "level-6" }}
+              </button>
+            </ng-container>
+          </td>
         </tr>
         <tr>
-          <th colspan="3" style="text-align: center">
+          <th colspan="4" style="text-align: center">
             Score = {{ totalScore }} / {{ this.dataSource.length }}
           </th>
         </tr>
       </tbody>
     </table>
   </div>
+</div>
+<div class="spinner-overlay" *ngIf="isLoading">
+  <div class="spinner"></div>
 </div>

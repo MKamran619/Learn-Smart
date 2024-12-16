@@ -1,0 +1,146 @@
+<app-header></app-header>
+<div class="justfy-content-center" style="height: 150px">
+  <div class="title-card-container justfy-content-left">
+    <div style="width: 35%">
+      <div
+        class="title-card-icon justfy-content-left"
+        (click)="onChangePreviewMode()"
+      >
+        <svg [cIcon]="icons.cilArrowLeft" width="50" title="Shield Icon"></svg>
+      </div>
+    </div>
+    <h2>{{ title }}</h2>
+  </div>
+</div>
+
+<ng-container *ngIf="!onShowResult">
+  <div class="justfy-content-center" *ngIf="!showQuestions">
+    <div>
+      <div>
+        <div class="justfy-content-center">
+          <h6>{{ startFrom + "/" + totalCountOfStory }}</h6>
+        </div>
+        <div class="story-container-component justfy-content-center">
+          <div class="justfy-content-center p-4">
+            <div>
+              <div class="paragraph-container">
+                <div
+                  class="justfy-content-center"
+                  style="margin-top: 10px"
+                  [style.fontWeight]="storyTitle ? 'bold' : 'normal'"
+                >
+                  <p>{{ storyTitle }}</p>
+                </div>
+                <div
+                  *ngFor="let line of story; let i = index"
+                  class="justfy-content-center"
+                  [style.fontWeight]="!storyTitle && i == 0 ? 'bold' : 'normal'"
+                >
+                  <p>{{ line }}</p>
+                </div>
+              </div>
+
+              <div class="justfy-content-center">
+                <div
+                  class="justfy-content-center"
+                  style="width: 300px; margin-top: 20px"
+                >
+                  <button
+                    cButton
+                    color="success"
+                    type="submit"
+                    style="width: 100%"
+                    (click)="onClickReadyBtn()"
+                  >
+                    Ready For Questions Answers
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="justfy-content-center" *ngIf="showQuestions">
+    <div>
+      <div class="justfy-content-center">
+        <h2 style="font-size: larger">
+          Question {{ startFrom }} of {{ totalCountOfQuestions }}
+        </h2>
+      </div>
+      <div class="question-container">
+        <div>
+          <h5
+            class="mb-3"
+            [style.color]="
+              startFrom % 2 === 0 ? 'var(--dark-color)' : 'var(--warning-color)'
+            "
+          >
+            {{ question }}
+          </h5>
+          <input
+            cFormControl
+            id="inputPassword-1"
+            type="text"
+            [value]="accuracyService.transcription"
+            placeholder="Answer with your voice..."
+            readonly
+          />
+          <div
+            class="mic-icon justfy-content-center"
+            style="margin-top: 20px; cursor: pointer"
+          >
+            <!-- <div class="circle-container">
+              <div class="medium" [ngClass]="showCircle ? 'circle' : ''"></div>
+              <div class="small" [ngClass]="showCircle ? 'circle' : ''"></div>
+              <svg
+                [cIcon]="icons.cilMic"
+                class="mic-icon"
+                title="Microphone Icon"
+              ></svg>
+            </div> -->
+            <div *ngIf="showCircle" style="margin-top: -100px">
+              <span style="color: red; white-space: nowrap"
+                >Recording in progress....</span
+              >
+            </div>
+            <div
+              class="mic-icon justfy-content-center"
+              style="margin-top: 20px; cursor: pointer"
+            >
+              <div class="circle-container">
+                <div
+                  class="medium"
+                  [ngClass]="showCircle ? 'circle' : ''"
+                ></div>
+                <div class="small" [ngClass]="showCircle ? 'circle' : ''"></div>
+                <div
+                  *ngIf="showCircle"
+                  class="mic-icon"
+                  style="margin-left: -2px; margin-top: -2px"
+                >
+                  🔴
+                </div>
+                <div class="mic-icon" *ngIf="!showCircle">
+                  <mat-icon>mic</mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="onShowResult">
+  <div class="justfy-content-center">
+    <app-result-table></app-result-table>
+  </div>
+</ng-container>
+<div class="spinner-overlay" *ngIf="isLoading">
+  <div class="spinner"></div>
+</div>

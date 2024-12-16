@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -11,103 +10,81 @@ import {
   cilVolumeHigh,
   cilVolumeLow,
   cilVolumeOff,
-  cilArrowLeft,
 } from '@coreui/icons';
 import { IconDirective, IconModule } from '@coreui/icons-angular';
-import { SpeechDetectService } from '../../../../services/speechDetect/speech-detect.service';
+import { SpeechDetectService } from '../../../../../services/speechDetect/speech-detect.service';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../../../home/header/header.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ResultTableComponent } from '../result-table/result-table.component';
-import { SharedService } from '../../../../services/sharedServices/shared.service';
+import { SharedService } from '../../../../../services/sharedServices/shared.service';
 
 @Component({
   selector: 'app-card-container',
   standalone: true,
-  imports: [
-    CommonModule,
-    IconDirective,
-    IconModule,
-    MatIcon,
-    HeaderComponent,
-    ResultTableComponent,
-  ],
+  imports: [CommonModule, IconDirective, IconModule, MatIcon],
   templateUrl: './card-container.component.html',
   styleUrl: './card-container.component.scss',
 })
 export class CardContainerComponent implements OnInit, OnDestroy {
-  letterList: string[] = [];
-  letter = '';
-  icons = { cilMic, cilArrowLeft, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
+  @Input() wordList: string[] = [];
+
+  @Input() totalCount = 10;
+  word = '';
+  icons = { cilMic, cilVolumeHigh, cilVolumeLow, cilVolumeOff };
   private intervalId: any;
   totalLength = 0;
   startFrom = 1;
   showVolumIcon = false;
-  title = '';
 
   showCircle = false;
   showQuaterCircle = true;
-  currentIndex: any = 0;
-  itemsCopy: any = [];
-  estimatedTime: any = 1;
+  currentIndex = 0;
+  itemsCopy: any[] = [];
   timeoutIds: number[] = [];
-  isLoading = false;
 
   transcription: string = '';
   referenceText: string = '';
   accuracyScore: number = 0;
+  isLoading = false;
 
   constructor(
     public accuracyService: SpeechDetectService,
-    public router: Router,
-    private activatedRoute: ActivatedRoute,
     public sharedService: SharedService
   ) {}
-
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
-      this.accuracyService.stopPreviousRecording();
-      const type = params.get('type');
-      if (type == 'capital-letters') {
-        this.onClickCapitalLetter();
-      } else {
-        this.onClickCommonLetter();
-      }
-
-      // You can now use the 'mode' and 'type' values as needed
-    });
-    console.log('Component initialized');
+    console.log('Component initialized, inn ', this.wordList[0]);
     this.clearAllTimers();
     this.startRandomSelection();
   }
-  onChangePreviewMode() {
-    this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
-      this.router.navigate([`dashboard/post-test/post-alphabets`]);
-    }, 2000);
+
+  onClickMicIcon() {
+    this.showQuaterCircle = false;
+
+    const timeoutId3 = setTimeout(() => {
+      this.showCircleAnimation();
+    }, 1500) as unknown as number;
+    this.timeoutIds.push(timeoutId3);
+
+    // this.accuracyService.startRecording(this.estimatedTime);
+    // this.accuracyService.startSpeechRecognition();
+    this.accuracyService.startRecording(1);
+
+    const timeoutId = setTimeout(() => {
+      this.showCircle = false;
+      // this.accuracyService.stopRecording();
+    }, 1100) as unknown as number;
+    this.timeoutIds.push(timeoutId);
+    const timeoutId2 = setTimeout(() => {
+      this.onCallAccuracyFunction();
+    }, 7000) as unknown as number;
+    this.timeoutIds.push(timeoutId2);
   }
-  onClickCapitalLetter() {
-    this.accuracyService.stopPreviousRecording();
-    this.accuracyService.resultList = [];
-    this.accuracyService.accuracyScore = 0;
-    this.accuracyService.transcription = '';
-    // this.btnCapitalActive = true;
-    this.title = 'Capital Letter';
-    this.letterList = Array.from({ length: 26 }, (_, i) =>
-      String.fromCharCode(65 + i)
-    );
+  private shuffleArray(array: string[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
   }
-  onClickCommonLetter() {
-    this.accuracyService.stopPreviousRecording();
-    this.accuracyService.resultList = [];
-    this.accuracyService.accuracyScore = 0;
-    this.accuracyService.transcription = '';
-    // this.btnCapitalActive = false;
-    this.title = 'Common Letter';
-    this.letterList = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
-  }
+
   showQuaterCircleAnimation() {
     this.showQuaterCircle = true;
   }
@@ -119,22 +96,22 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.accuracyService.resultList = [];
     this.transcription = '';
     this.accuracyScore = 0;
-    this.totalLength = this.letterList.length;
-    this.itemsCopy = [...this.letterList];
+    this.totalLength = this.wordList[0].length;
+    this.itemsCopy = [...this.wordList[0]];
     this.shuffleArray(this.itemsCopy);
 
     this.onCallAccuracyFunction();
   }
 
   onCallAccuracyFunction() {
-    this.letter = '';
+    this.word = '';
     this.transcription = '';
     this.referenceText = '';
     // this.accuracyService.stopRecording();
     this.showQuaterCircleAnimation();
     this.showCircle = false;
 
-    if (this.currentIndex >= this.itemsCopy.length) {
+    if (this.currentIndex >= this.totalCount) {
       // this.clearInterval();
       this.clearAllTimers();
       this.accuracyService.onShowResult = true;
@@ -142,8 +119,8 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.letter = this.itemsCopy[this.currentIndex];
-    this.referenceText = `letter ${this.letter}`;
+    this.word = this.itemsCopy[this.currentIndex];
+    this.referenceText = this.word;
     if (this.showVolumIcon) {
       this.showQuaterCircle = true;
       this.accuracyService.speakText(this.referenceText);
@@ -156,12 +133,12 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     const timeoutId3 = setTimeout(() => {
       this.showCircleAnimation();
-    }, 1500) as unknown as number;
+    }, 1000) as unknown as number;
     this.timeoutIds.push(timeoutId3);
 
     const timeoutId4 = setTimeout(() => {
       this.accuracyService
-        .startRecording(1.2)
+        .startRecording(1)
         .then((audioBlob) => {
           this.handleRecordedAudio(audioBlob);
         })
@@ -178,12 +155,13 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.accuracyService.transcription = '';
         this.transcription = res.results.channels[0].alternatives[0].transcript;
+
         this.accuracyScore = this.accuracyService.calculateAccuracy(
           this.referenceText,
           this.transcription
         );
+
         this.isLoading = false;
-        // if (!this.isLoading) this.onCalculateResultTable();
         this.onCalculateResultTable();
       },
       error: (err) => {
@@ -195,13 +173,15 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     });
   }
   onCalculateResultTable() {
-    if (this.letter) {
+    if (this.word) {
       const result = {
-        letter: 'Letter ' + this.letter,
+        word: this.word,
         noResponse: this.transcription ? '' : 'noResponse',
         userSpoke: this.transcription,
         accuracy: this.accuracyScore.toFixed(0),
+        level: this.currentIndex,
       };
+
       this.accuracyService.resultList.push(result);
     }
     this.currentIndex++;
@@ -209,21 +189,6 @@ export class CardContainerComponent implements OnInit, OnDestroy {
 
     this.onCallAccuracyFunction();
   }
-
-  private shuffleArray(array: string[]) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
-
-  // clearInterval() {
-  //   if (this.intervalId) {
-  //     clearInterval(this.intervalId);
-  //     this.intervalId = null;
-  //   }
-  // }
-
   ngOnDestroy(): void {
     console.log('Component destroyed, clearing intervals and timeouts');
     this.clearAllTimers();

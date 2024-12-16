@@ -202,14 +202,14 @@
               <div
                 class="label-card-container justfy-content-center"
                 (click)="onNavigate('post-test', 'post-word-list')"
-                [class]="{
-                  'inactive-block': !sharedService.hasAuthentication(
-                    Constants.postTestLevel.WordList
-                  )
-                }"
               >
+                <!-- [class]="{
+                'inactive-block': !sharedService.hasAuthentication(
+                  Constants.postTestLevel.WordList
+                )
+              }" -->
                 <h3>Word List</h3>
-                <div
+                <!-- <div
                   *ngIf="
                     !sharedService.hasAuthentication(
                       Constants.postTestLevel.WordList
@@ -217,21 +217,21 @@
                   "
                 >
                   <mat-icon class="blocked-icon">block</mat-icon>
-                </div>
+                </div> -->
               </div>
             </div>
             <div>
               <div
                 class="label-card-container justfy-content-center"
                 (click)="onNavigate('post-test', 'post-oral-reading-passages')"
-                [class]="{
-                  'inactive-block': !sharedService.hasAuthentication(
-                    Constants.postTestLevel.OralReadingPassages
-                  )
-                }"
               >
+                <!-- [class]="{
+                'inactive-block': !sharedService.hasAuthentication(
+                  Constants.postTestLevel.OralReadingPassages
+                )
+              }" -->
                 <h3>Oral Reading Passages</h3>
-                <div
+                <!-- <div
                   *ngIf="
                     !sharedService.hasAuthentication(
                       Constants.postTestLevel.OralReadingPassages
@@ -239,7 +239,7 @@
                   "
                 >
                   <mat-icon class="blocked-icon">block</mat-icon>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

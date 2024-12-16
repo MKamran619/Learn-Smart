@@ -6,14 +6,18 @@
       </div>
       <div class="card-container-component justfy-content-center">
         <div class="justfy-content-center p-4">
-          <h5
+          <h4
+            style="line-height: 30px"
             [style.color]="
               startFrom % 2 === 0 ? 'var(--dark-color)' : 'var(--warning-color)'
             "
           >
             {{ sentence }}
-          </h5>
+          </h4>
         </div>
+      </div>
+      <div *ngIf="showCircle" style="margin-top: 0">
+        <span style="color: red">Recording in progress....</span>
       </div>
       <div
         class="mic-icon justfy-content-center"
@@ -22,13 +26,17 @@
         <div class="circle-container">
           <div class="medium" [ngClass]="showCircle ? 'circle' : ''"></div>
           <div class="small" [ngClass]="showCircle ? 'circle' : ''"></div>
-          <svg
-            [cIcon]="icons.cilMic"
-            class="mic-icon"
-            title="Microphone Icon"
-          ></svg>
+          <div *ngIf="showCircle" class="mic-icon" style="margin-left: 4px">
+            🔴
+          </div>
+          <div class="mic-icon" *ngIf="!showCircle">
+            <mat-icon>mic</mat-icon>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+<div class="spinner-overlay" *ngIf="isLoading">
+  <div class="spinner"></div>
 </div>
