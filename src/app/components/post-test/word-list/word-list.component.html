@@ -1,2 +1,214 @@
 <app-header></app-header>
-<p>word-list works!</p>
+<div class="justfy-content-center" style="height: 150px">
+  <div class="title-card-container justfy-content-left">
+    <div style="width: 35%">
+      <div
+        class="title-card-icon justfy-content-left"
+        (click)="onChangePreviewMode('pre-test')"
+      >
+        <svg [cIcon]="icons.cilArrowLeft" width="50" title="Shield Icon"></svg>
+      </div>
+    </div>
+    <h2>Word List</h2>
+  </div>
+</div>
+
+<div class="container justfy-content-center">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('pre-primer')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preWordListLevel.PrePrimer
+            )
+          }"
+        >
+          <h3>Pre-Primer</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preWordListLevel.PrePrimer
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('primer')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preWordListLevel.Primer
+            )
+          }"
+        >
+          <h3>Primer</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preWordListLevel.Primer
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-1')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preWordListLevel.LevelOne
+            )
+          }"
+        >
+          <h3>Level 1</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preWordListLevel.LevelOne
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-2')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preWordListLevel.LevelTwo
+            )
+          }"
+        >
+          <h3>Level 2</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preWordListLevel.LevelTwo
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-3')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preWordListLevel.LevelThree
+            )
+          }"
+        >
+          <h3>Level 3</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preWordListLevel.LevelThree
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-4')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preWordListLevel.LevelFour
+            )
+          }"
+        >
+          <h3>Level 4</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preWordListLevel.LevelFour
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-5')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preWordListLevel.LevelFive
+            )
+          }"
+        >
+          <h3>Level 5</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preWordListLevel.LevelFive
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-6')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preWordListLevel.LevelSix
+            )
+          }"
+        >
+          <h3>Level 6</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preWordListLevel.LevelSix
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spinner-overlay" *ngIf="isLoading">
+  <div class="spinner"></div>
+</div>

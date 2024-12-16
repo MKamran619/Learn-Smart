@@ -7,19 +7,11 @@ import { CardContainerComponent } from './card-container/card-container.componen
 import { SpeechDetectService } from '../../../services/speechDetect/speech-detect.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ResultTableComponent } from './result-table/result-table.component';
-
+import { SharedService } from '../../../services/sharedServices/shared.service';
 @Component({
-  selector: 'app-post-alphabets',
+  selector: 'app-alphabets',
   standalone: true,
-  imports: [
-    HeaderComponent,
-    CardContainerComponent,
-    IconDirective,
-    FormsModule,
-    CommonModule,
-    ResultTableComponent,
-  ],
+  imports: [HeaderComponent, IconDirective, FormsModule, CommonModule],
   templateUrl: './alphabets.component.html',
   styleUrl: './alphabets.component.scss',
 })
@@ -30,45 +22,38 @@ export class AlphabetsComponent implements OnInit {
   mode = '';
   btnCapitalActive = true;
   selectedTab = 'Capital Letter';
-  letters: string[] = [];
+  CapitalLetters: string[] = [];
+  CommonLetters: string[] = [];
+  isLoading = false;
   constructor(
     private router: Router,
     private activeRouter: ActivatedRoute,
-    public accuracyService: SpeechDetectService
+    public accuracyService: SpeechDetectService,
+    public sharedService: SharedService
   ) {}
 
   ngOnInit(): void {
+    this.accuracyService.onShowResult = false;
+    this.sharedService.isLoading = false;
     this.activeRouter.params.subscribe((params) => {
       {
         this.mode = params['mode'];
       }
     });
-    this.onClickCapitalLetter();
   }
 
-  onClickCapitalLetter() {
-    this.accuracyService.resultList = [];
-    this.accuracyService.accuracyScore = 0;
-    this.accuracyService.transcription = '';
-    this.btnCapitalActive = true;
-    this.selectedTab = 'Capital Letter';
-    this.letters = Array.from({ length: 26 }, (_, i) =>
-      String.fromCharCode(65 + i)
-    );
-  }
-  onClickCommonLetter() {
-    this.accuracyService.resultList = [];
-    this.accuracyService.accuracyScore = 0;
-    this.accuracyService.transcription = '';
-    this.btnCapitalActive = false;
-    this.selectedTab = 'Common Letter';
-    this.letters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
-  }
   onChangePreviewMode(mode: string) {
     if (this.accuracyService.onShowResult) {
       this.accuracyService.onShowResult = false;
     } else {
       this.router.navigate([`dashboard/${mode}`]);
     }
+  }
+  onNavigate(type: string) {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = true;
+      this.router.navigate([`dashboard/pre-test/pre-alphabets/${type}`]);
+    }, 2000);
   }
 }

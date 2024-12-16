@@ -1,2 +1,262 @@
-<app-header> </app-header>
-<p>oral-reading-passages works!</p>
+<!-- <app-header></app-header>
+<div>
+  <div class="justfy-content-center">
+    <div>
+      <div class="justfy-content-center">
+        <div class="title-card-container justfy-content-left">
+          <div style="width: 35%">
+            <div
+              class="title-card-icon justfy-content-left"
+              (click)="onChangePreviewMode(this.mode)"
+            >
+              <svg
+                [cIcon]="icons.cilArrowLeft"
+                width="50"
+                title="Shield Icon"
+              ></svg>
+            </div>
+          </div>
+          <h4>Oral Reading Passages</h4>
+        </div>
+      </div>
+
+      <div *ngIf="!accuracyService.onShowResult">
+        <app-card-container
+          [storyIndex]="selectedIndex"
+          key="common"
+        ></app-card-container>
+      </div>
+      <div class="justfy-content-center" *ngIf="accuracyService.onShowResult">
+        <div>
+          <div class="justfy-content-center">
+            <div
+              class="justfy-content-center m-3"
+              style="width: 300px; margin-top: 20px"
+              (click)="onMoveToNextStory()"
+            >
+              <button cButton color="success" type="submit" style="width: 100%">
+                Continue to Next Story
+              </button>
+            </div>
+          </div>
+          <app-result-table></app-result-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<app-header></app-header>
+<div class="justfy-content-center" style="height: 150px">
+  <div class="title-card-container justfy-content-left">
+    <div style="width: 35%">
+      <div
+        class="title-card-icon justfy-content-left"
+        (click)="onChangePreviewMode('pre-test')"
+      >
+        <svg [cIcon]="icons.cilArrowLeft" width="50" title="Shield Icon"></svg>
+      </div>
+    </div>
+    <h2>Oral Reading Passages</h2>
+  </div>
+</div>
+
+<div class="container justfy-content-center">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('pre-primer')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preOralReadingLevel.PrePrimer
+            )
+          }"
+        >
+          <h3>Pre-Primer</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preOralReadingLevel.PrePrimer
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('primer')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preOralReadingLevel.Primer
+            )
+          }"
+        >
+          <h3>Primer</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preOralReadingLevel.Primer
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-1')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preOralReadingLevel.LevelOne
+            )
+          }"
+        >
+          <h3>Level 1</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preOralReadingLevel.LevelOne
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-2')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preOralReadingLevel.LevelTwo
+            )
+          }"
+        >
+          <h3>Level 2</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preOralReadingLevel.LevelTwo
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-3')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preOralReadingLevel.LevelThree
+            )
+          }"
+        >
+          <h3>Level 3</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preOralReadingLevel.LevelThree
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-4')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preOralReadingLevel.LevelFour
+            )
+          }"
+        >
+          <h3>Level 4</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preOralReadingLevel.LevelFour
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-5')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preOralReadingLevel.LevelFive
+            )
+          }"
+        >
+          <h3>Level 5</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preOralReadingLevel.LevelFive
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 justfy-content-center">
+      <div>
+        <div
+          class="label-card-container justfy-content-center"
+          (click)="onNavigate('level-6')"
+          [class]="{
+            'inactive-block': !sharedService.hasAuthentication(
+              Constants.preOralReadingLevel.LevelSix
+            )
+          }"
+        >
+          <h3>Level 6</h3>
+          <div
+            *ngIf="
+              !sharedService.hasAuthentication(
+                Constants.preOralReadingLevel.LevelSix
+              )
+            "
+          >
+            <mat-icon class="blocked-icon">block</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spinner-overlay" *ngIf="isLoading">
+  <div class="spinner"></div>
+</div>
