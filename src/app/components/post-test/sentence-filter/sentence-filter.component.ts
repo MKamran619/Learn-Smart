@@ -56,7 +56,7 @@ export class SentenceFilterComponent implements OnInit {
     this.accuracyService.transcription = '';
     this.sharedService.isLoading = true;
     this.apiService
-      .GetFilterSentence()
+      .GetPostFilterSentence()
       .pipe(
         finalize(() => {
           this.sharedService.isLoading = false;

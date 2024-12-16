@@ -61,7 +61,7 @@ export class ResultTableComponent implements OnInit {
         this.type = params['type'];
       }
     });
-    if (this.totalScore > 1) {
+    if (this.totalScore > 7) {
       if (
         this.type == 'pre-primer' &&
         !this.sharedService.hasAuthentication(

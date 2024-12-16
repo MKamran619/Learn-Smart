@@ -59,115 +59,116 @@ export class ResultTableComponent implements OnInit {
     this.activeRouter.params.subscribe((params) => {
       {
         this.type = params['type'];
+        console.log('this.type = ', this.type);
       }
     });
-    if (this.totalScore > 1) {
+    if (this.totalScore > 7) {
       if (
         this.type == 'pre-primer' &&
         !this.sharedService.hasAuthentication(
-          Constants.preOralReadingLevel.PrePrimer
+          Constants.postOralReadingLevel.PrePrimer
         )
       ) {
         this.IslevelUnlocked = true;
         this.onUpdateLevel(
           this.currentUser,
-          Constants.preOralReadingLevel.PrePrimer
+          Constants.postOralReadingLevel.PrePrimer
         );
       }
       if (
         this.type == 'primer' &&
         !this.sharedService.hasAuthentication(
-          Constants.preOralReadingLevel.Primer
+          Constants.postOralReadingLevel.Primer
         )
       ) {
         this.IslevelUnlocked = true;
         this.onUpdateLevel(
           this.currentUser,
-          Constants.preOralReadingLevel.Primer
+          Constants.postOralReadingLevel.Primer
         );
       }
       if (
         this.type == 'level-1' &&
         !this.sharedService.hasAuthentication(
-          Constants.preOralReadingLevel.LevelOne
+          Constants.postOralReadingLevel.LevelOne
         )
       ) {
         this.IslevelUnlocked = true;
         this.onUpdateLevel(
           this.currentUser,
-          Constants.preOralReadingLevel.LevelOne
+          Constants.postOralReadingLevel.LevelOne
         );
       }
       if (
         this.type == 'level-1' &&
         !this.sharedService.hasAuthentication(
-          Constants.preOralReadingLevel.LevelOne
+          Constants.postOralReadingLevel.LevelOne
         )
       ) {
         this.IslevelUnlocked = true;
         this.onUpdateLevel(
           this.currentUser,
-          Constants.preOralReadingLevel.LevelOne
+          Constants.postOralReadingLevel.LevelOne
         );
       }
       if (
         this.type == 'level-2' &&
         !this.sharedService.hasAuthentication(
-          Constants.preOralReadingLevel.LevelTwo
+          Constants.postOralReadingLevel.LevelTwo
         )
       ) {
         this.IslevelUnlocked = true;
         this.onUpdateLevel(
           this.currentUser,
-          Constants.preOralReadingLevel.LevelTwo
+          Constants.postOralReadingLevel.LevelTwo
         );
       }
       if (
         this.type == 'level-3' &&
         !this.sharedService.hasAuthentication(
-          Constants.preOralReadingLevel.LevelThree
+          Constants.postOralReadingLevel.LevelThree
         )
       ) {
         this.IslevelUnlocked = true;
         this.onUpdateLevel(
           this.currentUser,
-          Constants.preOralReadingLevel.LevelThree
+          Constants.postOralReadingLevel.LevelThree
         );
       }
       if (
         this.type == 'level-4' &&
         !this.sharedService.hasAuthentication(
-          Constants.preOralReadingLevel.LevelFour
+          Constants.postOralReadingLevel.LevelFour
         )
       ) {
         this.IslevelUnlocked = true;
         this.onUpdateLevel(
           this.currentUser,
-          Constants.preOralReadingLevel.LevelFour
+          Constants.postOralReadingLevel.LevelFour
         );
       }
       if (
         this.type == 'level-5' &&
         !this.sharedService.hasAuthentication(
-          Constants.preOralReadingLevel.LevelFive
+          Constants.postOralReadingLevel.LevelFive
         )
       ) {
         this.IslevelUnlocked = true;
         this.onUpdateLevel(
           this.currentUser,
-          Constants.preOralReadingLevel.LevelFive
+          Constants.postOralReadingLevel.LevelFive
         );
       }
       if (
         this.type == 'level-6' &&
         !this.sharedService.hasAuthentication(
-          Constants.preOralReadingLevel.LevelSix
+          Constants.postOralReadingLevel.LevelSix
         )
       ) {
         this.IslevelUnlocked = true;
         this.onUpdateLevel(
           this.currentUser,
-          Constants.preOralReadingLevel.LevelSix
+          Constants.postOralReadingLevel.LevelSix
         );
       }
     }
@@ -195,7 +196,6 @@ export class ResultTableComponent implements OnInit {
   }
   onGetLatestUserLevels() {
     this.isLoading = true;
-    // this.onUpdateLevel(user, Constants.preTestLevel.WordList);
     this.apiService
       .getUserLevelsByUsernameOrEmail(this.currentUser)
       .pipe(

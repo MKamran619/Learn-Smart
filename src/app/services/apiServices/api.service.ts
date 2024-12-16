@@ -13,6 +13,9 @@ export class ApiService {
   GetFilterSentence(): Observable<any> {
     return this.http.get(this.API_URL + '/api/t-sentence-filters');
   }
+  GetPostFilterSentence(): Observable<any> {
+    return this.http.get(this.API_URL + '/api/t-post-test-sentence-filters');
+  }
   GetWordLists(): Observable<any> {
     return this.http.get(this.API_URL + '/api/t-word-lists');
   }
@@ -22,6 +25,11 @@ export class ApiService {
   GetOralReadingPassagesList(): Observable<any> {
     return this.http.get(
       this.API_URL + '/api/t-oral-reading-passages?sort=position:asc'
+    );
+  }
+  GetPostOralReadingPassagesList(): Observable<any> {
+    return this.http.get(
+      this.API_URL + '/api/t-post-test-oral-reading-passages'
     );
   }
 

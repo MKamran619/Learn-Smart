@@ -61,28 +61,28 @@ export class ResultTableComponent implements OnInit {
   }
   checkAndUnlockLevels() {
     this.prePrimerUnlocked = this.sharedService.hasAuthentication(
-      Constants.preWordListLevel.PrePrimer
+      Constants.postWordListLevel.PrePrimer
     );
     this.primerUnlocked = this.sharedService.hasAuthentication(
-      Constants.preWordListLevel.Primer
+      Constants.postWordListLevel.Primer
     );
     this.levelOneUnlocked = this.sharedService.hasAuthentication(
-      Constants.preWordListLevel.LevelOne
+      Constants.postWordListLevel.LevelOne
     );
     this.levelTwoUnlocked = this.sharedService.hasAuthentication(
-      Constants.preWordListLevel.LevelTwo
+      Constants.postWordListLevel.LevelTwo
     );
     this.levelThreeUnlocked = this.sharedService.hasAuthentication(
-      Constants.preWordListLevel.LevelThree
+      Constants.postWordListLevel.LevelThree
     );
     this.levelFourUnlocked = this.sharedService.hasAuthentication(
-      Constants.preWordListLevel.LevelFour
+      Constants.postWordListLevel.LevelFour
     );
     this.levelFiveUnlocked = this.sharedService.hasAuthentication(
-      Constants.preWordListLevel.LevelFive
+      Constants.postWordListLevel.LevelFive
     );
     this.levelSixUnlocked = this.sharedService.hasAuthentication(
-      Constants.preWordListLevel.LevelSix
+      Constants.postWordListLevel.LevelSix
     );
   }
   unBlockingLevelByAccuracy() {
@@ -102,77 +102,92 @@ export class ResultTableComponent implements OnInit {
     if (
       accuracyOne < 25 &&
       !this.sharedService.hasAuthentication(
-        Constants.preWordListLevel.PrePrimer
+        Constants.postWordListLevel.PrePrimer
       )
     ) {
       this.onUpdateLevel(
         this.currentUser,
-        Constants.preWordListLevel.PrePrimer
+        Constants.postWordListLevel.PrePrimer
       );
       this.isLevelUnlocked = true;
     }
     if (
       accuracyOne > 25 &&
-      !this.sharedService.hasAuthentication(Constants.preWordListLevel.Primer)
+      !this.sharedService.hasAuthentication(Constants.postWordListLevel.Primer)
     ) {
-      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.Primer);
+      this.onUpdateLevel(this.currentUser, Constants.postWordListLevel.Primer);
       this.isLevelUnlocked = true;
     }
     if (
       accuracyTwo > 60 &&
-      !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelOne)
+      !this.sharedService.hasAuthentication(
+        Constants.postWordListLevel.LevelOne
+      )
     ) {
-      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelOne);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postWordListLevel.LevelOne
+      );
       this.isLevelUnlocked = true;
     }
     if (
       accuracyThree > 60 &&
-      !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelTwo)
+      !this.sharedService.hasAuthentication(
+        Constants.postWordListLevel.LevelTwo
+      )
     ) {
-      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelTwo);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postWordListLevel.LevelTwo
+      );
       this.isLevelUnlocked = true;
     }
     if (
       accuracyFour > 40 &&
       !this.sharedService.hasAuthentication(
-        Constants.preWordListLevel.LevelThree
+        Constants.postWordListLevel.LevelThree
       )
     ) {
       this.onUpdateLevel(
         this.currentUser,
-        Constants.preWordListLevel.LevelThree
+        Constants.postWordListLevel.LevelThree
       );
       this.isLevelUnlocked = true;
     }
     if (
       accuracyFour > 70 &&
       !this.sharedService.hasAuthentication(
-        Constants.preWordListLevel.LevelFour
+        Constants.postWordListLevel.LevelFour
       )
     ) {
       this.onUpdateLevel(
         this.currentUser,
-        Constants.preWordListLevel.LevelFour
+        Constants.postWordListLevel.LevelFour
       );
       this.isLevelUnlocked = true;
     }
     if (
       accuracyFive > 40 &&
       !this.sharedService.hasAuthentication(
-        Constants.preWordListLevel.LevelFive
+        Constants.postWordListLevel.LevelFive
       )
     ) {
       this.onUpdateLevel(
         this.currentUser,
-        Constants.preWordListLevel.LevelFive
+        Constants.postWordListLevel.LevelFive
       );
       this.isLevelUnlocked = true;
     }
     if (
       accuracyFive > 70 &&
-      !this.sharedService.hasAuthentication(Constants.preWordListLevel.LevelSix)
+      !this.sharedService.hasAuthentication(
+        Constants.postWordListLevel.LevelSix
+      )
     ) {
-      this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.LevelSix);
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postWordListLevel.LevelSix
+      );
       this.isLevelUnlocked = true;
     }
     // this.onGetLatestUserLevels(user);
@@ -189,7 +204,6 @@ export class ResultTableComponent implements OnInit {
   }
   onGetLatestUserLevels() {
     this.isLoading = true;
-    // this.onUpdateLevel(user, Constants.preTestLevel.WordList);
     this.aptService
       .getUserLevelsByUsernameOrEmail(this.currentUser)
       .pipe(
@@ -209,6 +223,6 @@ export class ResultTableComponent implements OnInit {
   }
   onNavigateToLevel(mode: string) {
     this.sharedService.isLoading = true;
-    this.router.navigate([`dashboard/pre-test/pre-word-list/${mode}`]);
+    this.router.navigate([`dashboard/post-test/post-word-list/${mode}`]);
   }
 }

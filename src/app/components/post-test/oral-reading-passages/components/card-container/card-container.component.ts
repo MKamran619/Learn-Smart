@@ -151,7 +151,7 @@ export class CardContainerComponent implements OnInit {
 
       this.isLoading = true;
       this.apiService
-        .GetOralReadingPassagesList()
+        .GetPostOralReadingPassagesList()
         .pipe(
           finalize(() => {
             // this.sharedService.isLoading = false;
