@@ -314,6 +314,7 @@ export class CardContainerComponent implements OnInit {
         accuracy: this.accuracyScore.toFixed(0),
       };
 
+      this.retryLimitCount = 1;
       this.accuracyService.resultList.push(result);
     }
     this.currentIndex++;

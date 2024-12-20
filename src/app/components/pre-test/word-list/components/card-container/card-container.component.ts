@@ -190,7 +190,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
         accuracy: this.accuracyScore.toFixed(0),
         level: this.currentIndex,
       };
-
+      this.retryLimitCount = 1;
       this.accuracyService.resultList.push(result);
     }
     this.currentIndex++;
