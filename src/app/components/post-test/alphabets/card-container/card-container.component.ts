@@ -21,6 +21,7 @@ import { HeaderComponent } from '../../../../home/header/header.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResultTableComponent } from '../result-table/result-table.component';
 import { SharedService } from '../../../../services/sharedServices/shared.service';
+import { Constants } from '../../../../constants';
 
 @Component({
   selector: 'app-card-container',
@@ -57,6 +58,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   transcription: string = '';
   referenceText: string = '';
   accuracyScore: number = 0;
+  retryLimitCount = 1;
 
   constructor(
     public accuracyService: SpeechDetectService,
@@ -106,7 +108,9 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.accuracyService.transcription = '';
     // this.btnCapitalActive = false;
     this.title = 'Common Letter';
-    this.letterList = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D'];
+    this.letterList = Array.from({ length: 26 }, (_, i) =>
+      String.fromCharCode(97 + i)
+    );
   }
   showQuaterCircleAnimation() {
     this.showQuaterCircle = true;
@@ -176,28 +180,43 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.accuracyService.transcribeAudio(audioBlob).subscribe({
       next: (res) => {
-        this.accuracyService.transcription = '';
+        this.transcription = '';
         this.transcription = res.results.channels[0].alternatives[0].transcript;
-        this.accuracyScore = this.accuracyService.calculateAccuracy(
-          this.referenceText,
-          this.transcription
-        );
-        this.isLoading = false;
-        // if (!this.isLoading) this.onCalculateResultTable();
-        this.onCalculateResultTable();
+        if (this.transcription) {
+          this.accuracyScore = this.accuracyService.calculateAccuracy(
+            this.referenceText,
+            this.transcription
+          );
+          this.isLoading = false;
+          this.onCalculateResultTable();
+        } else {
+          this.onCallRetryLimit();
+        }
       },
       error: (err) => {
-        this.isLoading = false;
-        const message = 'please try again';
-        this.sharedService.openCustomSnackBar(message, 'alert');
-        this.onCallAccuracyFunction();
+        if (this.retryLimitCount <= Constants.totalRetryLimit) {
+          this.retryLimitCount++;
+          this.isLoading = false;
+          const message = 'Network error detected. Please repeat the letter.';
+          this.sharedService.openCustomSnackBar(message, 'alert');
+          this.onCallAccuracyFunction();
+        } else {
+          this.onCallRetryLimit();
+        }
       },
     });
   }
   onCalculateResultTable() {
     if (this.letter) {
+      if ((this.title = 'Capital Letter')) {
+        this.letter = 'LETTER ' + this.letter;
+        this.transcription = this.transcription.toUpperCase();
+      } else {
+        this.letter = 'letter ' + this.letter;
+        this.transcription = this.transcription.toLowerCase();
+      }
       const result = {
-        letter: 'Letter ' + this.letter,
+        letter: this.letter,
         noResponse: this.transcription ? '' : 'noResponse',
         userSpoke: this.transcription,
         accuracy: this.accuracyScore.toFixed(0),
@@ -210,20 +229,30 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.onCallAccuracyFunction();
   }
 
+  onCallRetryLimit() {
+    if (this.retryLimitCount <= Constants.totalRetryLimit) {
+      this.retryLimitCount++;
+      const message = 'No detection found. Please repeat the letter.';
+      this.sharedService.openCustomSnackBar(message, 'warning');
+      this.onCallAccuracyFunction();
+      this.isLoading = false;
+    } else {
+      const message =
+        'Try limit exceeded. Please restart the level to continue.';
+      this.sharedService.openCustomSnackBar(message, 'alert');
+      setTimeout(() => {
+        this.isLoading = false;
+        this.router.navigate([`dashboard/post-test/post-alphabets`]);
+      }, 2000);
+    }
+  }
+
   private shuffleArray(array: string[]) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
-
-  // clearInterval() {
-  //   if (this.intervalId) {
-  //     clearInterval(this.intervalId);
-  //     this.intervalId = null;
-  //   }
-  // }
-
   ngOnDestroy(): void {
     console.log('Component destroyed, clearing intervals and timeouts');
     this.clearAllTimers();

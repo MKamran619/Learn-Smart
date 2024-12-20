@@ -2,6 +2,8 @@ export class Constants {
   public static Admin = 1001;
   public static superAdmin = 1002;
 
+  public static totalRetryLimit = 3;
+
   public static preTestId = 1;
   public static postTestId = 2;
 

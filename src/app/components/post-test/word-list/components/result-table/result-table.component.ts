@@ -62,115 +62,109 @@ export class ResultTableComponent implements OnInit {
         console.log('this.type = ', this.type);
       }
     });
-    if (this.totalScore > 7) {
-      if (
-        this.type == 'pre-primer' &&
-        !this.sharedService.hasAuthentication(
-          Constants.postOralReadingLevel.PrePrimer
-        )
-      ) {
-        this.IslevelUnlocked = true;
-        this.onUpdateLevel(
-          this.currentUser,
-          Constants.postOralReadingLevel.PrePrimer
-        );
-      }
-      if (
-        this.type == 'primer' &&
-        !this.sharedService.hasAuthentication(
-          Constants.postOralReadingLevel.Primer
-        )
-      ) {
-        this.IslevelUnlocked = true;
-        this.onUpdateLevel(
-          this.currentUser,
-          Constants.postOralReadingLevel.Primer
-        );
-      }
-      if (
-        this.type == 'level-1' &&
-        !this.sharedService.hasAuthentication(
-          Constants.postOralReadingLevel.LevelOne
-        )
-      ) {
-        this.IslevelUnlocked = true;
-        this.onUpdateLevel(
-          this.currentUser,
-          Constants.postOralReadingLevel.LevelOne
-        );
-      }
-      if (
-        this.type == 'level-1' &&
-        !this.sharedService.hasAuthentication(
-          Constants.postOralReadingLevel.LevelOne
-        )
-      ) {
-        this.IslevelUnlocked = true;
-        this.onUpdateLevel(
-          this.currentUser,
-          Constants.postOralReadingLevel.LevelOne
-        );
-      }
-      if (
-        this.type == 'level-2' &&
-        !this.sharedService.hasAuthentication(
-          Constants.postOralReadingLevel.LevelTwo
-        )
-      ) {
-        this.IslevelUnlocked = true;
-        this.onUpdateLevel(
-          this.currentUser,
-          Constants.postOralReadingLevel.LevelTwo
-        );
-      }
-      if (
-        this.type == 'level-3' &&
-        !this.sharedService.hasAuthentication(
-          Constants.postOralReadingLevel.LevelThree
-        )
-      ) {
-        this.IslevelUnlocked = true;
-        this.onUpdateLevel(
-          this.currentUser,
-          Constants.postOralReadingLevel.LevelThree
-        );
-      }
-      if (
-        this.type == 'level-4' &&
-        !this.sharedService.hasAuthentication(
-          Constants.postOralReadingLevel.LevelFour
-        )
-      ) {
-        this.IslevelUnlocked = true;
-        this.onUpdateLevel(
-          this.currentUser,
-          Constants.postOralReadingLevel.LevelFour
-        );
-      }
-      if (
-        this.type == 'level-5' &&
-        !this.sharedService.hasAuthentication(
-          Constants.postOralReadingLevel.LevelFive
-        )
-      ) {
-        this.IslevelUnlocked = true;
-        this.onUpdateLevel(
-          this.currentUser,
-          Constants.postOralReadingLevel.LevelFive
-        );
-      }
-      if (
-        this.type == 'level-6' &&
-        !this.sharedService.hasAuthentication(
-          Constants.postOralReadingLevel.LevelSix
-        )
-      ) {
-        this.IslevelUnlocked = true;
-        this.onUpdateLevel(
-          this.currentUser,
-          Constants.postOralReadingLevel.LevelSix
-        );
-      }
+    if (
+      this.totalScore > 7 &&
+      this.type == 'pre-primer' &&
+      !this.sharedService.hasAuthentication(
+        Constants.postOralReadingLevel.PrePrimer
+      )
+    ) {
+      this.IslevelUnlocked = true;
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postOralReadingLevel.PrePrimer
+      );
+    }
+    if (
+      this.totalScore > 7 &&
+      this.type == 'primer' &&
+      !this.sharedService.hasAuthentication(
+        Constants.postOralReadingLevel.Primer
+      )
+    ) {
+      this.IslevelUnlocked = true;
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postOralReadingLevel.Primer
+      );
+    }
+    if (
+      this.totalScore > 11 &&
+      this.type == 'level-1' &&
+      !this.sharedService.hasAuthentication(
+        Constants.postOralReadingLevel.LevelOne
+      )
+    ) {
+      this.IslevelUnlocked = true;
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postOralReadingLevel.LevelOne
+      );
+    }
+    if (
+      this.totalScore > 11 &&
+      this.type == 'level-2' &&
+      !this.sharedService.hasAuthentication(
+        Constants.postOralReadingLevel.LevelTwo
+      )
+    ) {
+      this.IslevelUnlocked = true;
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postOralReadingLevel.LevelTwo
+      );
+    }
+    if (
+      this.totalScore > 11 &&
+      this.type == 'level-3' &&
+      !this.sharedService.hasAuthentication(
+        Constants.postOralReadingLevel.LevelThree
+      )
+    ) {
+      this.IslevelUnlocked = true;
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postOralReadingLevel.LevelThree
+      );
+    }
+    if (
+      this.totalScore > 14 &&
+      this.type == 'level-4' &&
+      !this.sharedService.hasAuthentication(
+        Constants.postOralReadingLevel.LevelFour
+      )
+    ) {
+      this.IslevelUnlocked = true;
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postOralReadingLevel.LevelFour
+      );
+    }
+    if (
+      this.totalScore > 14 &&
+      this.type == 'level-5' &&
+      !this.sharedService.hasAuthentication(
+        Constants.postOralReadingLevel.LevelFive
+      )
+    ) {
+      this.IslevelUnlocked = true;
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postOralReadingLevel.LevelFive
+      );
+    }
+    if (
+      this.totalScore > 14 &&
+      this.type == 'level-6' &&
+      !this.sharedService.hasAuthentication(
+        Constants.postOralReadingLevel.LevelSix
+      )
+    ) {
+      this.IslevelUnlocked = true;
+      this.onUpdateLevel(
+        this.currentUser,
+        Constants.postOralReadingLevel.LevelSix
+      );
     }
   }
   // checkResultAndUnLockLEvel(){

@@ -16,6 +16,8 @@ import { SpeechDetectService } from '../../../../../services/speechDetect/speech
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../../../../../services/sharedServices/shared.service';
+import { Constants } from '../../../../../constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-container',
@@ -45,10 +47,12 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   referenceText: string = '';
   accuracyScore: number = 0;
   isLoading = false;
+  retryLimitCount = 1;
 
   constructor(
     public accuracyService: SpeechDetectService,
-    public sharedService: SharedService
+    public sharedService: SharedService,
+    public router: Router
   ) {}
   ngOnInit(): void {
     console.log('Component initialized, inn ', this.wordList[0]);
@@ -63,9 +67,6 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       this.showCircleAnimation();
     }, 1500) as unknown as number;
     this.timeoutIds.push(timeoutId3);
-
-    // this.accuracyService.startRecording(this.estimatedTime);
-    // this.accuracyService.startSpeechRecognition();
     this.accuracyService.startRecording(1);
 
     const timeoutId = setTimeout(() => {
@@ -155,20 +156,28 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.accuracyService.transcription = '';
         this.transcription = res.results.channels[0].alternatives[0].transcript;
+        if (this.transcription) {
+          this.accuracyScore = this.accuracyService.calculateAccuracy(
+            this.referenceText,
+            this.transcription
+          );
 
-        this.accuracyScore = this.accuracyService.calculateAccuracy(
-          this.referenceText,
-          this.transcription
-        );
-
-        this.isLoading = false;
-        this.onCalculateResultTable();
+          this.isLoading = false;
+          this.onCalculateResultTable();
+        } else {
+          this.onCallRetryLimit();
+        }
       },
       error: (err) => {
-        this.isLoading = false;
-        const message = 'please try again';
-        this.sharedService.openCustomSnackBar(message, 'alert');
-        this.onCallAccuracyFunction();
+        if (this.retryLimitCount <= Constants.totalRetryLimit) {
+          this.retryLimitCount++;
+          this.isLoading = false;
+          const message = 'Network error detected. Please repeat the word.';
+          this.sharedService.openCustomSnackBar(message, 'alert');
+          this.onCallAccuracyFunction();
+        } else {
+          this.onCallRetryLimit();
+        }
       },
     });
   }
@@ -188,6 +197,23 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.startFrom += 1;
 
     this.onCallAccuracyFunction();
+  }
+  onCallRetryLimit() {
+    if (this.retryLimitCount <= Constants.totalRetryLimit) {
+      this.retryLimitCount++;
+      const message = 'No detection found. Please repeat the word.';
+      this.sharedService.openCustomSnackBar(message, 'warning');
+      this.onCallAccuracyFunction();
+      this.isLoading = false;
+    } else {
+      const message =
+        'Try limit exceeded. Please restart the level to continue.';
+      this.sharedService.openCustomSnackBar(message, 'alert');
+      setTimeout(() => {
+        this.isLoading = false;
+        this.router.navigate([`dashboard/pre-test/pre-word-list`]);
+      }, 2000);
+    }
   }
   ngOnDestroy(): void {
     console.log('Component destroyed, clearing intervals and timeouts');
