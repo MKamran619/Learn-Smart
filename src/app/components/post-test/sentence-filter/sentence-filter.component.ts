@@ -39,7 +39,9 @@ export class SentenceFilterComponent implements OnInit {
     public accuracyService: SpeechDetectService,
     public apiService: ApiService,
     public sharedService: SharedService
-  ) {}
+  ) {
+    this.sharedService.isLoading = true;
+  }
 
   ngOnInit(): void {
     this.activeRouter.params.subscribe((params) => {
@@ -65,13 +67,12 @@ export class SentenceFilterComponent implements OnInit {
       .subscribe((res) => {
         console.log({ res });
         this.sentenceList = res.data.map((items: any) => items.Sentence);
-        console.log('this.sentenceList = ', this.sentenceList);
       });
   }
   onChangePreviewMode(mode: string) {
     this.isLoading = true;
     setTimeout(() => {
-      this.isLoading = true;
+      this.isLoading = false;
       this.router.navigate([`dashboard/${mode}`]);
     }, 5000);
   }
