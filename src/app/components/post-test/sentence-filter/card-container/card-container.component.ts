@@ -16,6 +16,8 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { SpeechDetectService } from '../../../../services/speechDetect/speech-detect.service';
 import { SharedService } from '../../../../services/sharedServices/shared.service';
+import { Router } from '@angular/router';
+import { Constants } from '../../../../constants';
 
 @Component({
   selector: 'app-card-container',
@@ -44,20 +46,12 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   timeoutIds: number[] = [];
   isLoading = false;
 
-  // levelList = [
-  //   'pre-primer',
-  //   'primer',
-  //   'level-1',
-  //   'level-2',
-  //   'level-3',
-  //   'level-4',
-  //   'level-5',
-  //   'level-6',
-  // ];
+  retryLimitCount = 1;
 
   constructor(
     public accuracyService: SpeechDetectService,
-    public sharedService: SharedService
+    public sharedService: SharedService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     console.log('Component initialized');
@@ -152,19 +146,27 @@ export class CardContainerComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.transcription = '';
         this.transcription = res.results.channels[0].alternatives[0].transcript;
-
-        this.accuracyScore = this.accuracyService.calculateAccuracy(
-          this.referenceText,
-          this.transcription
-        );
-        this.isLoading = false;
-        this.onCalculateResultTable();
+        if (this.transcription) {
+          this.accuracyScore = this.accuracyService.calculateAccuracy(
+            this.referenceText,
+            this.transcription
+          );
+          this.isLoading = false;
+          this.onCalculateResultTable();
+        } else {
+          this.onCallRetryLimit();
+        }
       },
       error: (err) => {
-        this.isLoading = false;
-        const message = 'please try again';
-        this.sharedService.openCustomSnackBar(message, 'alert');
-        this.onCallAccuracyFunction();
+        if (this.retryLimitCount <= Constants.totalRetryLimit) {
+          this.retryLimitCount++;
+          this.isLoading = false;
+          const message = 'Network error detected. Please repeat the sentence.';
+          this.sharedService.openCustomSnackBar(message, 'alert');
+          this.onCallAccuracyFunction();
+        } else {
+          this.onCallRetryLimit();
+        }
       },
     });
   }
@@ -186,6 +188,24 @@ export class CardContainerComponent implements OnInit, OnDestroy {
     this.startFrom += 1;
 
     this.onCallAccuracyFunction();
+  }
+
+  onCallRetryLimit() {
+    if (this.retryLimitCount <= Constants.totalRetryLimit) {
+      this.retryLimitCount++;
+      const message = 'No detection found. Please repeat the sentence.';
+      this.sharedService.openCustomSnackBar(message, 'warning');
+      this.onCallAccuracyFunction();
+      this.isLoading = false;
+    } else {
+      const message =
+        'Try limit exceeded. Please restart the level to continue.';
+      this.sharedService.openCustomSnackBar(message, 'alert');
+      setTimeout(() => {
+        this.isLoading = false;
+        this.router.navigate([`dashboard/post-test`]);
+      }, 2000);
+    }
   }
 
   private shuffleArray(array: string[]) {

@@ -78,15 +78,20 @@
                   </div>
                 </div>
                 <div class="justfy-content-center">
-                  <h1
+                  <div
                     [style.color]="
                       startFrom % 2 === 0
                         ? 'var(--dark-color)'
                         : 'var(--warning-color)'
                     "
                   >
-                    {{ letter }}
-                  </h1>
+                    <p style="margin-left: 2px">
+                      {{ title == "Capital Letter" ? "LETTER" : "letter" }}
+                    </p>
+                    <h1 style="margin-top: -25px">
+                      {{ letter }}
+                    </h1>
+                  </div>
                 </div>
               </div>
             </div>

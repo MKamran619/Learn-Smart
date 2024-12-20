@@ -28,6 +28,7 @@ import { ApiService } from '../../../../../services/apiServices/api.service';
 import { HeaderComponent } from '../../../../../home/header/header.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResultTableComponent } from '../result-table/result-table.component';
+import { Constants } from '../../../../../constants';
 
 @Component({
   selector: 'app-card-container',
@@ -81,6 +82,7 @@ export class CardContainerComponent implements OnInit {
   timeoutIds: number[] = [];
   type = '';
   title = '';
+  retryLimitCount = 1;
 
   constructor(
     public accuracyService: SpeechDetectService,
@@ -221,35 +223,7 @@ export class CardContainerComponent implements OnInit {
     this.answerCopy = this.expectedAnswersList;
 
     this.onCallAccuracyFunction();
-
-    // this.intervalId = setInterval(() => {
-    //   this.onCallAccuracyFunction();
-    // }, 5000);
   }
-  // onCallAccuracyFunction12() {
-  //   this.showCircleAnimation();
-  //   if (this.currentIndex >= this.itemsCopy.length) {
-  //     this.clearInterval();
-  //     this.showCircle = false;
-  //     console.log('result = ', this.accuracyService.resultList);
-  //     this.onShowResult = true;
-  //     console.log('All items have been selected. Stopping selection.');
-  //     return;
-  //   }
-  //   this.startFrom = this.startFrom + 1;
-  //   this.question = this.itemsCopy[this.currentIndex];
-  //   this.expectedAnswer = this.answerCopy[this.currentIndex];
-  //   this.accuracyService.referenceText = this.question;
-  //   if (this.showVolumIcon) {
-  //     this.showQuaterCircle = true;
-  //     // this.showQuaterCircleAnimation();
-  //     this.accuracyService.speakText(this.accuracyService.referenceText);
-  //   }
-
-  //   this.accuracyService.startSpeechRecognition();
-
-  //   // this.currentIndex++;
-  // }
   onCallAccuracyFunction() {
     this.expectedAnswer = '';
     this.transcription = '';
@@ -305,22 +279,30 @@ export class CardContainerComponent implements OnInit {
     this.isLoading = true;
     this.accuracyService.transcribeAudio(audioBlob).subscribe({
       next: (res) => {
-        // this.accuracyService.transcription = '';
+        this.transcription = '';
         this.transcription = res.results.channels[0].alternatives[0].transcript;
+        if (this.transcription) {
+          this.accuracyScore = this.accuracyService.calculateAccuracy(
+            this.referenceText,
+            this.transcription
+          );
 
-        this.accuracyScore = this.accuracyService.calculateAccuracy(
-          this.referenceText,
-          this.transcription
-        );
-
-        this.isLoading = false;
-        this.onCalculateResultTable();
+          this.isLoading = false;
+          this.onCalculateResultTable();
+        } else {
+          this.onCallRetryLimit();
+        }
       },
       error: (err) => {
-        this.isLoading = false;
-        const message = 'please try again';
-        this.sharedService.openCustomSnackBar(message, 'alert');
-        this.onCallAccuracyFunction();
+        if (this.retryLimitCount <= Constants.totalRetryLimit) {
+          this.retryLimitCount++;
+          this.isLoading = false;
+          const message = 'Network error detected. Please repeat your answer.';
+          this.sharedService.openCustomSnackBar(message, 'alert');
+          this.onCallAccuracyFunction();
+        } else {
+          this.onCallRetryLimit();
+        }
       },
     });
   }
@@ -348,6 +330,23 @@ export class CardContainerComponent implements OnInit {
       this.isLoading = false;
       this.router.navigate([`dashboard/pre-test/pre-oral-reading-passages`]);
     }, 3500);
+  }
+  onCallRetryLimit() {
+    if (this.retryLimitCount <= Constants.totalRetryLimit) {
+      this.retryLimitCount++;
+      const message = 'No detection found. Please repeat your answer.';
+      this.sharedService.openCustomSnackBar(message, 'warning');
+      this.onCallAccuracyFunction();
+      this.isLoading = false;
+    } else {
+      const message =
+        'Try limit exceeded. Please restart the level to continue.';
+      this.sharedService.openCustomSnackBar(message, 'alert');
+      setTimeout(() => {
+        this.isLoading = false;
+        this.router.navigate([`dashboard/pre-test/pre-oral-reading-passages`]);
+      }, 2000);
+    }
   }
 
   clearInterval() {
