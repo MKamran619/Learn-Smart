@@ -193,6 +193,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
         level: this.currentIndex,
       };
 
+      this.retryLimitCount = 1;
       this.accuracyService.resultList.push(result);
     }
     this.currentIndex++;

@@ -221,6 +221,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
         userSpoke: this.transcription.toUpperCase(),
         accuracy: this.accuracyScore.toFixed(0),
       };
+      this.retryLimitCount = 1;
       this.accuracyService.resultList.push(result);
     }
     this.currentIndex++;
