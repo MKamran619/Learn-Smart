@@ -208,7 +208,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
   }
   onCalculateResultTable() {
     if (this.letter) {
-      if ((this.title = 'Capital Letter')) {
+      if (this.title == 'Capital Letter') {
         this.letter = 'LETTER ' + this.letter;
         this.transcription = this.transcription.toUpperCase();
       } else {
