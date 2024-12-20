@@ -216,7 +216,7 @@ export class CardContainerComponent implements OnInit, OnDestroy {
         this.transcription = this.transcription.toLowerCase();
       }
       const result = {
-        letter: 'LETTER ' + this.letter,
+        letter: this.letter,
         noResponse: this.transcription ? '' : 'noResponse',
         userSpoke: this.transcription.toUpperCase(),
         accuracy: this.accuracyScore.toFixed(0),
