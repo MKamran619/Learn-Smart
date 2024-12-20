@@ -100,7 +100,7 @@ export class ResultTableComponent implements OnInit {
     this.currentUser = this.sharedService.userConfig.user.username;
 
     if (
-      accuracyOne < 25 &&
+      accuracyOne > 10 &&
       !this.sharedService.hasAuthentication(
         Constants.preWordListLevel.PrePrimer
       )
@@ -112,7 +112,7 @@ export class ResultTableComponent implements OnInit {
       this.isLevelUnlocked = true;
     }
     if (
-      accuracyOne > 25 &&
+      accuracyOne > 50 &&
       !this.sharedService.hasAuthentication(Constants.preWordListLevel.Primer)
     ) {
       this.onUpdateLevel(this.currentUser, Constants.preWordListLevel.Primer);
